@@ -51,12 +51,18 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/archive',
-    name: 'Archive',
+    name: 'ArchiveMain',
     component: Archive,
-    children: [],
-    meta: {
-      title: '题库'
-    }
+    children: [
+      {
+        path: '/archive',
+        name: 'Archive',
+        component: () => import('../views/Archive/Archive.vue'),
+        meta: {
+          title: '题库'
+        }
+      }
+    ]
   },
   {
     path: '/about',

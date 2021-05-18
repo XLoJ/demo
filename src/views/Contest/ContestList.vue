@@ -10,6 +10,7 @@
 <script lang="ts">
 import { defineComponent, reactive } from '@vue/composition-api';
 import ContestTable from './ContestTable.vue';
+import { useContestList } from '../../service/contest';
 
 export default defineComponent({
   name: 'ContestList',
@@ -17,45 +18,7 @@ export default defineComponent({
     ContestTable
   },
   setup() {
-    const comingContestList = reactive([
-      {
-        id: 5,
-        name: 'Beta Round 1',
-        start_time: '2021-6-3 19:30',
-        length: '2:00',
-        writers: ['Noname']
-      },
-      {
-        id: 4,
-        name: 'Alpha Round 2',
-        start_time: '2021-6-1 19:30',
-        length: '2:00',
-        writers: ['Noname']
-      }
-    ]);
-    const endContestList = reactive([
-      {
-        id: 3,
-        name: 'Alpha Round 1',
-        start_time: '2021-5-1 19:30',
-        length: '2:00',
-        writers: ['Noname']
-      },
-      {
-        id: 2,
-        name: 'Alpha Test Round 2',
-        start_time: '2021-4-1 19:30',
-        length: '2:00',
-        writers: ['Noname']
-      },
-      {
-        id: 1,
-        name: 'Alpha Test Round 1',
-        start_time: '2021-3-1 19:30',
-        length: '2:00',
-        writers: ['Noname']
-      }
-    ]);
+    const { comingContestList, endContestList } = useContestList();
     return {
       comingContestList,
       endContestList
