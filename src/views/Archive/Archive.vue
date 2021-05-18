@@ -14,7 +14,7 @@ import { defineComponent } from '@vue/composition-api';
 import Navbar from '../../components/Navbar.vue';
 
 export default defineComponent({
-  name: 'Contest',
+  name: 'Archive',
   components: {
     Navbar
   }

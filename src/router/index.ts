@@ -11,12 +11,18 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Welcome',
-    component: Welcome
+    component: Welcome,
+    meta: {
+      title: '欢迎'
+    }
   },
   {
     path: '/home',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: {
+      title: '主页'
+    }
   },
   {
     path: '/contest',
@@ -26,19 +32,29 @@ const routes: Array<RouteConfig> = [
       {
         path: '/',
         name: 'ContestList',
-        component: () => import('../views/Contest/ContestList.vue')
+        component: () => import('../views/Contest/ContestList.vue'),
+        meta: {
+          title: '比赛列表'
+        }
       }
     ]
   },
   {
     path: '/archive',
     name: 'Archive',
-    component: Contest
+    component: Contest,
+    children: [],
+    meta: {
+      title: '题库'
+    }
   },
   {
     path: '/about',
     name: 'About',
-    component: () => import('../views/About.vue')
+    component: () => import('../views/About.vue'),
+    meta: {
+      title: '关于'
+    }
   }
 ];
 
@@ -46,6 +62,13 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.title !== undefined && typeof to.meta.title === 'string') {
+    document.title = to.meta.title + ' - XLor Online Judge';
+  }
+  next();
 });
 
 export default router;
