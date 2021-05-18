@@ -40,12 +40,54 @@ const routes: Array<RouteConfig> = [
       },
       {
         path: '/contest/:id',
-        name: 'Contest',
         component: () => import('../views/Contest/Contest.vue'),
         props: true,
-        meta: {
-          title: '比赛'
-        }
+        children: [
+          {
+            path: '/contest/:id',
+            name: 'Contest',
+            redirect: '/contest/:id/dashboard',
+            props: true,
+            meta: {
+              title: '仪表盘'
+            }
+          },
+          {
+            path: '/contest/:id/dashboard',
+            component: () => import('../views/Contest/Dashboard.vue'),
+            props: true,
+            meta: {
+              title: '仪表盘'
+            }
+          },
+          {
+            path: '/contest/:id/submission',
+            name: 'Submission',
+            component: () => import('../views/Contest/Dashboard.vue'),
+            props: true,
+            meta: {
+              title: '我的提交'
+            }
+          },
+          {
+            path: '/contest/:id/status',
+            name: 'Status',
+            component: () => import('../views/Contest/Dashboard.vue'),
+            props: true,
+            meta: {
+              title: '所有提交'
+            }
+          },
+          {
+            path: '/contest/:id/standings',
+            name: 'Standings',
+            component: () => import('../views/Contest/Dashboard.vue'),
+            props: true,
+            meta: {
+              title: '排行榜'
+            }
+          }
+        ]
       }
     ]
   },
