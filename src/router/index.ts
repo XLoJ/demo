@@ -3,7 +3,8 @@ import VueRouter, { RouteConfig } from 'vue-router';
 
 import Welcome from '../views/Home/Welcome.vue';
 import Home from '../views/Home/Home.vue';
-import Contest from '../views/Contest/Contest.vue';
+import Contest from '../views/Contest/Main.vue';
+import Archive from '../views/Archive/Main.vue';
 
 Vue.use(VueRouter);
 
@@ -26,15 +27,24 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/contest',
-    name: 'Contest',
+    name: 'ContestMain',
     component: Contest,
     children: [
       {
-        path: '/',
+        path: '/contest',
         name: 'ContestList',
         component: () => import('../views/Contest/ContestList.vue'),
         meta: {
           title: '比赛列表'
+        }
+      },
+      {
+        path: '/contest/:id',
+        name: 'Contest',
+        component: () => import('../views/Contest/Contest.vue'),
+        props: true,
+        meta: {
+          title: '比赛'
         }
       }
     ]
@@ -42,7 +52,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/archive',
     name: 'Archive',
-    component: Contest,
+    component: Archive,
     children: [],
     meta: {
       title: '题库'

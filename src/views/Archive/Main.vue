@@ -14,7 +14,7 @@ import { defineComponent } from '@vue/composition-api';
 import Navbar from '../../components/Navbar.vue';
 
 export default defineComponent({
-  name: 'Archive',
+  name: 'ArchiveMain',
   components: {
     Navbar
   }
@@ -23,6 +23,6 @@ export default defineComponent({
 
 <style scoped>
 .container {
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 </style>

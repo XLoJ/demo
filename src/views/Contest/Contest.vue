@@ -1,28 +1,19 @@
 <template>
-  <div>
-    <div>
-      <Navbar></Navbar>
-    </div>
-    <div class="container">
-      <router-view></router-view>
-    </div>
-  </div>
+  <div>Contest {{ id }}</div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
-import Navbar from '../../components/Navbar.vue';
 
 export default defineComponent({
   name: 'Contest',
-  components: {
-    Navbar
+  props: {
+    id: Number
+  },
+  setup(props) {
+    return {};
   }
 });
 </script>
 
-<style scoped>
-.container {
-  margin-top: 1rem;
-}
-</style>
+<style scoped></style>
