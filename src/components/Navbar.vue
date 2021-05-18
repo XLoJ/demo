@@ -1,8 +1,8 @@
 <template>
-  <b-navbar wrapper-class="container" :shadow="false" :close-on-click="false">
+  <b-navbar wrapper-class="container" shadow spaced :close-on-click="false">
     <template #brand>
       <b-navbar-item tag="router-link" :to="{ name: 'Home' }">
-        <h1 class="is-size-4">XLoJ</h1>
+        <h1 class="logo has-text-black">XLoJ</h1>
       </b-navbar-item>
     </template>
     <template #start>
@@ -24,4 +24,11 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.logo {
+  user-select: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+</style>
