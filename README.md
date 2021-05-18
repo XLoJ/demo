@@ -1,4 +1,4 @@
-# demo
+# XLor Online Judge Frontend Demo
 
 ## Project setup
 ```
