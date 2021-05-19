@@ -80,11 +80,22 @@
           </div>
         </div>
         <div class="column">
-          <div class="card">
+          <div class="card mb-5">
             <div class="card-content">
               <p class="title is-4">公告牌</p>
               <p class="subtitle is-5">从这里知道你想要的...</p>
               <p>一切工作正常。</p>
+              <p>Github 仓库：<a href="https://github.com/XLoJ">XLoJ</a>。</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-content">
+              <p class="title is-4">最新动态</p>
+              <p><a>欢迎</a></p>
+              <p><a>ICPC 赛事简介</a></p>
+              <p><a>南京理工大学计算机科学与工程学院</a></p>
+              <p><a href="https://xlorpaste.cn">XLorPaste</a></p>
+              <p><a href="https://xlor.cn">XLor's Blog</a></p>
             </div>
           </div>
         </div>
