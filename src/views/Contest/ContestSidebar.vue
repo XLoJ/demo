@@ -49,4 +49,12 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.card-header {
+  border-bottom: 1px solid rgba(34, 36, 38, 0.1);
+  box-shadow: none !important;
+}
+.card-content {
+  padding: 1rem;
+}
+</style>

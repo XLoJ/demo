@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="dashboard">
     <b-table :data="problems" bordered>
       <b-table-column centered label="#" v-slot="props" width="48">
         <span class="has-text-weight-bold">{{
@@ -41,4 +41,9 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style>
+.dashboard .table thead,
+.status .table thead {
+  background-color: rgb(249, 250, 251) !important;
+}
+</style>

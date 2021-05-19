@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="status">
     <b-table :data="data" bordered>
       <b-table-column label="#" centered v-slot="props">
         <router-link :to="{ name: 'Contest' }">{{ props.row.sid }}</router-link>
