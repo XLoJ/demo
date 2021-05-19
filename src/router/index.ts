@@ -62,6 +62,7 @@ const routes: Array<RouteConfig> = [
           },
           {
             path: '/contest/:id/dashboard',
+            name: 'Dashboard',
             component: () => import('../views/Contest/Dashboard.vue'),
             props: true,
             meta: {
@@ -80,7 +81,7 @@ const routes: Array<RouteConfig> = [
           {
             path: '/contest/:id/status',
             name: 'Status',
-            component: () => import('../views/Contest/Submission.vue'),
+            component: () => import('../views/Contest/Status.vue'),
             props: true,
             meta: {
               title: '所有提交'
@@ -89,7 +90,7 @@ const routes: Array<RouteConfig> = [
           {
             path: '/contest/:id/standings',
             name: 'Standings',
-            component: () => import('../views/Contest/Dashboard.vue'),
+            component: () => import('../views/Contest/Standings.vue'),
             props: true,
             meta: {
               title: '排行榜'

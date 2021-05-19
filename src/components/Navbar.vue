@@ -16,13 +16,32 @@
 
     <template #end>
       <b-navbar-item tag="div">
-        <div class="buttons">
+        <div v-if="!isLogin" class="buttons">
           <router-link class="button is-primary" :to="{ name: 'Login' }"
             >登录</router-link
           >
           <router-link class="button is-light" :to="{ name: 'Login' }"
             >注册</router-link
           >
+        </div>
+        <div v-else>
+          <b-dropdown
+            position="is-bottom-left"
+            append-to-body
+            aria-role="menu"
+            scrollable
+            max-height="200"
+            trap-focus
+          >
+            <template #trigger>
+              <a class="navbar-item" role="button">
+                <span>{{ user.nickname }}</span>
+              </a>
+            </template>
+            <b-dropdown-item aria-role="listitem">个人信息</b-dropdown-item>
+            <b-dropdown-item aria-role="listitem">设置</b-dropdown-item>
+            <b-dropdown-item aria-role="listitem">退出</b-dropdown-item>
+          </b-dropdown>
         </div>
       </b-navbar-item>
     </template>
@@ -31,9 +50,17 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
+import { useUser } from '@/service/user';
 
 export default defineComponent({
-  name: 'Navbar'
+  name: 'Navbar',
+  setup() {
+    const _user = useUser();
+    return {
+      isLogin: _user.isLogin,
+      user: _user.user
+    };
+  }
 });
 </script>
 

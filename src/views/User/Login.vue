@@ -6,11 +6,19 @@
     <div class="container">
       <div class="title is-4">登录</div>
       <section>
+        <b-notification
+          v-show="isShowError"
+          aria-close-label="Close notification"
+          role="alert"
+          type="is-danger"
+        >
+          {{ errorMessage }}
+        </b-notification>
         <b-field label="用户名">
           <b-input v-model="username"></b-input>
         </b-field>
         <b-field label="密码">
-          <b-input type="password" v-model="password"></b-input>
+          <b-input v-model="password" type="password"></b-input>
         </b-field>
         <b-button type="is-success" @click="login">登录</b-button>
       </section>
@@ -22,6 +30,7 @@
 import { defineComponent, ref } from '@vue/composition-api';
 import { userLogin } from '../../service/user';
 import Navbar from '../../components/Navbar.vue';
+import { useRouter } from '@/utils';
 
 export default defineComponent({
   name: 'LoginPage',
@@ -31,14 +40,32 @@ export default defineComponent({
   setup() {
     const username = ref('');
     const password = ref('');
-    const login = () => {
-      userLogin(username.value, password.value);
+    const router = useRouter();
+
+    const isShowError = ref(false);
+    const errorMessage = ref('');
+
+    const login = async () => {
+      try {
+        await userLogin(username.value, password.value);
+        router.push({
+          name: 'Home'
+        });
+      } catch (err) {
+        password.value = '';
+        isShowError.value = true;
+        errorMessage.value = '登录失败';
+
+        setTimeout(() => (isShowError.value = false), 5000);
+      }
     };
 
     return {
       username,
       password,
-      login
+      login,
+      isShowError,
+      errorMessage
     };
   }
 });

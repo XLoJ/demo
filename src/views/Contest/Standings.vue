@@ -1,16 +1,12 @@
 <template>
-  <Status></Status>
+  <div>排行榜</div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
-import Status from './Status.vue';
 
 export default defineComponent({
-  name: 'Submission',
-  components: {
-    Status
-  }
+  name: 'Standings'
 });
 </script>
 

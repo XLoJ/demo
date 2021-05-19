@@ -1,13 +1,21 @@
 import { reactive, ref } from '@vue/composition-api';
 import { api } from '@/service/api';
+import { getItem, setItem } from '@/service/store';
+import { AccessTokenKey, UserInfoKey } from '@/service/constant';
 
 interface User {
   id: number;
+  nickname: string;
   username: string;
 }
 
 let user: User | null = null;
 let isLogin = false;
+
+if (getItem(AccessTokenKey)) {
+  user = JSON.parse(getItem(UserInfoKey)!);
+  isLogin = true;
+}
 
 export async function userLogin(username: string, password: string) {
   const { data } = await api.post('/login', {
@@ -16,9 +24,12 @@ export async function userLogin(username: string, password: string) {
   });
   isLogin = true;
   user = {
-    id: data.id,
+    id: data.user.id,
+    nickname: data.user.nickname,
     username
   };
+  setItem(AccessTokenKey, data.access_token);
+  setItem(UserInfoKey, JSON.stringify(user));
   return useUser();
 }
 
