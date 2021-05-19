@@ -1,6 +1,9 @@
 <template>
   <div>
-    <Navbar></Navbar>
+    <div>
+      <Navbar></Navbar>
+    </div>
+    <div class="container"></div>
   </div>
 </template>
 
@@ -16,4 +19,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.container {
+  margin-top: 2rem;
+}
+</style>
