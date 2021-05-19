@@ -4,12 +4,9 @@
       <Navbar></Navbar>
     </div>
     <div class="container">
+      <h4 class="title is-4">XLor Online Judge</h4>
       <div class="columns">
         <div class="column is-two-thirds">
-          <h4 class="title is-4">南京理工大学</h4>
-          <h5 class="title is-5">OJ评测系统</h5>
-          <!-- <h2 class="subtitle is-3">Powered By ...</h2> -->
-          <br />
           <div class="box">
             <article class="media">
               <figure class="media-left">
@@ -127,8 +124,8 @@
         <div class="column">
           <div class="card">
             <div class="card-content">
-              <p class="title">公告牌</p>
-              <p class="subtitle">从这里知道你想要的...</p>
+              <p class="title is-4">公告牌</p>
+              <p class="subtitle is-5">从这里知道你想要的...</p>
               <div class="card-image">
                 <figure class="image is-4by3">
                   <img

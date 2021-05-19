@@ -11,3 +11,9 @@ export function useRouter() {
   if (!vm) throw new Error('must be called in setup');
   return vm.proxy.$router;
 }
+
+export function useSnackbar() {
+  const vm = getCurrentInstance();
+  if (!vm) throw new Error('must be called in setup');
+  return vm.proxy.$buefy.snackbar;
+}

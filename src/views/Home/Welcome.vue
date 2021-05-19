@@ -2,22 +2,22 @@
   <section class="hero is-info is-bold is-fullheight">
     <div class="hero-head">
       <b-navbar
-        wrapper-class="container"
-        :shadow="false"
         :close-on-click="false"
+        :shadow="false"
+        wrapper-class="container"
       >
         <template #brand>
-          <b-navbar-item tag="router-link" :to="{ name: 'Home' }">
+          <b-navbar-item :to="{ name: 'Home' }" tag="router-link">
             <h1 class="is-size-4">XLoJ</h1>
           </b-navbar-item>
         </template>
         <template #start>
-          <b-navbar-item tag="router-link" :to="{ name: 'Archive' }"
-            >题库</b-navbar-item
-          >
-          <b-navbar-item tag="router-link" :to="{ name: 'ContestList' }"
-            >比赛</b-navbar-item
-          >
+          <b-navbar-item :to="{ name: 'Archive' }" tag="router-link"
+            >题库
+          </b-navbar-item>
+          <b-navbar-item :to="{ name: 'ContestList' }" tag="router-link"
+            >比赛
+          </b-navbar-item>
         </template>
       </b-navbar>
     </div>
@@ -26,9 +26,20 @@
         <div class="columns is-multiline">
           <h1 class="column is-full title">XLor Online Judge</h1>
           <div class="column is-full buttons">
-            <b-button type="is-light" outlined tag="router-link" :to="'Home'"
-              >立即开始</b-button
-            >
+            <b-button
+              :to="{ name: 'Home' }"
+              outlined
+              tag="router-link"
+              type="is-light"
+              >立即开始
+            </b-button>
+            <b-button
+              :to="{ name: 'Login' }"
+              outlined
+              tag="router-link"
+              type="is-light"
+              >登录
+            </b-button>
           </div>
         </div>
       </div>

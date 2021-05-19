@@ -1,36 +1,36 @@
 <template>
-  <b-navbar wrapper-class="container" shadow spaced :close-on-click="false">
+  <b-navbar :close-on-click="false" shadow spaced wrapper-class="container">
     <template #brand>
-      <b-navbar-item tag="router-link" :to="{ name: 'Home' }">
+      <b-navbar-item :to="{ name: 'Home' }" tag="router-link">
         <h1 class="logo has-text-black">XLoJ</h1>
       </b-navbar-item>
     </template>
     <template #start>
-      <b-navbar-item tag="router-link" :to="{ name: 'Archive' }"
-        >题库</b-navbar-item
-      >
-      <b-navbar-item tag="router-link" :to="{ name: 'ContestList' }"
-        >比赛</b-navbar-item
-      >
+      <b-navbar-item :to="{ name: 'Archive' }" tag="router-link"
+        >题库
+      </b-navbar-item>
+      <b-navbar-item :to="{ name: 'ContestList' }" tag="router-link"
+        >比赛
+      </b-navbar-item>
     </template>
 
     <template #end>
       <b-navbar-item tag="div">
-        <div v-if="!isLogin" class="buttons">
-          <router-link class="button is-primary" :to="{ name: 'Login' }"
-            >登录</router-link
-          >
-          <router-link class="button is-light" :to="{ name: 'Login' }"
-            >注册</router-link
-          >
+        <div v-if="!isLogin.flag" class="buttons">
+          <router-link :to="{ name: 'Login' }" class="button is-primary"
+            >登录
+          </router-link>
+          <router-link :to="{ name: 'Login' }" class="button is-light"
+            >注册
+          </router-link>
         </div>
         <div v-else>
           <b-dropdown
-            position="is-bottom-left"
             append-to-body
             aria-role="menu"
-            scrollable
             max-height="200"
+            position="is-bottom-left"
+            scrollable
             trap-focus
           >
             <template #trigger>
@@ -38,9 +38,9 @@
                 <span>{{ user.nickname }}</span>
               </a>
             </template>
-            <b-dropdown-item aria-role="listitem">个人信息</b-dropdown-item>
-            <b-dropdown-item aria-role="listitem">设置</b-dropdown-item>
-            <b-dropdown-item aria-role="listitem">退出</b-dropdown-item>
+            <b-dropdown-item>个人信息</b-dropdown-item>
+            <b-dropdown-item>设置</b-dropdown-item>
+            <b-dropdown-item @click="logout">退出</b-dropdown-item>
           </b-dropdown>
         </div>
       </b-navbar-item>
@@ -50,15 +50,24 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
-import { useUser } from '@/service/user';
+import { userLogout, useUser } from '@/service/user';
+import { useRouter } from '@/utils';
 
 export default defineComponent({
   name: 'Navbar',
   setup() {
     const _user = useUser();
+    const router = useRouter();
+
+    const logout = () => {
+      userLogout();
+      router.replace({ name: 'Welcome' });
+    };
+
     return {
       isLogin: _user.isLogin,
-      user: _user.user
+      user: _user.user,
+      logout
     };
   }
 });

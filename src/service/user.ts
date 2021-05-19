@@ -1,6 +1,6 @@
 import { reactive, ref } from '@vue/composition-api';
 import { api } from '@/service/api';
-import { getItem, setItem } from '@/service/store';
+import { getItem, removeItem, setItem } from '@/service/store';
 import { AccessTokenKey, UserInfoKey } from '@/service/constant';
 
 interface User {
@@ -10,11 +10,11 @@ interface User {
 }
 
 let user: User | null = null;
-let isLogin = false;
+const isLogin = { flag: false };
 
 if (getItem(AccessTokenKey)) {
   user = JSON.parse(getItem(UserInfoKey)!);
-  isLogin = true;
+  isLogin.flag = true;
 }
 
 export async function userLogin(username: string, password: string) {
@@ -22,7 +22,7 @@ export async function userLogin(username: string, password: string) {
     username,
     password
   });
-  isLogin = true;
+  isLogin.flag = true;
   user = {
     id: data.user.id,
     nickname: data.user.nickname,
@@ -33,15 +33,22 @@ export async function userLogin(username: string, password: string) {
   return useUser();
 }
 
+export function userLogout() {
+  isLogin.flag = false;
+  user = null;
+  removeItem(AccessTokenKey);
+  removeItem(UserInfoKey);
+}
+
 export function useUser() {
   if (user === null) {
     return {
-      isLogin
+      isLogin: reactive(isLogin)
     };
   }
   const _user = reactive(user);
   return {
-    isLogin,
+    isLogin: reactive(isLogin),
     user: _user
   };
 }

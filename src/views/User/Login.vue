@@ -30,7 +30,7 @@
 import { defineComponent, ref } from '@vue/composition-api';
 import { userLogin } from '../../service/user';
 import Navbar from '../../components/Navbar.vue';
-import { useRouter } from '@/utils';
+import { useRouter, useSnackbar } from '@/utils';
 
 export default defineComponent({
   name: 'LoginPage',
@@ -44,17 +44,19 @@ export default defineComponent({
 
     const isShowError = ref(false);
     const errorMessage = ref('');
+    const snackbar = useSnackbar();
 
     const login = async () => {
       try {
         await userLogin(username.value, password.value);
+        snackbar.open('登录成功');
         router.push({
           name: 'Home'
         });
       } catch (err) {
         password.value = '';
         isShowError.value = true;
-        errorMessage.value = '登录失败';
+        errorMessage.value = err?.response?.data?.message ?? '登录失败';
 
         setTimeout(() => (isShowError.value = false), 5000);
       }
