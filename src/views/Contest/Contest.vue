@@ -48,7 +48,7 @@ export default defineComponent({
     const activeTab = ref(0);
 
     watchEffect(async () => {
-      const route = vm.proxy.$route;
+      const route = vm!.proxy.$route;
       const tabIndex = activeTab.value;
       if (tabIndex === 0 && !route.path.endsWith('dashboard')) {
         await router.push({ name: 'Dashboard', params: { id } });

@@ -1,27 +1,21 @@
 <template>
-  <b-tabs v-model="activeTab">
-    <b-tab-item label="本地">
-      <b-table :data="problems" bordered>
-        <b-table-column label="#" centered width="64" v-slot="props">
-          <router-link :to="{ name: 'Contest' }">{{
-            props.row.pid
-          }}</router-link>
-        </b-table-column>
-        <b-table-column label="标题" v-slot="props">
-          <router-link :to="{ name: 'Contest' }">{{
-            props.row.name
-          }}</router-link>
-        </b-table-column>
-        <b-table-column label="解出人数" centered width="100">
-          <span>10</span>
-        </b-table-column>
-      </b-table>
-    </b-tab-item>
-
-    <b-tab-item label="HDu"> </b-tab-item>
-
-    <b-tab-item label="PKu"> </b-tab-item>
-  </b-tabs>
+  <div>
+    <b-table :data="problems">
+      <b-table-column v-slot="props" centered label="#" width="64">
+        <router-link :to="{ name: 'Contest' }"
+          >{{ props.row.pid }}
+        </router-link>
+      </b-table-column>
+      <b-table-column v-slot="props" label="标题">
+        <router-link :to="{ name: 'Contest' }"
+          >{{ props.row.name }}
+        </router-link>
+      </b-table-column>
+      <b-table-column centered label="解出人数" width="100">
+        <span>10</span>
+      </b-table-column>
+    </b-table>
+  </div>
 </template>
 
 <script lang="ts">

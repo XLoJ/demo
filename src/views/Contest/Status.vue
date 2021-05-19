@@ -4,6 +4,9 @@
       <b-table-column label="#" centered v-slot="props">
         <router-link :to="{ name: 'Contest' }">{{ props.row.sid }}</router-link>
       </b-table-column>
+      <b-table-column label="题目" centered v-slot="props">
+        <router-link :to="{ name: 'Contest' }">{{ props.row.pid }}</router-link>
+      </b-table-column>
       <b-table-column label="时间" centered v-slot="props">
         <span>{{ props.row.create_time }}</span>
       </b-table-column>
@@ -12,9 +15,6 @@
           props.row.writer
         }}</router-link>
       </b-table-column>
-      <b-table-column label="题目" centered v-slot="props">
-        <router-link :to="{ name: 'Contest' }">{{ props.row.pid }}</router-link>
-      </b-table-column>
       <b-table-column label="语言" centered v-slot="props">
         <span>{{ props.row.lang }}</span>
       </b-table-column>
@@ -22,10 +22,10 @@
         <span>{{ props.row.verdict }}</span>
       </b-table-column>
       <b-table-column label="耗时" centered v-slot="props">
-        <span>{{ props.row.time }}</span>
+        <span>{{ props.row.time }} ms</span>
       </b-table-column>
       <b-table-column label="内存" centered v-slot="props">
-        <span>{{ props.row.memory }}</span>
+        <span>{{ props.row.memory }} MB</span>
       </b-table-column>
     </b-table>
   </div>

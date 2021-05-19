@@ -38,7 +38,7 @@ export default defineComponent({
     contest: Object
   },
   setup(props) {
-    const contest = props.contest;
+    const contest = props.contest!;
     const { problems } = useContestProblems(contest.id);
 
     return {
