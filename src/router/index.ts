@@ -117,11 +117,18 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/polygon',
-    name: 'PolygonList',
+    name: 'Polygon',
     component: () => import('../views/Polygon/Main.vue'),
-    meta: {
-      title: 'Polygon'
-    }
+    children: [
+      {
+        path: '/polygon',
+        name: 'PolygonList',
+        component: () => import('../views/Polygon/PolygonList.vue'),
+        meta: {
+          title: 'Polygon'
+        }
+      }
+    ]
   },
   {
     path: '/profile',
