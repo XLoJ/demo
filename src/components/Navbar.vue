@@ -12,19 +12,18 @@
       <b-navbar-item :to="{ name: 'ContestList' }" tag="router-link"
         >比赛
       </b-navbar-item>
+      <b-navbar-item
+        v-if="isLogin.flag"
+        :to="{ name: 'PolygonList' }"
+        tag="router-link"
+      >
+        Polygon
+      </b-navbar-item>
     </template>
 
     <template #end>
       <b-navbar-item tag="div">
-        <div v-if="!isLogin.flag" class="buttons">
-          <router-link :to="{ name: 'Login' }" class="button is-primary"
-            >登录
-          </router-link>
-          <router-link :to="{ name: 'Login' }" class="button is-light"
-            >注册
-          </router-link>
-        </div>
-        <div v-else>
+        <div v-if="isLogin.flag === 1">
           <b-dropdown
             append-to-body
             aria-role="menu"
@@ -43,13 +42,21 @@
             <b-dropdown-item @click="logout">退出</b-dropdown-item>
           </b-dropdown>
         </div>
+        <div v-else-if="isLogin.flag === 0" class="buttons">
+          <router-link :to="{ name: 'Login' }" class="button is-primary"
+            >登录
+          </router-link>
+          <router-link :to="{ name: 'Login' }" class="button is-light"
+            >注册
+          </router-link>
+        </div>
       </b-navbar-item>
     </template>
   </b-navbar>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, ref } from '@vue/composition-api';
 import { userLogout, useUser } from '@/service/user';
 import { useRouter } from '@/utils';
 

@@ -2,10 +2,12 @@
   <div></div>
 </template>
 
-<script>
-export default {
-  name: 'Problem.vue'
-};
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
+
+export default defineComponent({
+  name: 'Problem'
+});
 </script>
 
 <style scoped></style>

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view />
-    <footer class="footer">
+    <footer class="footer mt-6">
       <div class="content has-text-centered">
         <p>
           <strong>XLor Online Judge</strong> by
