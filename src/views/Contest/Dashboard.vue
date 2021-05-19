@@ -6,7 +6,7 @@
           numberToIndex(props.index)
         }}</span>
       </b-table-column>
-      <b-table-column label="名称" width="800" v-slot="props">
+      <b-table-column label="名称" width="700" v-slot="props">
         <router-link :to="{ name: 'ContestList' }">{{
           props.row.name
         }}</router-link>
