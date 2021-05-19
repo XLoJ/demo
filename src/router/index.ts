@@ -124,6 +124,14 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import('../views/User/Profile.vue'),
+    meta: {
+      title: '个人资料'
+    }
+  },
+  {
     path: '/about',
     name: 'About',
     component: () => import('../views/About.vue'),

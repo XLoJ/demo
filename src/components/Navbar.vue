@@ -37,8 +37,8 @@
                 <span>{{ user.nickname }}</span>
               </a>
             </template>
-            <b-dropdown-item>个人信息</b-dropdown-item>
-            <b-dropdown-item>设置</b-dropdown-item>
+            <b-dropdown-item @click="goProfile">个人信息</b-dropdown-item>
+            <b-dropdown-item @click="goProfile">设置</b-dropdown-item>
             <b-dropdown-item @click="logout">退出</b-dropdown-item>
           </b-dropdown>
         </div>
@@ -56,7 +56,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, watchEffect } from '@vue/composition-api';
+import {
+  computed,
+  defineComponent,
+  getCurrentInstance,
+  watchEffect
+} from '@vue/composition-api';
 import { userLogout, useUser } from '@/service/user';
 import { useRouter } from '@/utils';
 
@@ -65,10 +70,17 @@ export default defineComponent({
   setup() {
     const _user = useUser();
     const router = useRouter();
+    const vm = getCurrentInstance();
 
     const logout = () => {
       userLogout();
       router.replace({ name: 'Welcome' });
+    };
+
+    const goProfile = () => {
+      if (!vm!.proxy.$route.path.endsWith('profile')) {
+        router.push({ name: 'Profile' });
+      }
     };
 
     const isPolygon = computed(() => {
@@ -88,7 +100,8 @@ export default defineComponent({
       isLogin: _user.isLogin,
       isPolygon,
       user: _user.user,
-      logout
+      logout,
+      goProfile
     };
   }
 });
