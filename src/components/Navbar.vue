@@ -13,7 +13,7 @@
         >比赛
       </b-navbar-item>
       <b-navbar-item
-        v-if="isLogin.flag"
+        v-if="isPolygon"
         :to="{ name: 'PolygonList' }"
         tag="router-link"
       >
@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api';
+import { computed, defineComponent, watchEffect } from '@vue/composition-api';
 import { userLogout, useUser } from '@/service/user';
 import { useRouter } from '@/utils';
 
@@ -71,8 +71,22 @@ export default defineComponent({
       router.replace({ name: 'Welcome' });
     };
 
+    const isPolygon = computed(() => {
+      if (_user.isLogin.flag !== 1) return false;
+      const user = _user.user;
+      if (user && 'groups' in user) {
+        for (const g of user.groups) {
+          if (g.name === 'polygon') {
+            return true;
+          }
+        }
+      }
+      return false;
+    });
+
     return {
       isLogin: _user.isLogin,
+      isPolygon,
       user: _user.user,
       logout
     };
