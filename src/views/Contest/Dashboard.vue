@@ -28,7 +28,7 @@
       <div class="pl-3 mb-6">
         <p>XLoJ 测试 Round。</p>
         <p>比赛时间：{{ contest.start_time }}。</p>
-        <p>持续时间：{{ contest.length }}</p>
+        <p>持续时间：{{ contest.length }}。</p>
       </div>
     </div>
   </div>
