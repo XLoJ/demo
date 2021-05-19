@@ -35,23 +35,23 @@ export default defineComponent({
     id: [Number, String]
   },
   setup(props: { id: number | string }, context) {
-    const id = ref(+props?.id);
-    const { contest } = useContestInfo(id.value);
+    const { contest } = useContestInfo(+props?.id);
 
     const route = useRoute();
     const router = useRouter();
 
+    const id = String(props?.id);
     const activeTab = ref(0);
     watchEffect(() => {
       const tabIndex = activeTab.value;
       if (tabIndex === 0 && !route.path.endsWith('dashboard')) {
-        router.push({ name: 'Contest', params: { id: id.valud } });
+        router.push({ name: 'Contest', params: { id } });
       } else if (tabIndex === 1 && !route.path.endsWith('submission')) {
-        router.push({ name: 'Submission', params: { id: id.value } });
+        router.push({ name: 'Submission', params: { id } });
       } else if (tabIndex === 2 && !route.path.endsWith('status')) {
-        router.push({ name: 'Status', params: { id: id.value } });
+        router.push({ name: 'Status', params: { id } });
       } else if (tabIndex === 3 && !route.path.endsWith('standings')) {
-        router.push({ name: 'Standings', params: { id: id.value } });
+        router.push({ name: 'Standings', params: { id } });
       }
     });
 

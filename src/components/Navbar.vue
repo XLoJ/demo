@@ -13,6 +13,19 @@
         >比赛</b-navbar-item
       >
     </template>
+
+    <template #end>
+      <b-navbar-item tag="div">
+        <div class="buttons">
+          <router-link class="button is-primary" :to="{ name: 'Login' }"
+            >登录</router-link
+          >
+          <router-link class="button is-light" :to="{ name: 'Login' }"
+            >注册</router-link
+          >
+        </div>
+      </b-navbar-item>
+    </template>
   </b-navbar>
 </template>
 

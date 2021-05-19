@@ -26,6 +26,14 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/User/Login.vue'),
+    meta: {
+      title: '登录'
+    }
+  },
+  {
     path: '/contest',
     name: 'ContestMain',
     component: Contest,
@@ -63,7 +71,7 @@ const routes: Array<RouteConfig> = [
           {
             path: '/contest/:id/submission',
             name: 'Submission',
-            component: () => import('../views/Contest/Dashboard.vue'),
+            component: () => import('../views/Contest/Submission.vue'),
             props: true,
             meta: {
               title: '我的提交'
@@ -72,7 +80,7 @@ const routes: Array<RouteConfig> = [
           {
             path: '/contest/:id/status',
             name: 'Status',
-            component: () => import('../views/Contest/Dashboard.vue'),
+            component: () => import('../views/Contest/Submission.vue'),
             props: true,
             meta: {
               title: '所有提交'
