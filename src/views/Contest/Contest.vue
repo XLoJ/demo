@@ -12,7 +12,7 @@
         <router-view :contest="contest"></router-view>
       </div>
       <div class="column">
-        <ContestSidebar></ContestSidebar>
+        <ContestSidebar :contest="contest"></ContestSidebar>
       </div>
     </div>
   </div>
