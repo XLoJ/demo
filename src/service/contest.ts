@@ -6,14 +6,16 @@ const comingContestList = [
     name: 'Beta Round 1',
     start_time: '2021-6-3 19:30',
     length: '2:00',
-    writers: ['Noname']
+    writers: ['Noname'],
+    description: ''
   },
   {
     id: 4,
     name: 'Alpha Round 2',
     start_time: '2021-6-1 19:30',
     length: '2:00',
-    writers: ['Noname']
+    writers: ['Noname'],
+    description: ''
   }
 ];
 
@@ -23,21 +25,24 @@ const endContestList = [
     name: 'Alpha Round 1',
     start_time: '2021-5-1 19:30',
     length: '2:00',
-    writers: ['Noname']
+    writers: ['Noname'],
+    description: ''
   },
   {
     id: 2,
     name: 'Alpha Test Round 2',
     start_time: '2021-4-1 19:30',
     length: '2:00',
-    writers: ['Noname']
+    writers: ['Noname'],
+    description: ''
   },
   {
     id: 1,
     name: 'Alpha Test Round 1',
     start_time: '2021-3-1 19:30',
     length: '2:00',
-    writers: ['Noname']
+    writers: ['Noname'],
+    description: ''
   }
 ];
 
@@ -70,19 +75,23 @@ export function useContestProblems(cid: number): any {
   const problems = reactive([
     {
       index: 'A',
-      name: 'A + B'
+      name: 'A + B',
+      accept_num: 100
     },
     {
       index: 'B',
-      name: 'A - B'
+      name: 'A - B',
+      accept_num: 50
     },
     {
       index: 'C',
-      name: 'A * B'
+      name: 'A * B',
+      accept_num: 10
     },
     {
       index: 'D',
-      name: 'A / B'
+      name: 'A / B',
+      accept_num: 1
     }
   ]);
   return { problems };
