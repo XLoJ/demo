@@ -2,7 +2,7 @@
   <div>
     <div class="buttons">
       <b-button class="mb-0" type="is-success" @click="showUploadModal"
-        >上传
+        >手动上传
       </b-button>
       <b-upload v-model="uploadFile" class="file-label" @input="fileUpload">
         <span class="file-cta">
