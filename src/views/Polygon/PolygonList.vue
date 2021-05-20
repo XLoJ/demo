@@ -2,10 +2,13 @@
   <div>
     <h4 class="title is-4">Polygon</h4>
     <div class="mb-4">
-      <a class="button is-success">
+      <router-link
+        class="button is-success"
+        :to="{ name: 'PolygonCreateProblem' }"
+      >
         <b-icon icon="upload"></b-icon>
         <span>创建题目</span>
-      </a>
+      </router-link>
     </div>
     <div>
       <b-table :data="problems">

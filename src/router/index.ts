@@ -129,6 +129,14 @@ const routes: Array<RouteConfig> = [
         }
       },
       {
+        path: '/polygon/create',
+        name: 'PolygonCreateProblem',
+        component: () => import('../views/Polygon/CreateProblem.vue'),
+        meta: {
+          title: '创建题目'
+        }
+      },
+      {
         path: '/polygon/:id',
         name: 'Polygon',
         props: true,
