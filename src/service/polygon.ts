@@ -33,7 +33,7 @@ export async function updateProblemInfo(
   const { data } = await api.put(`/polygon/problem/${pid}`, {
     timeLimit: option.timeLimit ?? null,
     memoryLimit: option.memoryLimit ?? null,
-    tags: option.tags?.join(',') ?? '',
+    tags: option.tags?.join(',') ?? null,
     title: option.title ?? null,
     legend: option.legend ?? null,
     inputFormat: option.inputFormat ?? null,
