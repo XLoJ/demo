@@ -43,13 +43,18 @@ export default defineComponent({
     const snackbar = useSnackbar();
     const submit = async () => {
       try {
-        await updateProblemInfo(problem.parent, {
+        const data = await updateProblemInfo(problem.parent, {
           title: title.value,
           legend: legend.value,
           inputFormat: inputFormat.value,
           outputFormat: outputFormat.value,
           notes: notes.value
         });
+        problem.title = data.title;
+        problem.legend = data.legend;
+        problem.inputFormat = data.inputFormat;
+        problem.outputFormat = data.outputFormat;
+        problem.notes = data.notes;
         snackbar.open(`题目 ${problem.parent} 更新成功`);
       } catch (err) {
         snackbar.open({
