@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
-import MarkdownView from '@/components/markdown-view.vue';
+import MarkdownView from '@/components/MarkdownView.vue';
 
 export default defineComponent({
   name: 'PreviewStatement',

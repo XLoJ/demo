@@ -15,9 +15,15 @@
         <b-tab-item label="题面预览">
           <PreviewStatement :problem="problem"></PreviewStatement>
         </b-tab-item>
-        <b-tab-item label="Validator"></b-tab-item>
-        <b-tab-item label="Checker"></b-tab-item>
-        <b-tab-item label="Solution"></b-tab-item>
+        <b-tab-item label="Validator">
+          <EditCode :problem="problem" type="validator"></EditCode>
+        </b-tab-item>
+        <b-tab-item label="Checker">
+          <EditCode :problem="problem" type="checker"></EditCode>
+        </b-tab-item>
+        <b-tab-item label="Solution">
+          <EditCode :problem="problem" type="solution"></EditCode>
+        </b-tab-item>
         <b-tab-item label="Generator"></b-tab-item>
         <b-tab-item label="测试数据"></b-tab-item>
         <b-tab-item label="构建"></b-tab-item>
@@ -32,13 +38,15 @@ import { getDetailClassicProblem } from '@/service/polygon';
 import ProblemInfo from './ProblemInfo.vue';
 import EditStatement from './EditStatement.vue';
 import PreviewStatement from './PreviewStatement.vue';
+import EditCode from './EditCode.vue';
 
 export default defineComponent({
   name: 'PolygonProblem',
   components: {
     ProblemInfo,
     EditStatement,
-    PreviewStatement
+    PreviewStatement,
+    EditCode
   },
   props: {
     id: [Number, String]

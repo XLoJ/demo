@@ -1,4 +1,5 @@
 import { api } from './api';
+import { b64encode } from '@/utils';
 
 export async function getDetailClassicProblem(pid: number) {
   const { data } = await api.get(`/polygon/problem/${pid}/classic`);
@@ -38,6 +39,21 @@ export async function updateProblemInfo(
     inputFormat: option.inputFormat ?? null,
     outputFormat: option.outputFormat ?? null,
     notes: option.notes ?? null
+  });
+  return data;
+}
+
+export async function uploadProblemCode(
+  pid: number,
+  type: string,
+  code: string,
+  lang: string
+) {
+  const { data } = await api.post(`/polygon/problem/${pid}/${type}`, {
+    body: b64encode(code),
+    language: lang,
+    name: type,
+    description: ''
   });
   return data;
 }
