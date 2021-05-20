@@ -117,7 +117,6 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/polygon',
-    name: 'Polygon',
     component: () => import('../views/Polygon/Main.vue'),
     children: [
       {

@@ -6,8 +6,12 @@
         Problem {{ problem.parent }}. {{ problem.name }}
       </h4>
       <b-tabs v-model="activeTab">
-        <b-tab-item label="题目信息"></b-tab-item>
-        <b-tab-item label="题面描述"></b-tab-item>
+        <b-tab-item label="题目信息">
+          <ProblemInfo :problem="problem"></ProblemInfo>
+        </b-tab-item>
+        <b-tab-item label="题面描述">
+          <EditStatement :problem="problem"></EditStatement>
+        </b-tab-item>
         <b-tab-item label="Validator"></b-tab-item>
         <b-tab-item label="Checker"></b-tab-item>
         <b-tab-item label="Solution"></b-tab-item>
@@ -19,11 +23,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from '@vue/composition-api';
+import { defineComponent, ref } from '@vue/composition-api';
 import { getDetailClassicProblem } from '@/service/polygon';
+import ProblemInfo from './ProblemInfo.vue';
+import EditStatement from './EditStatement.vue';
 
 export default defineComponent({
-  name: 'Polygon',
+  name: 'PolygonProblem',
+  components: {
+    ProblemInfo,
+    EditStatement
+  },
   props: {
     id: [Number, String]
   },
