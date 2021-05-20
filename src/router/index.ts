@@ -224,6 +224,15 @@ const routes: Array<RouteConfig> = [
             meta: {
               title: '测试数据'
             }
+          },
+          {
+            path: '/polygon/:id/build',
+            name: 'PolygonBuild',
+            props: true,
+            component: () => import('../views/Polygon/Build.vue'),
+            meta: {
+              title: '构建'
+            }
           }
         ]
       }

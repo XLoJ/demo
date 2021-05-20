@@ -40,7 +40,8 @@ const routeTable = [
   'PolygonSolution',
   'PolygonGenerators',
   'PolygonStaticFile',
-  'PolygonTestcases'
+  'PolygonTestcases',
+  'PolygonBuild'
 ];
 
 export default defineComponent({
