@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view />
+    <router-view class="body" />
     <footer class="footer mt-6">
       <div class="content has-text-centered">
         <p>
@@ -29,4 +29,15 @@ $footer-padding: 2rem 1.5rem 2rem;
 
 @import '~bulma';
 @import '~buefy/src/scss/buefy';
+
+html,
+body,
+#app {
+  height: 100%;
+  min-height: 100%;
+}
+
+.body {
+  min-height: calc(100% - 140px);
+}
 </style>
