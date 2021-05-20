@@ -18,7 +18,11 @@
           <b-input v-model="username"></b-input>
         </b-field>
         <b-field label="密码">
-          <b-input v-model="password" type="password"></b-input>
+          <b-input
+            v-model="password"
+            type="password"
+            @keypress.enter.native="login"
+          ></b-input>
         </b-field>
         <b-button type="is-success" @click="login">登录</b-button>
       </section>

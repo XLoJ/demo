@@ -208,6 +208,15 @@ const routes: Array<RouteConfig> = [
             }
           },
           {
+            path: '/polygon/:id/static',
+            name: 'PolygonStaticFile',
+            props: true,
+            component: () => import('../views/Polygon/UploadStaticFile.vue'),
+            meta: {
+              title: '静态文件'
+            }
+          },
+          {
             path: '/polygon/:id/testcases',
             name: 'PolygonTestcases',
             props: true,

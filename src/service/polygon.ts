@@ -1,4 +1,4 @@
-import { api } from './api';
+import { api, downloadFile } from './api';
 import { b64encode } from '@/utils';
 
 export async function getDetailClassicProblem(pid: number) {
@@ -86,4 +86,15 @@ export async function updateGenerator(
 
 export async function removeGenerator(pid: number, cid: number) {
   await api.delete(`/polygon/problem/${pid}/generator/${cid}`);
+}
+
+export async function getAllStaticFilename(pid: number) {
+  const { data } = await api.get(`/polygon/problem/${pid}/static`);
+  return data;
+}
+
+export async function downloadStaticFile(pid: number, filename: string) {
+  return downloadFile(filename, `/polygon/problem/${pid}/static/download`, {
+    filename
+  });
 }
