@@ -17,7 +17,7 @@
         </b-table-column>
         <b-table-column v-slot="props" label="名称">
           <router-link :to="{ name: 'Polygon', params: { id: props.row.id } }"
-            >{{ props.row.title }}
+            >{{ props.row.name }}
           </router-link>
         </b-table-column>
         <b-table-column label="操作" centered width="80">
