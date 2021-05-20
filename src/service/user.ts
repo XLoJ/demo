@@ -1,4 +1,4 @@
-import { computed, reactive } from '@vue/composition-api';
+import { reactive } from '@vue/composition-api';
 import { api } from '@/service/api';
 import { getItem, removeItem, setItem } from '@/service/store';
 import { AccessTokenKey } from '@/service/constant';
@@ -12,6 +12,7 @@ interface User {
 
 const user: User | Record<never, never> = {};
 const isLogin = { flag: 0, polygon: false };
+
 // 0 : nothing; 1: OK; -1: Waiting;
 
 function updateUserState(data: User) {

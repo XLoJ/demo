@@ -56,11 +56,7 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  getCurrentInstance
-} from '@vue/composition-api';
+import { defineComponent, getCurrentInstance } from '@vue/composition-api';
 import { userLogout, useUser } from '@/service/user';
 import { useRouter } from '@/utils';
 

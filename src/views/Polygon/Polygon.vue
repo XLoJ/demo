@@ -42,10 +42,9 @@ export default defineComponent({
     const problem = ref({});
     const activeTab = ref(0);
 
-    getDetailClassicProblem(+props.id).then((data) => {
+    getDetailClassicProblem(+props.id!).then((data) => {
       problem.value = data;
       loading.value = false;
-      console.log(data);
     });
 
     return {

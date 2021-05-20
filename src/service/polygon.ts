@@ -6,6 +6,7 @@ export async function getDetailClassicProblem(pid: number) {
     ? data.tags.split(',').map((tag: string) => tag.trim())
     : [];
   const { data: data_ } = await api.get(`/polygon/problem/${pid}`);
+  data.title = data_.title;
   data.legend = data_.legend;
   data.inputFormat = data_.inputFormat;
   data.outputFormat = data_.outputFormat;
@@ -21,7 +22,7 @@ interface IUpdateProblemInfoOption {
   legend?: string;
   inputFormat?: string;
   outputFormat?: string;
-  note?: string;
+  notes?: string;
 }
 
 export async function updateProblemInfo(
@@ -32,11 +33,11 @@ export async function updateProblemInfo(
     timeLimit: option.timeLimit ?? null,
     memoryLimit: option.memoryLimit ?? null,
     tags: option.tags?.join(',') ?? '',
-    title: option.title ?? '',
-    legend: option.legend ?? '',
-    inputFormat: option.inputFormat ?? '',
-    outputFormat: option.outputFormat ?? '',
-    notes: option.note ?? ''
+    title: option.title ?? null,
+    legend: option.legend ?? null,
+    inputFormat: option.inputFormat ?? null,
+    outputFormat: option.outputFormat ?? null,
+    notes: option.notes ?? null
   });
   return data;
 }

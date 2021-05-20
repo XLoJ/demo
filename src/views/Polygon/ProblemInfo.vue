@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from '@vue/composition-api';
+import { defineComponent, ref } from '@vue/composition-api';
 import { updateProblemInfo } from '@/service/polygon';
 import { useSnackbar } from '@/utils';
 
@@ -42,7 +42,7 @@ export default defineComponent({
     problem: Object
   },
   setup(props) {
-    const problem = props.problem;
+    const problem = props.problem!;
     const timeLimit = ref(problem.timeLimit);
     const memoryLimit = ref(problem.memoryLimit);
     const tags = ref(problem.tags);
@@ -50,7 +50,6 @@ export default defineComponent({
     const snackbar = useSnackbar();
 
     const submit = async () => {
-      console.log(tags.value);
       try {
         await updateProblemInfo(problem.parent, {
           timeLimit: timeLimit.value,
