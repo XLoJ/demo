@@ -14,7 +14,7 @@
         >上传</b-button
       >
     </div>
-    <div style="height: 500px">
+    <div>
       <Editor v-model="code" :lang="lang"></Editor>
     </div>
   </div>

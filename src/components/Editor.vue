@@ -2,7 +2,7 @@
   <div class="editor-container">
     <AceEditor
       v-model="content"
-      height="525px"
+      height="500px"
       width="100%"
       :lang="lang | parseLang"
       theme="chrome"
@@ -87,7 +87,7 @@ export default {
 }
 .editor {
   width: 100%;
-  min-height: 525px;
+  min-height: 500px;
   border: 1px solid rgb(238, 238, 238);
   tab-size: 2 !important;
   -moz-tab-size: 2 !important;
