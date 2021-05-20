@@ -11,8 +11,8 @@
         </option>
       </b-select>
       <b-button class="mb-0 ml-2" type="is-success" @click="submit"
-        >上传</b-button
-      >
+        >上传
+      </b-button>
     </div>
     <div>
       <Editor v-model="code" :lang="lang"></Editor>
@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watchEffect } from '@vue/composition-api';
+import { defineComponent, ref } from '@vue/composition-api';
 import Editor from '@/components/Editor.vue';
 import { uploadProblemCode } from '@/service/polygon';
 import { b64decode, useSnackbar } from '@/utils';

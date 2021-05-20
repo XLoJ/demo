@@ -85,6 +85,7 @@ export default {
   text-align: left;
   height: 100%;
 }
+
 .editor {
   width: 100%;
   min-height: 500px;
