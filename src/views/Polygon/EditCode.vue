@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-4 buttons">
-      <b-select v-model="lang" placeholder="请选择语言">
+      <b-select v-model="lang" placeholder="选择语言">
         <option
           v-for="option in LangList"
           :value="option.value"

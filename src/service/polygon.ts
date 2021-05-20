@@ -57,3 +57,33 @@ export async function uploadProblemCode(
   });
   return data;
 }
+
+export async function createGenerator(pid: number, name: string) {
+  const { data } = await api.post(`/polygon/problem/${pid}/generator`, {
+    body: 'I2luY2x1ZGUgInRlc3RsaWIuaCIKCmludCBtYWluKGludCBhcmdjLCBjaGFyKiBhcmd2W10pIHsKICByZWdpc3RlckdlbihhcmdjLCBhcmd2LCAxKTsKICAKICByZXR1cm4gMDsKfQ==',
+    language: 'cpp',
+    name,
+    description: ''
+  });
+  return data;
+}
+
+export async function updateGenerator(
+  pid: number,
+  cid: number,
+  name: string,
+  code: string,
+  lang: string
+) {
+  const { data } = await api.put(`/polygon/problem/${pid}/generator/${cid}`, {
+    body: b64encode(code),
+    language: lang,
+    name,
+    description: ''
+  });
+  return data;
+}
+
+export async function removeGenerator(pid: number, cid: number) {
+  await api.delete(`/polygon/problem/${pid}/generator/${cid}`);
+}

@@ -5,28 +5,14 @@
       <h4 class="title is-4">
         Problem {{ problem.parent }}. {{ problem.name }}
       </h4>
-      <b-tabs class="hidden-tab" v-model="active">
-        <b-tab-item label="题目信息">
-          <!--          <ProblemInfo :problem="problem"></ProblemInfo>-->
-        </b-tab-item>
-        <b-tab-item label="题面编辑">
-          <!--          <EditStatement :problem="problem"></EditStatement>-->
-        </b-tab-item>
-        <b-tab-item label="题面预览">
-          <!--          <PreviewStatement :problem="problem"></PreviewStatement>-->
-        </b-tab-item>
-        <b-tab-item label="Validator">
-          <!--          <EditCode :problem="problem" type="validator"></EditCode>-->
-        </b-tab-item>
-        <b-tab-item label="Checker">
-          <!--          <EditCode :problem="problem" type="checker"></EditCode>-->
-        </b-tab-item>
-        <b-tab-item label="Solution">
-          <!--          <EditCode :problem="problem" type="solution"></EditCode>-->
-        </b-tab-item>
-        <b-tab-item label="Generator">
-          <!--          <EditGenerators :problem="problem"></EditGenerators>-->
-        </b-tab-item>
+      <b-tabs v-model="active" class="hidden-tab">
+        <b-tab-item label="题目信息"> </b-tab-item>
+        <b-tab-item label="题面编辑"> </b-tab-item>
+        <b-tab-item label="题面预览"> </b-tab-item>
+        <b-tab-item label="Validator"> </b-tab-item>
+        <b-tab-item label="Checker"> </b-tab-item>
+        <b-tab-item label="Solution"> </b-tab-item>
+        <b-tab-item label="Generators"> </b-tab-item>
         <b-tab-item label="测试数据"></b-tab-item>
         <b-tab-item label="构建"></b-tab-item>
       </b-tabs>
@@ -80,10 +66,13 @@ export default defineComponent({
         if (active < routeTable.length) {
           this.$router.push({
             name: routeTable[active],
-            params: { id: this.id }
+            params: { id: String(this.id) }
           });
         } else {
-          this.$router.push({ name: routeTable[0], params: { id: this.id } });
+          this.$router.push({
+            name: routeTable[0],
+            params: { id: String(this.id) }
+          });
         }
       }
     }

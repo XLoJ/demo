@@ -19,6 +19,12 @@ export function useSnackbar() {
   return vm.proxy.$buefy.snackbar;
 }
 
+export function useDialog() {
+  const vm = getCurrentInstance();
+  if (!vm) throw new Error('must be called in setup');
+  return vm.proxy.$buefy.dialog;
+}
+
 export function b64encode(text: string) {
   return Base64.encodeURI(text);
 }
