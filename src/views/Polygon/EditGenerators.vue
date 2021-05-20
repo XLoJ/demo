@@ -6,8 +6,8 @@
           <p class="panel-heading">Generators</p>
           <div class="panel-block">
             <b-button expanded type="is-text" @click="createGen"
-              >创建 Generator</b-button
-            >
+              >创建 Generator
+            </b-button>
           </div>
           <a
             v-for="(generator, index) in generators"
@@ -36,14 +36,14 @@
             class="mb-0 ml-2"
             type="is-success"
             @click="saveGen(undefined)"
-            >保存</b-button
-          >
+            >保存
+          </b-button>
           <b-button class="mb-0" type="is-info" @click="renameGen"
-            >重命名</b-button
-          >
+            >重命名
+          </b-button>
           <b-button class="mb-0" type="is-danger" @click="removeGen"
-            >删除</b-button
-          >
+            >删除
+          </b-button>
         </div>
         <Editor v-model="code" :lang="lang"></Editor>
       </div>

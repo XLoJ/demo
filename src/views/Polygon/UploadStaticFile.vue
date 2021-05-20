@@ -2,8 +2,8 @@
   <div>
     <div class="buttons">
       <b-button class="mb-0" type="is-success" @click="showUploadModal"
-        >上传</b-button
-      >
+        >上传
+      </b-button>
       <b-upload v-model="uploadFile" class="file-label" @input="fileUpload">
         <span class="file-cta">
           <b-icon class="file-icon" icon="upload"></b-icon>
@@ -35,14 +35,17 @@
     </div>
     <b-table :data="files">
       <b-table-column v-slot="props" label="#" width="24"
-        ><span class="has-text-weight-bold">{{
+        ><span class="pt-2 pb-2 is-inline-block has-text-weight-bold">{{
           props.index + 1
         }}</span></b-table-column
       >
       <b-table-column v-slot="props" label="文件名"
-        ><a href="#" @click="download(props.index)">{{
-          props.row.filename
-        }}</a></b-table-column
+        ><a
+          class="pt-2 pb-2 is-inline-block"
+          href="#"
+          @click="download(props.index)"
+          >{{ props.row.filename }}</a
+        ></b-table-column
       >
       <b-table-column v-slot="props" label="预览" width="75%">
         <div class="has-background-light p-3">
@@ -50,12 +53,14 @@
         </div>
       </b-table-column>
       <b-table-column v-slot="props" centered label="操作" width="80">
-        <b-button
-          icon-left="delete"
-          size="is-small"
-          type="is-danger"
-          @click="remove(props.index)"
-        ></b-button>
+        <span class="is-inline-block pt-2">
+          <b-button
+            icon-left="delete"
+            size="is-small"
+            type="is-danger"
+            @click="remove(props.index)"
+          ></b-button>
+        </span>
       </b-table-column>
     </b-table>
   </div>

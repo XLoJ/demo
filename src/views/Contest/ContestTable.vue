@@ -18,8 +18,8 @@
     </b-table-column>
     <b-table-column label="榜单" v-slot="props">
       <router-link :to="{ name: 'Contest', params: { id: props.row.id } }"
-        >10 人</router-link
-      >
+        >10 人
+      </router-link>
     </b-table-column>
   </b-table>
 </template>
