@@ -18,6 +18,7 @@
         <b-tab-item label="Validator"></b-tab-item>
         <b-tab-item label="Checker"></b-tab-item>
         <b-tab-item label="Solution"></b-tab-item>
+        <b-tab-item label="Generator"></b-tab-item>
         <b-tab-item label="测试数据"></b-tab-item>
         <b-tab-item label="构建"></b-tab-item>
       </b-tabs>
