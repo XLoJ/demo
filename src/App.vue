@@ -38,6 +38,12 @@ body,
   min-height: calc(100% - 140px);
 }
 
+.hidden-tab .tab-content {
+  padding: 0 !important;
+  margin: 0 !important;
+  display: none !important;
+}
+
 ::-webkit-selection {
   background-color: #cce2ff;
 }

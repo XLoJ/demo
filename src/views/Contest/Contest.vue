@@ -3,7 +3,7 @@
     <div class="title is-5">{{ contest.name }}</div>
     <div class="columns">
       <div class="column is-three-quarters">
-        <b-tabs v-model="activeTab" :destroy-on-hide="false">
+        <b-tabs class="hidden-tab" v-model="activeTab" :destroy-on-hide="false">
           <b-tab-item label="仪表盘"></b-tab-item>
           <b-tab-item label="我的提交"></b-tab-item>
           <b-tab-item label="全部提交"></b-tab-item>
@@ -66,10 +66,4 @@ export default defineComponent({
 });
 </script>
 
-<style>
-section.tab-content {
-  padding: 0 !important;
-  margin: 0 !important;
-  display: none !important;
-}
-</style>
+<style></style>

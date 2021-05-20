@@ -137,12 +137,86 @@ const routes: Array<RouteConfig> = [
       },
       {
         path: '/polygon/:id',
-        name: 'Polygon',
+        name: 'PolygonMain',
         props: true,
         component: () => import('../views/Polygon/Polygon.vue'),
         meta: {
           title: 'Polygon'
-        }
+        },
+        children: [
+          {
+            path: '/polygon/:id',
+            name: 'Polygon',
+            props: true,
+            component: () => import('../views/Polygon/ProblemInfo.vue'),
+            meta: {
+              title: '题目信息'
+            }
+          },
+          {
+            path: '/polygon/:id/statement',
+            name: 'PolygonStatement',
+            props: true,
+            component: () => import('../views/Polygon/EditStatement.vue'),
+            meta: {
+              title: '题面编辑'
+            }
+          },
+          {
+            path: '/polygon/:id/preview',
+            name: 'PolygonPreviewStatement',
+            props: true,
+            component: () => import('../views/Polygon/PreviewStatement.vue'),
+            meta: {
+              title: '题面预览'
+            }
+          },
+          {
+            path: '/polygon/:id/validator',
+            name: 'PolygonValidator',
+            props: true,
+            component: () => import('../views/Polygon/UploadValidator.vue'),
+            meta: {
+              title: 'Validator'
+            }
+          },
+          {
+            path: '/polygon/:id/checker',
+            name: 'PolygonChecker',
+            props: true,
+            component: () => import('../views/Polygon/UploadChecker.vue'),
+            meta: {
+              title: 'Checker'
+            }
+          },
+          {
+            path: '/polygon/:id/solution',
+            name: 'PolygonSolution',
+            props: true,
+            component: () => import('../views/Polygon/UploadSolution.vue'),
+            meta: {
+              title: 'Solution'
+            }
+          },
+          {
+            path: '/polygon/:id/generators',
+            name: 'PolygonGenerators',
+            props: true,
+            component: () => import('../views/Polygon/EditGenerators.vue'),
+            meta: {
+              title: 'Generators'
+            }
+          },
+          {
+            path: '/polygon/:id/testcases',
+            name: 'PolygonTestcases',
+            props: true,
+            component: () => import('../views/Polygon/EditTestcases.vue'),
+            meta: {
+              title: '测试数据'
+            }
+          }
+        ]
       }
     ]
   },
