@@ -25,7 +25,7 @@
           <i class="mdi mdi-24px mdi-bullhorn"></i> </span
         ><span class="subtitle is-5">公告</span>
       </div>
-      <div class="pl-3 mb-6">
+      <div class="pl-3">
         <p>XLoJ 测试 Round。</p>
         <p>
           <span class="has-text-weight-bold">比赛时间</span>：{{
