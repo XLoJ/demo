@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 import ContestTable from './ContestTable.vue';
 import { useContestList } from '../../service/contest';
 

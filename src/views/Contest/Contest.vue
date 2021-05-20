@@ -28,7 +28,7 @@ import {
 import { useContestInfo } from '../../service/contest';
 import ContestSidebar from './ContestSidebar.vue';
 import Dashboard from './Dashboard.vue';
-import { useRoute, useRouter } from '../../utils';
+import { useRouter } from '../../utils';
 
 export default defineComponent({
   name: 'Contest',

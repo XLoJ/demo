@@ -11,9 +11,9 @@
         <span>{{ props.row.create_time }}</span>
       </b-table-column>
       <b-table-column label="送交者" centered v-slot="props">
-        <router-link :to="{ name: 'Contest' }">{{
-          props.row.writer
-        }}</router-link>
+        <router-link :to="{ name: 'Contest' }"
+          >{{ props.row.writer }}
+        </router-link>
       </b-table-column>
       <b-table-column label="语言" centered v-slot="props">
         <span>{{ props.row.lang }}</span>

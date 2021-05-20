@@ -59,8 +59,7 @@
 import {
   computed,
   defineComponent,
-  getCurrentInstance,
-  watchEffect
+  getCurrentInstance
 } from '@vue/composition-api';
 import { userLogout, useUser } from '@/service/user';
 import { useRouter } from '@/utils';

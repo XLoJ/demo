@@ -1,4 +1,4 @@
-import { reactive, ref } from '@vue/composition-api';
+import { reactive } from '@vue/composition-api';
 import { api } from '@/service/api';
 import { getItem, removeItem, setItem } from '@/service/store';
 import { AccessTokenKey } from '@/service/constant';

@@ -19,8 +19,8 @@
         <div class="content">
           <div v-for="(problem, index) in problems" :key="index">
             <router-link :to="{ name: 'ContestList' }"
-              >{{ problem.index }}. {{ problem.name }}</router-link
-            >
+              >{{ problem.index }}. {{ problem.name }}
+            </router-link>
           </div>
         </div>
       </div>
@@ -54,6 +54,7 @@ export default defineComponent({
   border-bottom: 1px solid rgba(34, 36, 38, 0.1);
   box-shadow: none !important;
 }
+
 .card-content {
   padding: 1rem;
 }

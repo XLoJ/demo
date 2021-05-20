@@ -1,9 +1,9 @@
 <template>
   <b-table :data="data" class="mb-4">
     <b-table-column v-slot="props" field="name" label="名称" width="750">
-      <router-link :to="{ name: 'Contest', params: { id: props.row.id } }">{{
-        props.row.name
-      }}</router-link>
+      <router-link :to="{ name: 'Contest', params: { id: props.row.id } }"
+        >{{ props.row.name }}
+      </router-link>
     </b-table-column>
     <b-table-column v-slot="props" field="start_time" label="开始时间">
       <span>{{ props.row.start_time }}</span>
