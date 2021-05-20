@@ -93,8 +93,30 @@ export async function getAllStaticFilename(pid: number) {
   return data;
 }
 
+export async function uploadStaticFile(
+  pid: number,
+  filename: string,
+  body: string
+) {
+  body = body.replaceAll('\r\n', '\n').replaceAll('\r', '\n');
+  if (body.length === 0 || body[body.length - 1] !== '\n') {
+    body += '\n';
+  }
+  const { data } = await api.post(`/polygon/problem/${pid}/static`, {
+    filename,
+    body
+  });
+  return data;
+}
+
 export async function downloadStaticFile(pid: number, filename: string) {
   return downloadFile(filename, `/polygon/problem/${pid}/static/download`, {
     filename
+  });
+}
+
+export async function removeStaticFile(pid: number, filename: string) {
+  return api.delete(`/polygon/problem/${pid}/static`, {
+    params: { filename }
   });
 }
