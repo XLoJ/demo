@@ -127,6 +127,15 @@ const routes: Array<RouteConfig> = [
         meta: {
           title: 'Polygon'
         }
+      },
+      {
+        path: '/polygon/:id',
+        name: 'Polygon',
+        props: true,
+        component: () => import('../views/Polygon/Polygon.vue'),
+        meta: {
+          title: 'Polygon'
+        }
       }
     ]
   },

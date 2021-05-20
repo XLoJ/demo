@@ -13,7 +13,7 @@
         >比赛
       </b-navbar-item>
       <b-navbar-item
-        v-if="isPolygon"
+        v-if="isLogin.flag === 1 && isLogin.polygon"
         :to="{ name: 'PolygonList' }"
         tag="router-link"
       >
@@ -82,22 +82,8 @@ export default defineComponent({
       }
     };
 
-    const isPolygon = computed(() => {
-      if (_user.isLogin.flag !== 1) return false;
-      const user = _user.user;
-      if (user && 'groups' in user) {
-        for (const g of user.groups) {
-          if (g.name === 'polygon') {
-            return true;
-          }
-        }
-      }
-      return false;
-    });
-
     return {
       isLogin: _user.isLogin,
-      isPolygon,
       user: _user.user,
       logout,
       goProfile
