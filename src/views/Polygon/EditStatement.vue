@@ -22,7 +22,7 @@
       </div>
     </section>
     <section v-else>
-      <h6 class="title is-4">{{ title }}</h6>
+      <h6 class="title is-4 mb-4">{{ title }}</h6>
       <p>
         <span class="has-text-weight-bold">时间限制</span>：{{
           problem.timeLimit
