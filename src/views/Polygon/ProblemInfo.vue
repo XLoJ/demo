@@ -1,7 +1,7 @@
 <template>
   <div>
     <section>
-      <b-field label="时间限制">
+      <b-field label="时间限制（单位：ms）">
         <b-numberinput
           v-model="timeLimit"
           type="is-light"
@@ -10,7 +10,7 @@
           step="1000"
         ></b-numberinput>
       </b-field>
-      <b-field label="空间限制">
+      <b-field label="空间限制（单位：MB）">
         <b-numberinput
           v-model="memoryLimit"
           type="is-light"
