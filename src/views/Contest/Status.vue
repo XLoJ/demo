@@ -36,6 +36,10 @@ import { defineComponent, reactive } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'Status',
+  props: {
+    contest: Object,
+    id: [Number, String]
+  },
   setup() {
     const data = reactive([
       {

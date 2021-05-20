@@ -5,7 +5,7 @@
       <h4 class="title is-4">
         Problem {{ problem.parent }}. {{ problem.name }}
       </h4>
-      <b-tabs v-model="activeTab">
+      <b-tabs v-model="active">
         <b-tab-item label="题目信息">
           <ProblemInfo :problem="problem"></ProblemInfo>
         </b-tab-item>
@@ -24,7 +24,9 @@
         <b-tab-item label="Solution">
           <EditCode :problem="problem" type="solution"></EditCode>
         </b-tab-item>
-        <b-tab-item label="Generator"></b-tab-item>
+        <b-tab-item label="Generator">
+          <EditGenerators :problem="problem"></EditGenerators>
+        </b-tab-item>
         <b-tab-item label="测试数据"></b-tab-item>
         <b-tab-item label="构建"></b-tab-item>
       </b-tabs>
@@ -39,6 +41,7 @@ import ProblemInfo from './ProblemInfo.vue';
 import EditStatement from './EditStatement.vue';
 import PreviewStatement from './PreviewStatement.vue';
 import EditCode from './EditCode.vue';
+import EditGenerators from './EditGenerators.vue';
 
 export default defineComponent({
   name: 'PolygonProblem',
@@ -46,15 +49,28 @@ export default defineComponent({
     ProblemInfo,
     EditStatement,
     PreviewStatement,
-    EditCode
+    EditCode,
+    EditGenerators
   },
   props: {
     id: [Number, String]
   },
+  data() {
+    return {
+      active: 0
+    };
+  },
+  watch: {
+    active(nV, oV) {
+      console.log(nV);
+      if (nV !== oV) {
+        this.active = nV;
+      }
+    }
+  },
   setup(props) {
     const loading = ref(true);
     const problem = ref({});
-    const activeTab = ref(0);
 
     getDetailClassicProblem(+props.id!).then((data) => {
       problem.value = data;
@@ -63,8 +79,7 @@ export default defineComponent({
 
     return {
       loading,
-      problem,
-      activeTab
+      problem
     };
   }
 });

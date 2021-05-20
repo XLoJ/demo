@@ -49,7 +49,8 @@ import { useContestProblems } from '@/service/contest';
 export default defineComponent({
   name: 'Dashboard',
   props: {
-    contest: Object
+    contest: Object,
+    id: [Number, String]
   },
   setup(props: { contest: any }) {
     const { problems } = useContestProblems(props.contest.id);

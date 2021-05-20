@@ -1,5 +1,5 @@
 <template>
-  <Status></Status>
+  <Status :contest="contest" :id="id"></Status>
 </template>
 
 <script lang="ts">
@@ -10,6 +10,10 @@ export default defineComponent({
   name: 'Submission',
   components: {
     Status
+  },
+  props: {
+    contest: Object,
+    id: [Number, String]
   }
 });
 </script>

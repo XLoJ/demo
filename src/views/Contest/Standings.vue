@@ -6,7 +6,11 @@
 import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
-  name: 'Standings'
+  name: 'Standings',
+  props: {
+    contest: Object,
+    id: [Number, String]
+  }
 });
 </script>
 

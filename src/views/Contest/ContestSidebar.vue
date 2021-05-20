@@ -42,7 +42,6 @@ export default defineComponent({
     const { problems } = useContestProblems(contest.id);
 
     return {
-      contest,
       problems
     };
   }

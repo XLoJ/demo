@@ -2,7 +2,7 @@
   <div class="editor-container">
     <AceEditor
       v-model="content"
-      height="500px"
+      height="100%"
       width="100%"
       :lang="lang | parseLang"
       theme="chrome"
