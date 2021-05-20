@@ -26,9 +26,14 @@ function updateUserState(data: User) {
 
 if (getItem(AccessTokenKey)) {
   isLogin.flag = -1;
-  api.get('/profile').then(({ data }) => {
-    updateUserState(data);
-  });
+  api
+    .get('/profile')
+    .then(({ data }) => {
+      updateUserState(data);
+    })
+    .catch(() => {
+      userLogout();
+    });
 }
 
 export async function userLogin(username: string, password: string) {
