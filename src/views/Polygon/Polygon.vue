@@ -9,8 +9,11 @@
         <b-tab-item label="题目信息">
           <ProblemInfo :problem="problem"></ProblemInfo>
         </b-tab-item>
-        <b-tab-item label="题面描述">
+        <b-tab-item label="题面编辑">
           <EditStatement :problem="problem"></EditStatement>
+        </b-tab-item>
+        <b-tab-item label="题面预览">
+          <PreviewStatement :problem="problem"></PreviewStatement>
         </b-tab-item>
         <b-tab-item label="Validator"></b-tab-item>
         <b-tab-item label="Checker"></b-tab-item>
@@ -27,12 +30,14 @@ import { defineComponent, ref } from '@vue/composition-api';
 import { getDetailClassicProblem } from '@/service/polygon';
 import ProblemInfo from './ProblemInfo.vue';
 import EditStatement from './EditStatement.vue';
+import PreviewStatement from './PreviewStatement.vue';
 
 export default defineComponent({
   name: 'PolygonProblem',
   components: {
     ProblemInfo,
-    EditStatement
+    EditStatement,
+    PreviewStatement
   },
   props: {
     id: [Number, String]
