@@ -59,7 +59,12 @@ export default defineComponent({
     const snackbar = useSnackbar();
     const submit = async () => {
       try {
-        await uploadProblemCode(problem.parent, type, code.value, lang.value);
+        problem[type] = await uploadProblemCode(
+          problem.parent,
+          type,
+          code.value,
+          lang.value
+        );
         snackbar.open(`题目 ${problem.parent} 的 ${type} 上传成功`);
       } catch (err) {
         snackbar.open({
