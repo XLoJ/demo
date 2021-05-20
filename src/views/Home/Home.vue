@@ -42,7 +42,7 @@
                   <p>
                     官网地址：<a href="https://icpc.global"
                       >https://icpc.global</a
-                    >
+                    >。
                   </p>
                   <p>
                     选手在比赛时有多次提交机会。比赛实时评测并返回结果（部分比赛可以看到错误的测试样例，如
