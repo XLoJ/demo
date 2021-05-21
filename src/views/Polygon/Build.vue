@@ -49,6 +49,7 @@
 import { defineComponent, reactive, ref } from '@vue/composition-api';
 import { buildProblem, getAllPolygonMessage } from '@/service/polygon';
 import MessageView from './MessageView.vue';
+import { useSnackbar } from '@/utils';
 
 export default defineComponent({
   name: 'Build',
@@ -69,10 +70,21 @@ export default defineComponent({
       buildTasks.push(...data);
     });
 
+    const snackbar = useSnackbar();
+
     const runBuild = async () => {
-      const { version: newVersion } = await buildProblem(problem.parent);
-      runUpdateSignal.value = newVersion;
-      setTimeout(() => (runUpdateSignal.value = -1), 1000);
+      try {
+        const { version: newVersion } = await buildProblem(problem.parent);
+        runUpdateSignal.value = newVersion;
+        setTimeout(() => (runUpdateSignal.value = -1), 1000);
+
+        snackbar.open(`版本 ${newVersion} 开始构建`);
+      } catch (err) {
+        snackbar.open({
+          message: err.message,
+          type: 'is-danger'
+        });
+      }
     };
 
     const isOpen = ref(0);
