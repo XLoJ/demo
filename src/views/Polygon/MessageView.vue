@@ -66,10 +66,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from '@vue/composition-api';
+import { computed, defineComponent, watchEffect } from '@vue/composition-api';
 import ElSteps from '@/components/steps/steps.vue';
 import ElStep from '@/components/steps/step.vue';
 import dayjs from 'dayjs';
+import { getPolygonMessage } from '@/service/polygon';
 
 export default defineComponent({
   name: 'MessageView',
@@ -80,26 +81,56 @@ export default defineComponent({
   props: {
     messages: Array,
     problem: Object,
-    version: Number
+    version: Number,
+    signal: Number
   },
   setup(props) {
     const messages = props.messages!;
+    const problem = props.problem!;
+    const version = props.version!;
+
+    const runUpdate = () => {
+      const updatePolygonMessage = async () => {
+        const data = await getPolygonMessage(problem.parent, version);
+        if (data.length > props.messages.length) {
+          for (let i = props.messages.length; i < data.length; i++) {
+            props.messages.push(data[i]);
+          }
+          return true;
+        } else {
+          return false;
+        }
+      };
+
+      let ev = setInterval(async () => {
+        const flag = await updatePolygonMessage();
+        if (!flag) {
+          clearInterval(ev);
+        }
+      }, 500);
+    };
+
+    watchEffect(() => {
+      if (version === props.signal) {
+        runUpdate();
+      }
+    });
 
     const parseTime = (timestamp: string) => {
       return dayjs(timestamp).format('YYYY-MM-DD HH:mm:ss');
     };
 
     const activeStep = computed(() => {
-      for (let i = messages.length - 1; i >= 0; i--) {
-        if (messages[i].action === 'end') return 4;
-        else if (messages[i].action === 'compile') return 2;
-        else if (messages[i].action === 'start') return 1;
+      for (let i = props.messages.length - 1; i >= 0; i--) {
+        if (props.messages[i].action === 'end') return 4;
+        else if (props.messages[i].action === 'compile') return 2;
+        else if (props.messages[i].action === 'start') return 1;
       }
       return 0;
     });
 
     const compileMessages = computed(() => {
-      return messages.filter((msg) => msg.action === 'compile');
+      return props.messages.filter((msg) => msg.action === 'compile');
     });
 
     const endMessages = computed(() => {

@@ -122,7 +122,8 @@ export async function removeStaticFile(pid: number, filename: string) {
 }
 
 export async function buildProblem(pid: number) {
-  return api.post(`/polygon/problem/${pid}/build`, {});
+  const { data } = await api.post(`/polygon/problem/${pid}/build`, {});
+  return data;
 }
 
 export async function getAllPolygonMessage(pid: number) {

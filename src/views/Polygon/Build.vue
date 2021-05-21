@@ -35,6 +35,7 @@
         <div class="card-content">
           <div class="content">
             <MessageView
+              :signal="runUpdateSignal"
               :problem="problem"
               :version="task.version"
               :messages="task.messages"
@@ -48,11 +49,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from '@vue/composition-api';
-import {
-  buildProblem,
-  getAllPolygonMessage,
-  getPolygonMessage
-} from '@/service/polygon';
+import { buildProblem, getAllPolygonMessage } from '@/service/polygon';
 import MessageView from './MessageView.vue';
 
 export default defineComponent({
@@ -66,9 +63,7 @@ export default defineComponent({
   setup(props) {
     const problem = props.problem!;
 
-    const runBuild = async () => {
-      await buildProblem(problem.parent);
-    };
+    const runUpdateSignal = ref(-1);
 
     const buildTasks = reactive([] as any[]);
 
@@ -76,12 +71,19 @@ export default defineComponent({
       buildTasks.push(...data);
     });
 
+    const runBuild = async () => {
+      const { version: newVersion } = await buildProblem(problem.parent);
+      runUpdateSignal.value = newVersion;
+      setTimeout(() => (runUpdateSignal.value = -1), 1000);
+    };
+
     const isOpen = ref(0);
 
     return {
       runBuild,
       isOpen,
-      buildTasks
+      buildTasks,
+      runUpdateSignal
     };
   }
 });
