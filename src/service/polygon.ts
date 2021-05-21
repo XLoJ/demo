@@ -124,3 +124,20 @@ export async function removeStaticFile(pid: number, filename: string) {
 export async function buildProblem(pid: number) {
   return api.post(`/polygon/problem/${pid}/build`, {});
 }
+
+export async function getAllPolygonMessage(pid: number) {
+  const { data } = await api.get(`/polygon/problem/${pid}/build`);
+  const result = [];
+  for (const key in data) {
+    result.push({
+      version: key,
+      messages: data[key]
+    });
+  }
+  return result;
+}
+
+export async function getPolygonMessage(pid: number, version: number) {
+  const { data } = await api.get(`/polygon/problem/${pid}/build/${version}`);
+  return data;
+}

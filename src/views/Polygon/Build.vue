@@ -13,15 +13,53 @@
     <div>
       <b-button type="is-success" @click="runBuild">构建</b-button>
     </div>
+    <div class="mt-4">
+      <b-collapse
+        class="card"
+        animation="slide"
+        v-for="(task, index) of buildTasks"
+        :key="index"
+        :open="isOpen == index"
+        @open="isOpen = index"
+      >
+        <template #trigger="props">
+          <div class="card-header" role="button">
+            <p class="card-header-title">
+              <span>构建 {{ task.version }}</span>
+            </p>
+            <a class="card-header-icon">
+              <b-icon :icon="props.open ? 'menu-down' : 'menu-up'"> </b-icon>
+            </a>
+          </div>
+        </template>
+        <div class="card-content">
+          <div class="content">
+            <MessageView
+              :problem="problem"
+              :version="task.version"
+              :messages="task.messages"
+            ></MessageView>
+          </div>
+        </div>
+      </b-collapse>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
-import { buildProblem } from '@/service/polygon';
+import { defineComponent, reactive, ref } from '@vue/composition-api';
+import {
+  buildProblem,
+  getAllPolygonMessage,
+  getPolygonMessage
+} from '@/service/polygon';
+import MessageView from './MessageView.vue';
 
 export default defineComponent({
   name: 'Build',
+  components: {
+    MessageView
+  },
   props: {
     problem: Object
   },
@@ -32,8 +70,18 @@ export default defineComponent({
       await buildProblem(problem.parent);
     };
 
+    const buildTasks = reactive([] as any[]);
+
+    getAllPolygonMessage(problem.parent).then((data) => {
+      buildTasks.push(...data);
+    });
+
+    const isOpen = ref(0);
+
     return {
-      runBuild
+      runBuild,
+      isOpen,
+      buildTasks
     };
   }
 });
