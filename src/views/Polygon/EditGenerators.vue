@@ -44,6 +44,7 @@
           <b-button class="mb-0" type="is-danger" @click="removeGen"
             >删除
           </b-button>
+          <b-tag type="is-warning" v-show="changed">尚未保存</b-tag>
         </div>
         <Editor v-model="code" :lang="lang"></Editor>
       </div>
@@ -52,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api';
+import { computed, defineComponent, ref } from '@vue/composition-api';
 import Editor from '@/components/Editor.vue';
 import { LangList } from '@/constants';
 import {
@@ -80,10 +81,19 @@ export default defineComponent({
     const snackbar = useSnackbar();
     const dialog = useDialog();
 
+    const oldCode = ref('');
+    const oldLang = ref('');
+
+    const changed = computed(() => {
+      return oldCode.value !== code.value || oldLang.value !== lang.value;
+    });
+
     const currentGenerator = ref(-1);
     const handleSwitch = (index: number) => {
       code.value = b64decode(generators[index].body);
       lang.value = generators[index].language;
+      oldCode.value = code.value;
+      oldLang.value = lang.value;
       currentGenerator.value = index;
     };
     const createGen = async () => {
@@ -139,6 +149,8 @@ export default defineComponent({
         generator.name = data.name;
         generator.body = data.body;
         generator.language = data.language;
+
+        handleSwitch(currentGenerator.value);
       } catch (err) {
         snackbar.open({
           message: err.message,
@@ -174,7 +186,9 @@ export default defineComponent({
           } else {
             generators.value = -1;
             code.value = '';
+            oldCode.value = '';
             lang.value = 'cpp';
+            oldLang.value = 'cpp';
           }
         } catch (err) {
           snackbar.open({
@@ -193,6 +207,7 @@ export default defineComponent({
       LangList,
       code,
       lang,
+      changed,
       generators,
       currentGenerator,
       handleSwitch,
