@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="mb-2">
+    <div class="mb-2 is-flex is-align-items-center">
+      <b-button type="is-success" @click="runBuild" class="mr-4">构建</b-button>
       <p class="is-inline-block">
         <span class="has-text-weight-bold">当前版本</span>：{{
           problem.version
@@ -9,9 +10,6 @@
       <p class="is-inline-block ml-4">
         <span class="has-text-weight-bold">当前状态</span>：{{ problem.status }}
       </p>
-    </div>
-    <div>
-      <b-button type="is-success" @click="runBuild">构建</b-button>
     </div>
     <div class="mt-4">
       <b-collapse
