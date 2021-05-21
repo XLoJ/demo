@@ -120,3 +120,7 @@ export async function removeStaticFile(pid: number, filename: string) {
     params: { filename }
   });
 }
+
+export async function buildProblem(pid: number) {
+  return api.post(`/polygon/problem/${pid}/build`, {});
+}
