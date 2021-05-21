@@ -1,24 +1,75 @@
 <template>
   <div>
-    <el-steps :active="0" direction="vertical">
+    <el-steps :active="activeStep" direction="vertical">
       <el-step title="开始构建">
-        <div style="height: 200px"></div>
+        <div class="mb-4">
+          <div v-if="messages.length > 0" class="box">
+            <div class="columns">
+              <div class="has-text-weight-bold column">开始构建</div>
+              <div class="column has-text-right is-family-monospace">
+                <span
+                  ><span class="has-text-weight-bold">评测机</span>
+                  {{ messages[0].from }}</span
+                >
+                <span class="ml-4"
+                  ><span class="has-text-weight-bold">时间</span>
+                  {{ parseTime(messages[0].timestamp) }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
       </el-step>
       <el-step title="编译代码">
-        <div style="height: 200px"></div>
+        <div class="mb-4">
+          <div class="box" v-for="msg in compileMessages" :key="msg.index">
+            <div class="columns">
+              <div class="column">
+                <span class="has-text-weight-bold">编译</span> {{ msg.name }}
+              </div>
+              <div class="column has-text-right is-family-monospace">
+                <span
+                  ><span class="has-text-weight-bold">评测机</span>
+                  {{ messages[0].from }}</span
+                >
+                <span class="ml-4"
+                  ><span class="has-text-weight-bold">时间</span>
+                  {{ parseTime(messages[0].timestamp) }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
       </el-step>
       <el-step title="生成测试数据">
-        <div style="height: 200px"></div>
+        <div class="mb-4"></div>
       </el-step>
-      <el-step title="构建完成"></el-step>
+      <el-step title="构建完成">
+        <div v-if="endMessages.length > 0" class="box mb-4">
+          <div class="columns">
+            <div class="has-text-weight-bold column">构建完成</div>
+            <div class="column has-text-right is-family-monospace">
+              <span
+                ><span class="has-text-weight-bold">评测机</span>
+                {{ endMessages[0].from }}</span
+              >
+              <span class="ml-4"
+                ><span class="has-text-weight-bold">时间</span>
+                {{ parseTime(endMessages[0].timestamp) }}</span
+              >
+            </div>
+          </div>
+        </div>
+      </el-step>
     </el-steps>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import { computed, defineComponent } from '@vue/composition-api';
 import ElSteps from '@/components/steps/steps.vue';
 import ElStep from '@/components/steps/step.vue';
+import dayjs from 'dayjs';
 
 export default defineComponent({
   name: 'MessageView',
@@ -31,8 +82,36 @@ export default defineComponent({
     problem: Object,
     version: Number
   },
-  setup() {
-    return {};
+  setup(props) {
+    const messages = props.messages!;
+
+    const parseTime = (timestamp: string) => {
+      return dayjs(timestamp).format('YYYY-MM-DD HH:mm:ss');
+    };
+
+    const activeStep = computed(() => {
+      for (let i = messages.length - 1; i >= 0; i--) {
+        if (messages[i].action === 'end') return 4;
+        else if (messages[i].action === 'compile') return 2;
+        else if (messages[i].action === 'start') return 1;
+      }
+      return 0;
+    });
+
+    const compileMessages = computed(() => {
+      return messages.filter((msg) => msg.action === 'compile');
+    });
+
+    const endMessages = computed(() => {
+      return messages.filter((msg) => msg.action === 'end');
+    });
+
+    return {
+      parseTime,
+      activeStep,
+      compileMessages,
+      endMessages
+    };
   }
 });
 </script>
