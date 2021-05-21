@@ -130,7 +130,7 @@ export async function getAllPolygonMessage(pid: number) {
   const result = [];
   for (const key in data) {
     result.push({
-      version: key,
+      version: +key,
       messages: data[key]
     });
   }

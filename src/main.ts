@@ -5,6 +5,9 @@ import store from './store';
 import VueCompositionAPI from '@vue/composition-api';
 import './plugins/buefy';
 
+import './assets/step.css';
+import './assets/steps.css';
+
 Vue.use(VueCompositionAPI);
 
 Vue.config.productionTip = false;
