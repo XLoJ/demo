@@ -13,6 +13,7 @@
       <b-button class="mb-0 ml-2" type="is-success" @click="submit"
         >上传
       </b-button>
+      <b-tag type="is-warning" v-show="changed">尚未保存</b-tag>
     </div>
     <div style="min-height: 500px; height: 500px">
       <Editor v-model="code" :lang="lang"></Editor>
@@ -21,7 +22,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api';
+import {
+  computed,
+  defineComponent,
+  ref,
+  watchEffect
+} from '@vue/composition-api';
 import Editor from '@/components/Editor.vue';
 import { uploadProblemCode } from '@/service/polygon';
 import { b64decode, useSnackbar } from '@/utils';
@@ -56,6 +62,13 @@ export default defineComponent({
       lang.value = problem.solution.language;
     }
 
+    let oldCode = ref(code.value);
+    let oldLang = ref(lang.value);
+
+    const changed = computed(() => {
+      return oldCode.value !== code.value || oldLang.value !== lang.value;
+    });
+
     const snackbar = useSnackbar();
     const submit = async () => {
       try {
@@ -65,6 +78,10 @@ export default defineComponent({
           code.value,
           lang.value
         );
+        code.value = b64decode(problem[type].body);
+        lang.value = problem[type].language;
+        oldCode.value = code.value;
+        oldLang.value = lang.value;
         snackbar.open(`题目 ${problem.parent} 的 ${type} 上传成功`);
       } catch (err) {
         snackbar.open({
@@ -77,6 +94,7 @@ export default defineComponent({
     return {
       code,
       lang,
+      changed,
       submit,
       LangList
     };
