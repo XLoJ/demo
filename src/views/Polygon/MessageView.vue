@@ -92,13 +92,18 @@ export default defineComponent({
     const runUpdate = () => {
       const updatePolygonMessage = async () => {
         const data = await getPolygonMessage(problem.parent, version);
-        if (data.length > props.messages.length) {
+        if (data.length > 0) {
           for (let i = props.messages.length; i < data.length; i++) {
             props.messages.push(data[i]);
           }
-          return true;
+          const lastAction = data[data.length - 1].action;
+          if (lastAction === 'end' || lastAction === 'error') {
+            return false;
+          } else {
+            return true;
+          }
         } else {
-          return false;
+          return true;
         }
       };
 
