@@ -11,7 +11,12 @@
             ></b-progress>
 
             <div class="columns">
-              <div class="has-text-weight-bold column">开始构建</div>
+              <div class="has-text-weight-bold column">
+                <span class="icon">
+                  <i class="mdi mdi-check has-text-success"></i>
+                </span>
+                <span>开始构建</span>
+              </div>
               <div class="column has-text-right is-family-monospace">
                 <span
                   ><span class="has-text-weight-bold">评测机</span>
@@ -38,6 +43,9 @@
 
             <div class="columns">
               <div class="column is-family-monospace">
+                <span v-if="msg.index !== lastIndex" class="icon">
+                  <i class="mdi mdi-check has-text-success"></i>
+                </span>
                 <span class="has-text-weight-bold">编译 </span>
                 <span>{{ msg.code.type }}</span>
                 <span> - </span>
@@ -99,6 +107,9 @@
             ></b-progress>
 
             <div class="mb-4">
+              <span class="icon" v-if="!testcase.isLoading">
+                <i class="mdi mdi-check has-text-success"></i>
+              </span>
               <span class="has-text-weight-bold"
                 >数据 {{ testcase.index }}</span
               >
@@ -127,9 +138,9 @@
                         ></b-tag
                       >
                       <b-tag
-                        class="ml-1"
                         v-for="(arg, index) in msg.testcase.args"
                         :key="index"
+                        class="ml-1"
                         >{{ arg }}</b-tag
                       >
                     </span>
@@ -173,7 +184,12 @@
       <el-step title="构建完成">
         <div v-if="endMessages.length > 0" class="box mb-4">
           <div class="columns">
-            <div class="has-text-weight-bold column">构建完成</div>
+            <div class="has-text-weight-bold column">
+              <span class="icon">
+                <i class="mdi mdi-check has-text-success"></i>
+              </span>
+              <span>构建完成</span>
+            </div>
             <div class="column has-text-right is-family-monospace">
               <span
                 ><span class="has-text-weight-bold">评测机</span>
