@@ -37,8 +37,15 @@
             ></b-progress>
 
             <div class="columns">
-              <div class="column">
-                <span class="has-text-weight-bold">编译</span> {{ msg.name }}
+              <div class="column is-family-monospace">
+                <span class="has-text-weight-bold">编译 </span>
+                <span>{{ msg.code.type }}</span>
+                <span> - </span>
+                <a>{{ msg.code.name }}.{{ msg.code.language }}</a>
+                <span>
+                  : <span class="has-text-weight-bold">版本</span>
+                  {{ msg.code.version }}</span
+                >
               </div>
               <div class="column has-text-right is-family-monospace">
                 <span
@@ -163,6 +170,10 @@ export default defineComponent({
       return dayjs(timestamp).format('YYYY-MM-DD HH:mm:ss');
     };
 
+    const upperFirstLetter = (text: string) => {
+      return text.substring(0, 1).toUpperCase() + text.substring(1);
+    };
+
     const activeStep = computed(() => {
       for (let i = props.messages.length - 1; i >= 0; i--) {
         if (props.messages[i].action === 'end') return 4;
@@ -178,7 +189,12 @@ export default defineComponent({
     });
 
     const compileMessages = computed(() => {
-      return props.messages!.filter((msg: any) => msg.action === 'compile');
+      return props
+        .messages!.filter((msg: any) => msg.action === 'compile')
+        .map((msg) => {
+          msg.code.type = upperFirstLetter(msg.code.type);
+          return msg;
+        });
     });
 
     const endMessages = computed(() => {
