@@ -139,13 +139,32 @@
             </div>
 
             <div v-if="testcase.error">
-              <hr class="mt-0 mb-4" />
+              <hr class="mt-4 mb-4" />
               <MessageViewHeader
                 :from="testcase.error.from"
                 :timestamp="testcase.error.timestamp"
               >
-                <div class="has-text-weight-bold has-text-danger">生成失败</div>
+                <div class="has-text-weight-bold has-text-danger">
+                  <span v-if="errorMessage.lastMessage.action === 'download'"
+                    >下载失败</span
+                  >
+                  <span v-else-if="errorMessage.lastMessage.action === 'gen_in'"
+                    >输入文件生成失败</span
+                  >
+                  <span
+                    v-else-if="errorMessage.lastMessage.action === 'validate'"
+                    >Validator 校验失败</span
+                  >
+                  <span
+                    v-else-if="errorMessage.lastMessage.action === 'gen_ans'"
+                    >输出文件生成失败</span
+                  >
+                  <span v-else-if="errorMessage.lastMessage.action === 'upload'"
+                    >数据上传失败</span
+                  >
+                </div>
               </MessageViewHeader>
+              <pre>{{ tryParseJson(errorMessage.message) }}</pre>
             </div>
           </div>
         </div>
@@ -197,6 +216,15 @@ const parseMessageAction = (action: string) => {
     upload: '上传数据'
   };
   return pattern[action] ?? action;
+};
+
+const tryParseJson = (text: string) => {
+  try {
+    const something = JSON.parse(text);
+    return JSON.stringify(something, null, 2);
+  } catch (err) {
+    return text;
+  }
 };
 
 export default defineComponent({
@@ -318,6 +346,9 @@ export default defineComponent({
           ) !== -1
             ? props.messages[props.messages.length - 1]
             : null;
+        if (error) {
+          error.lastMessage = messages[messages.length - 1];
+        }
 
         groupMessages.push({
           index: key,
@@ -336,6 +367,7 @@ export default defineComponent({
     return {
       parseTime,
       parseMessageAction,
+      tryParseJson,
       activeStep,
       lastIndex,
       compileMessages,
