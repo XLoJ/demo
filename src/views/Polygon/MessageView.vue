@@ -191,7 +191,7 @@ export default defineComponent({
     const compileMessages = computed(() => {
       return props
         .messages!.filter((msg: any) => msg.action === 'compile')
-        .map((msg) => {
+        .map((msg: any) => {
           msg.code.type = upperFirstLetter(msg.code.type);
           return msg;
         });

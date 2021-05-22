@@ -17,8 +17,14 @@
               index === currentGenerator ? 'has-text-weight-bold' : undefined
             ]"
             @click="handleSwitch(index)"
-            >{{ index + 1 }}. {{ generator.name }}.{{ generator.language }}</a
           >
+            <span
+              >{{ index + 1 }}. {{ generator.name }}.{{
+                generator.language
+              }}</span
+            >
+            <b-tag class="ml-2">版本 {{ generator.version }}</b-tag>
+          </a>
         </article>
       </div>
       <div class="column" style="min-height: 525px">
@@ -147,6 +153,7 @@ export default defineComponent({
         );
 
         generator.name = data.name;
+        generator.version = data.version;
         generator.body = data.body;
         generator.language = data.language;
 
