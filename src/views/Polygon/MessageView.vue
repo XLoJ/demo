@@ -112,7 +112,25 @@
               ]"
             >
               <MessageViewHeader :from="msg.from" :timestamp="msg.timestamp">
-                <div class="has-text-weight-bold">{{ msg.action }}</div>
+                <div>
+                  <span class="has-text-weight-bold mr-2">{{
+                    parseMessageAction(msg.action)
+                  }}</span>
+                  <span v-if="msg.testcase.type === 'file'">
+                    <b-tag>{{ msg.testcase.filename }}</b-tag>
+                  </span>
+                  <span v-else>
+                    <b-tag
+                      ><a>{{ msg.code.name }}.{{ msg.code.language }}</a></b-tag
+                    >
+                    <b-tag
+                      class="ml-1"
+                      v-for="(arg, index) in msg.testcase.args"
+                      :key="index"
+                      >{{ arg }}</b-tag
+                    >
+                  </span>
+                </div>
               </MessageViewHeader>
             </div>
 
@@ -164,6 +182,17 @@ const parseTime = (timestamp: string) => {
 
 const upperFirstLetter = (text: string) => {
   return text.substring(0, 1).toUpperCase() + text.substring(1);
+};
+
+const parseMessageAction = (action: string) => {
+  const pattern: Record<string, string> = {
+    gen_in: '生成输入文件',
+    download: '下载静态文件',
+    validate: '校验输入文件',
+    gen_ans: '生成答案文件',
+    upload: '上传数据'
+  };
+  return pattern[action] ?? action;
 };
 
 export default defineComponent({
@@ -302,6 +331,7 @@ export default defineComponent({
 
     return {
       parseTime,
+      parseMessageAction,
       activeStep,
       lastIndex,
       compileMessages,
