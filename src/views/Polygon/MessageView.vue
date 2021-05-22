@@ -116,20 +116,24 @@
                   <span class="has-text-weight-bold mr-2">{{
                     parseMessageAction(msg.action)
                   }}</span>
-                  <span v-if="msg.testcase.type === 'file'">
-                    <b-tag>{{ msg.testcase.filename }}</b-tag>
-                  </span>
-                  <span v-else>
-                    <b-tag
-                      ><a>{{ msg.code.name }}.{{ msg.code.language }}</a></b-tag
-                    >
-                    <b-tag
-                      class="ml-1"
-                      v-for="(arg, index) in msg.testcase.args"
-                      :key="index"
-                      >{{ arg }}</b-tag
-                    >
-                  </span>
+                  <div class="is-inline-block">
+                    <div v-if="msg.action === 'download'">
+                      <b-tag>{{ msg.testcase.filename }}</b-tag>
+                    </div>
+                    <span v-else-if="msg.action === 'gen_in'">
+                      <b-tag
+                        ><a
+                          >{{ msg.code.name }}.{{ msg.code.language }}</a
+                        ></b-tag
+                      >
+                      <b-tag
+                        class="ml-1"
+                        v-for="(arg, index) in msg.testcase.args"
+                        :key="index"
+                        >{{ arg }}</b-tag
+                      >
+                    </span>
+                  </div>
                 </div>
               </MessageViewHeader>
             </div>
