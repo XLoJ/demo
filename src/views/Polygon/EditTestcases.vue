@@ -71,7 +71,7 @@
         </div>
       </b-table-column>
       <b-table-column v-slot="props" centered label="样例？" width="8em">
-        <span class="icon">
+        <span class="icon is-medium">
           <i v-if="props.row.example" class="mdi mdi-check"></i>
         </span>
         <b-button
