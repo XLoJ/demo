@@ -4,6 +4,12 @@
       <el-step title="开始构建">
         <div class="mb-4">
           <div v-if="messages.length > 0" class="box">
+            <b-progress
+              class="mb-4"
+              v-if="1 === lastIndex"
+              type="is-success"
+            ></b-progress>
+
             <div class="columns">
               <div class="has-text-weight-bold column">开始构建</div>
               <div class="column has-text-right is-family-monospace">
@@ -20,9 +26,16 @@
           </div>
         </div>
       </el-step>
+
       <el-step title="编译代码">
         <div class="mb-4">
-          <div class="box" v-for="msg in compileMessages" :key="msg.index">
+          <div v-for="msg in compileMessages" :key="msg.index" class="box">
+            <b-progress
+              class="mb-4"
+              v-if="msg.index === lastIndex"
+              type="is-success"
+            ></b-progress>
+
             <div class="columns">
               <div class="column">
                 <span class="has-text-weight-bold">编译</span> {{ msg.name }}
@@ -38,12 +51,37 @@
                 >
               </div>
             </div>
+
+            <!-- Error Message  -->
+            <div v-if="msg.index === errorMessage.belong">
+              <hr class="mt-0 mb-4" />
+              <div class="columns">
+                <div class="column">
+                  <span class="has-text-weight-bold has-text-danger"
+                    >编译失败</span
+                  >
+                </div>
+                <div class="column has-text-right is-family-monospace">
+                  <span
+                    ><span class="has-text-weight-bold">评测机</span>
+                    {{ errorMessage.from }}</span
+                  >
+                  <span class="ml-4"
+                    ><span class="has-text-weight-bold">时间</span>
+                    {{ parseTime(errorMessage.timestamp) }}</span
+                  >
+                </div>
+              </div>
+              <pre class="has-background-light">{{ errorMessage.message }}</pre>
+            </div>
           </div>
         </div>
       </el-step>
+
       <el-step title="生成测试数据">
         <div class="mb-4"></div>
       </el-step>
+
       <el-step title="构建完成">
         <div v-if="endMessages.length > 0" class="box mb-4">
           <div class="columns">
@@ -128,10 +166,15 @@ export default defineComponent({
     const activeStep = computed(() => {
       for (let i = props.messages.length - 1; i >= 0; i--) {
         if (props.messages[i].action === 'end') return 4;
-        else if (props.messages[i].action === 'compile') return 2;
-        else if (props.messages[i].action === 'start') return 1;
+        else if (props.messages[i].action === 'compile') return 1;
+        else if (props.messages[i].action === 'start') return 0;
       }
-      return 0;
+      return -1;
+    });
+
+    const lastIndex = computed(() => {
+      if (props.messages.length === 0) return 0;
+      else return props.messages[props.messages.length - 1].index;
     });
 
     const compileMessages = computed(() => {
@@ -142,11 +185,26 @@ export default defineComponent({
       return props.messages!.filter((msg: any) => msg.action === 'end');
     });
 
+    const errorMessage = computed(() => {
+      const error_messages = props.messages.filter(
+        (msg: any) => msg.action === 'error' || msg.action === 'compile_error'
+      );
+      if (error_messages.length === 0) {
+        return { belong: -1 };
+      } else {
+        const message = error_messages[error_messages.length - 1];
+        message.belong = message.index - 1;
+        return message;
+      }
+    });
+
     return {
       parseTime,
       activeStep,
+      lastIndex,
       compileMessages,
-      endMessages
+      endMessages,
+      errorMessage
     };
   }
 });
