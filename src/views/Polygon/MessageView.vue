@@ -84,7 +84,7 @@ export default defineComponent({
     version: Number,
     signal: Number
   },
-  setup(props) {
+  setup(props: any) {
     const messages = props.messages!;
     const problem = props.problem!;
     const version = props.version!;
@@ -130,11 +130,11 @@ export default defineComponent({
     });
 
     const compileMessages = computed(() => {
-      return props.messages.filter((msg) => msg.action === 'compile');
+      return props.messages!.filter((msg: any) => msg.action === 'compile');
     });
 
     const endMessages = computed(() => {
-      return messages.filter((msg) => msg.action === 'end');
+      return props.messages!.filter((msg: any) => msg.action === 'end');
     });
 
     return {
