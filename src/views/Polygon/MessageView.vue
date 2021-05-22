@@ -5,8 +5,8 @@
         <div class="mb-4">
           <div v-if="messages.length > 0" class="box">
             <b-progress
-              class="mb-4"
               v-if="1 === lastIndex"
+              class="mb-4"
               type="is-success"
             ></b-progress>
 
@@ -31,8 +31,8 @@
         <div class="mb-4">
           <div v-for="msg in compileMessages" :key="msg.index" class="box">
             <b-progress
-              class="mb-4"
               v-if="msg.index === lastIndex"
+              class="mb-4"
               type="is-success"
             ></b-progress>
 
@@ -86,7 +86,47 @@
       </el-step>
 
       <el-step title="生成测试数据">
-        <div class="mb-4"></div>
+        <div class="mb-4">
+          <div
+            v-for="(testcase, index) in testcaseMessages"
+            :key="index"
+            class="box"
+          >
+            <b-progress
+              v-if="testcase.isLoading"
+              class="mb-4"
+              type="is-success"
+            ></b-progress>
+
+            <div class="mb-4">
+              <span class="has-text-weight-bold"
+                >数据 {{ testcase.index }}</span
+              >
+            </div>
+
+            <div
+              v-for="(msg, index) in testcase.messages"
+              :key="msg.index"
+              :class="[
+                index + 1 < testcase.messages.length ? 'mb-4' : undefined
+              ]"
+            >
+              <MessageViewHeader :from="msg.from" :timestamp="msg.timestamp">
+                <div class="has-text-weight-bold">{{ msg.action }}</div>
+              </MessageViewHeader>
+            </div>
+
+            <div v-if="testcase.error">
+              <hr class="mt-0 mb-4" />
+              <MessageViewHeader
+                :from="testcase.error.from"
+                :timestamp="testcase.error.timestamp"
+              >
+                <div class="has-text-weight-bold has-text-danger">生成失败</div>
+              </MessageViewHeader>
+            </div>
+          </div>
+        </div>
       </el-step>
 
       <el-step title="构建完成">
@@ -116,12 +156,22 @@ import ElSteps from '@/components/steps/steps.vue';
 import ElStep from '@/components/steps/step.vue';
 import dayjs from 'dayjs';
 import { getPolygonMessage } from '@/service/polygon';
+import MessageViewHeader from './MessageViewHeader.vue';
+
+const parseTime = (timestamp: string) => {
+  return dayjs(timestamp).format('YYYY-MM-DD HH:mm:ss');
+};
+
+const upperFirstLetter = (text: string) => {
+  return text.substring(0, 1).toUpperCase() + text.substring(1);
+};
 
 export default defineComponent({
   name: 'MessageView',
   components: {
     ElSteps,
-    ElStep
+    ElStep,
+    MessageViewHeader
   },
   props: {
     messages: Array,
@@ -160,25 +210,26 @@ export default defineComponent({
       }, 500);
     };
 
+    runUpdate();
+
     watchEffect(() => {
       if (version === props.signal) {
         runUpdate();
       }
     });
 
-    const parseTime = (timestamp: string) => {
-      return dayjs(timestamp).format('YYYY-MM-DD HH:mm:ss');
-    };
-
-    const upperFirstLetter = (text: string) => {
-      return text.substring(0, 1).toUpperCase() + text.substring(1);
-    };
-
     const activeStep = computed(() => {
       for (let i = props.messages.length - 1; i >= 0; i--) {
-        if (props.messages[i].action === 'end') return 4;
-        else if (props.messages[i].action === 'compile') return 1;
-        else if (props.messages[i].action === 'start') return 0;
+        let action = props.messages[i].action;
+        if (action === 'end') return 4;
+        else if (
+          ['download', 'gen_in', 'validate', 'gen_ans', 'upload'].includes(
+            action
+          )
+        )
+          return 2;
+        else if (action === 'compile') return 1;
+        else if (action === 'start') return 0;
       }
       return -1;
     });
@@ -186,15 +237,6 @@ export default defineComponent({
     const lastIndex = computed(() => {
       if (props.messages.length === 0) return 0;
       else return props.messages[props.messages.length - 1].index;
-    });
-
-    const compileMessages = computed(() => {
-      return props
-        .messages!.filter((msg: any) => msg.action === 'compile')
-        .map((msg: any) => {
-          msg.code.type = upperFirstLetter(msg.code.type);
-          return msg;
-        });
     });
 
     const endMessages = computed(() => {
@@ -214,11 +256,56 @@ export default defineComponent({
       }
     });
 
+    const compileMessages = computed(() => {
+      return props
+        .messages!.filter((msg: any) => msg.action === 'compile')
+        .map((msg: any) => {
+          msg.code.type = upperFirstLetter(msg.code.type);
+          return msg;
+        });
+    });
+
+    const testcaseMessages = computed(() => {
+      const allTestcaseMessages = props.messages!.filter((msg: any) =>
+        ['download', 'gen_in', 'validate', 'gen_ans', 'upload'].includes(
+          msg.action
+        )
+      );
+      const testcases = new Map<string, any>();
+      for (const message of allTestcaseMessages) {
+        const testcaseIndex = message.testcase.index;
+        if (!testcases.has(testcaseIndex)) testcases.set(testcaseIndex, []);
+        testcases.get(testcaseIndex)!.push(message);
+      }
+      const groupMessages = [];
+      for (const [key, messages] of testcases) {
+        const error =
+          messages.findIndex(
+            (msg: any) => msg.index === errorMessage.value.belong
+          ) !== -1
+            ? props.messages[props.messages.length - 1]
+            : null;
+
+        groupMessages.push({
+          index: key,
+          config: messages[0].testcase,
+          isLoading:
+            messages.findIndex(
+              (msg: any) => msg.index === props.messages.length
+            ) !== -1,
+          messages,
+          error
+        });
+      }
+      return groupMessages.sort((lhs: any, rhs: any) => lhs.index - rhs.index);
+    });
+
     return {
       parseTime,
       activeStep,
       lastIndex,
       compileMessages,
+      testcaseMessages,
       endMessages,
       errorMessage
     };
