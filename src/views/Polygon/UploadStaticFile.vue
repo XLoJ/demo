@@ -33,7 +33,11 @@
         </template>
       </b-modal>
     </div>
-    <b-table :data="files">
+    <b-table :data="files" :loading="isLoading">
+      <template #empty>
+        <div class="has-text-centered" style="height: 6em">没有静态文件</div>
+      </template>
+
       <b-table-column v-slot="props" label="#" width="24"
         ><span class="pt-2 pb-2 is-inline-block has-text-weight-bold">{{
           props.index + 1
@@ -85,11 +89,13 @@ export default defineComponent({
     const problem = props.problem!;
 
     const files = reactive([] as any[]);
+    const isLoading = ref(true);
     const uploadFile = ref(null as any);
     const isShowUpload = ref(false);
 
     getAllStaticFilename(problem.parent).then((data: any[]) => {
       files.push(...data);
+      isLoading.value = false;
     });
 
     const snackbar = useSnackbar();
@@ -159,6 +165,7 @@ export default defineComponent({
 
     return {
       files,
+      isLoading,
       uploadFile,
       isShowUpload,
       modalInput,
