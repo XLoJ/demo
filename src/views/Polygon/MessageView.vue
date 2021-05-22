@@ -290,7 +290,7 @@ export default defineComponent({
     runUpdate();
 
     watchEffect(() => {
-      if (version === props.signal) {
+      if (props.version === props.signal) {
         runUpdate();
       }
     });

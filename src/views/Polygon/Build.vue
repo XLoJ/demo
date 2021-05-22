@@ -7,9 +7,6 @@
           problem.version
         }}
       </p>
-      <p class="is-inline-block ml-4">
-        <span class="has-text-weight-bold">当前状态</span>：{{ problem.status }}
-      </p>
     </div>
     <div class="mt-4">
       <b-collapse
@@ -68,15 +65,22 @@ export default defineComponent({
 
     getAllPolygonMessage(problem.parent).then((data) => {
       buildTasks.push(...data);
+      buildTasks.sort((lhs: any, rhs: any) => rhs.version - lhs.version);
     });
 
     const snackbar = useSnackbar();
 
+    const isOpen = ref(0);
+
     const runBuild = async () => {
       try {
         const { version: newVersion } = await buildProblem(problem.parent);
+
+        buildTasks.unshift(reactive({ version: newVersion, messages: [] }));
         runUpdateSignal.value = newVersion;
-        setTimeout(() => (runUpdateSignal.value = -1), 1000);
+        isOpen.value = 0;
+
+        setTimeout(() => (runUpdateSignal.value = -1), 5000);
 
         snackbar.open(`版本 ${newVersion} 开始构建`);
       } catch (err) {
@@ -86,8 +90,6 @@ export default defineComponent({
         });
       }
     };
-
-    const isOpen = ref(0);
 
     return {
       runBuild,
