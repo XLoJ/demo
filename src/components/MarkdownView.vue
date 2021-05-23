@@ -1,5 +1,9 @@
 <template>
-  <vue-markdown :source="source" :plugins="plugins"></vue-markdown>
+  <vue-markdown
+    class="markdown-body"
+    :source="source"
+    :plugins="plugins"
+  ></vue-markdown>
 </template>
 
 <script>
@@ -30,4 +34,8 @@ export default {
 <style>
 @import '~github-markdown-css';
 @import '../assets/ghcolors.css';
+
+.markdown-body code {
+  color: #24292e;
+}
 </style>

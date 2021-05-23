@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h4 class="title is-4">Polygon</h4>
+    <h4 class="title is-4 mb-4">Polygon</h4>
+    <h4 class="mt-2 subtitle is-4">程序设计竞赛试题创建系统</h4>
     <div class="mb-4">
       <router-link
         class="button is-success"
