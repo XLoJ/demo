@@ -32,3 +32,7 @@ export function b64encode(text: string) {
 export function b64decode(text: string) {
   return Base64.decode(text);
 }
+
+export async function copyToClipboard(text: string) {
+  await navigator.clipboard.writeText(text);
+}

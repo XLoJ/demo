@@ -12,6 +12,11 @@ export async function getDetailClassicProblem(pid: number) {
   data.inputFormat = data_.inputFormat;
   data.outputFormat = data_.outputFormat;
   data.notes = data_.notes;
+  try {
+    data.examples = JSON.parse(data_.examples);
+  } catch (err) {
+    data.examples = [];
+  }
   return data;
 }
 
