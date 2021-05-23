@@ -20,13 +20,13 @@
             >{{ props.row.name }}
           </router-link>
         </b-table-column>
-        <b-table-column label="操作" centered width="80">
-          <b-button
-            size="is-small"
-            icon-left="delete"
-            type="is-danger"
-          ></b-button>
-        </b-table-column>
+        <!--        <b-table-column label="操作" centered width="80">-->
+        <!--          <b-button-->
+        <!--            size="is-small"-->
+        <!--            icon-left="delete"-->
+        <!--            type="is-danger"-->
+        <!--          ></b-button>-->
+        <!--        </b-table-column>-->
       </b-table>
     </div>
   </div>

@@ -1,6 +1,11 @@
 import { api, downloadFile } from './api';
 import { b64encode } from '@/utils';
 
+export async function createNewProblem(name: string, type: 'classic') {
+  const { data } = await api.post('/polygon/problem', { name, type });
+  return data;
+}
+
 export async function getDetailClassicProblem(pid: number) {
   const { data } = await api.get(`/polygon/problem/${pid}/classic`);
   data.tags = data.tags
