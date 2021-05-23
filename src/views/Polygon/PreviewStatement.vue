@@ -22,7 +22,7 @@
     <h6 class="title is-5">输出描述</h6>
     <markdown-view class="mb-4" :source="problem.outputFormat"></markdown-view>
 
-    <div v-if="problem.examples.length > 0">
+    <div v-if="problem.examples.length > 0" class="pb-3">
       <h6 class="title is-5">
         <span>样例</span>
         <b-tag class="ml-2">版本 {{ problem.version }}</b-tag>
