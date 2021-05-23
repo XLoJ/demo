@@ -16,7 +16,7 @@
     </div>
     <div class="mb-4">
       <b-tag>
-        <span v-if="codeVersion === -1">尚未设置</span>
+        <span v-if="+codeVersion === -1">尚未设置</span>
         <span v-else>版本 {{ codeVersion }}</span>
       </b-tag>
       <b-tag class="ml-2" type="is-warning" v-show="changed">尚未保存</b-tag>
