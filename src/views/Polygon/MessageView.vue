@@ -295,7 +295,11 @@ export default defineComponent({
 
     const _vm = getCurrentInstance();
 
+    const hasRunUpdate = ref(false);
     const runUpdate = () => {
+      if (hasRunUpdate.value) return;
+      hasRunUpdate.value = true;
+
       if (props.messages.length > 0) {
         const lastMessage = props.messages[props.messages.length - 1];
         if (
