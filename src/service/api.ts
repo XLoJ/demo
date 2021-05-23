@@ -14,6 +14,22 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (err) => {
+    const response = err.response;
+    if (response) {
+      const data = response.data;
+      if (data && data.message && typeof data.message === 'string') {
+        err.message = data.message;
+      }
+    }
+    return Promise.reject(err);
+  }
+);
+
 export function downloadFile(
   filename: string,
   url: string,
