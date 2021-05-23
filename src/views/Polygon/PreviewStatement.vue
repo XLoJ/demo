@@ -1,13 +1,13 @@
 <template>
   <section>
     <h6 class="title is-4 mb-4">{{ problem.title }}</h6>
-    <p>
+    <p class="is-family-monospace">
       <span class="has-text-weight-bold">时间限制</span>：{{
         problem.timeLimit
       }}
       ms
     </p>
-    <p class="mb-4">
+    <p class="mb-4 is-family-monospace">
       <span class="has-text-weight-bold">空间限制</span>：{{
         problem.memoryLimit
       }}
