@@ -135,7 +135,7 @@
                     </div>
                     <span v-else-if="msg.action === 'gen_in'">
                       <b-tag
-                        ><a
+                        ><a @click="showCodeHistory(msg.code)"
                           >{{ msg.code.name }}.{{ msg.code.language }}</a
                         ></b-tag
                       >

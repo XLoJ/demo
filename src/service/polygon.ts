@@ -135,9 +135,16 @@ export async function getAllPolygonMessage(pid: number) {
   const { data } = await api.get(`/polygon/problem/${pid}/build`);
   const result = [];
   for (const key in data) {
+    const messages = data[key];
+    const hasEnd = !!messages.find((msg: any) => msg.action === 'end');
+    const hasError = !!messages.find(
+      (msg: any) => msg.action === 'error' || msg.action === 'compile_error'
+    );
+    const status = hasEnd ? 'end' : hasError ? 'error' : 'building';
     result.push({
       version: +key,
-      messages: data[key]
+      status,
+      messages
     });
   }
   return result;

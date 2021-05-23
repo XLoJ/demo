@@ -6,7 +6,7 @@
     trap-focus
   >
     <template>
-      <div class="modal-card" style="width: 960px">
+      <div class="modal-card" v-if="code" style="width: 960px">
         <header class="modal-card-head">
           <p class="mb-0 modal-card-title">
             <span>{{ code.name }}.{{ code.language }}</span>

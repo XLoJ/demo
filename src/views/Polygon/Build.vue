@@ -20,6 +20,23 @@
         <template #trigger="props">
           <div class="card-header" role="button">
             <p class="card-header-title">
+              <span>
+                <span v-if="task.status === 'end'">
+                  <span class="icon mr-2">
+                    <i class="mdi mdi-check has-text-success"></i>
+                  </span>
+                </span>
+                <span v-else-if="task.status === 'error'">
+                  <span class="icon mr-2">
+                    <i class="mdi mdi-close has-text-danger"></i>
+                  </span>
+                </span>
+                <span v-else>
+                  <span class="icon mr-2">
+                    <i class="mdi mdi-cloud"></i>
+                  </span>
+                </span>
+              </span>
               <span>构建 {{ task.version }}</span>
             </p>
             <a class="card-header-icon">
@@ -76,7 +93,9 @@ export default defineComponent({
       try {
         const { version: newVersion } = await buildProblem(problem.parent);
 
-        buildTasks.unshift(reactive({ version: newVersion, messages: [] }));
+        buildTasks.unshift(
+          reactive({ version: newVersion, messages: [], status: 'build' })
+        );
         runUpdateSignal.value = newVersion;
         isOpen.value = 0;
 
