@@ -95,6 +95,7 @@
 import { defineComponent } from '@vue/composition-api';
 import MarkdownView from '@/components/MarkdownView.vue';
 import { copyToClipboard } from '@/utils';
+import { getDetailClassicProblem } from '@/service/polygon';
 
 export default defineComponent({
   name: 'PreviewStatement',
@@ -106,6 +107,18 @@ export default defineComponent({
   },
   methods: {
     copyToClipboard
+  },
+  async created() {
+    if (this.problem) {
+      const data = await getDetailClassicProblem(this.problem.parent);
+      this.problem.version = data.version;
+      this.problem.title = data.title;
+      this.problem.legend = data.legend;
+      this.problem.inputFormat = data.inputFormat;
+      this.problem.outputFormat = data.outputFormat;
+      this.problem.examples = data.examples;
+      this.problem.notes = data.notes;
+    }
   }
 });
 </script>
