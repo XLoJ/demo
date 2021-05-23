@@ -86,8 +86,10 @@
       </div>
     </div>
 
-    <h6 class="title is-5">提示</h6>
-    <markdown-view class="mb-4" :source="problem.notes"></markdown-view>
+    <div v-if="problem.notes.length > 0">
+      <h6 class="title is-5">提示</h6>
+      <markdown-view class="mb-4" :source="problem.notes"></markdown-view>
+    </div>
   </section>
 </template>
 
