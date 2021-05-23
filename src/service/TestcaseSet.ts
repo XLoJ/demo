@@ -29,20 +29,26 @@ export type GeneratorItem = {
 
 export class TestcaseSet {
   readonly pid: number;
+  readonly problem: any;
   readonly testcases: TestcaseItem[];
   readonly staticFiles: StaticFileItem[];
   readonly generators: GeneratorItem[];
 
   constructor(
-    pid: number,
+    problem: any,
     testcases: TestcaseItem[],
     staticFiles: StaticFileItem[],
     generators: GeneratorItem[]
   ) {
-    this.pid = pid;
+    this.pid = problem.parent;
+    this.problem = problem;
     this.testcases = testcases;
     this.staticFiles = staticFiles;
     this.generators = generators;
+  }
+
+  private updateProblem() {
+    this.problem.testcases = JSON.stringify(this.testcases);
   }
 
   async addFromStaticFile(filename: string) {
@@ -63,6 +69,7 @@ export class TestcaseSet {
         await api.post(`/polygon/problem/${this.pid}/testcases`, {
           testcases: JSON.stringify(this.testcases)
         });
+        this.updateProblem();
       } catch (err) {
         this.testcases.pop();
         throw err;
@@ -94,6 +101,7 @@ export class TestcaseSet {
         await api.post(`/polygon/problem/${this.pid}/testcases`, {
           testcases: JSON.stringify(this.testcases)
         });
+        this.updateProblem();
       } catch (err) {
         this.testcases.pop();
         throw err;
@@ -109,6 +117,7 @@ export class TestcaseSet {
       await api.post(`/polygon/problem/${this.pid}/testcases`, {
         testcases: JSON.stringify(this.testcases)
       });
+      this.updateProblem();
     } catch (err) {
       this.testcases.splice(index, 0, ...oldItem);
       throw err;
@@ -125,6 +134,7 @@ export class TestcaseSet {
       await api.post(`/polygon/problem/${this.pid}/testcases`, {
         testcases: JSON.stringify(this.testcases)
       });
+      this.updateProblem();
     } catch (err) {
       this.testcases[index].example = old;
       throw err;

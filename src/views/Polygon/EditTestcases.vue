@@ -122,7 +122,7 @@ export default defineComponent({
       problem.testcases.length === 0 ? [] : JSON.parse(problem.testcases)
     );
     const testcaseSet = new TestcaseSet(
-      problem.parent,
+      problem,
       testcases,
       staticFiles,
       generators
@@ -170,6 +170,7 @@ export default defineComponent({
           type: 'is-danger'
         });
       }
+      generatorArgs.value = '';
     };
 
     const removeTestcase = async (index: number) => {
