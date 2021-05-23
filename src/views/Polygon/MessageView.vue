@@ -107,7 +107,7 @@
             ></b-progress>
 
             <div class="mb-4">
-              <span class="icon" v-if="!testcase.isLoading">
+              <span v-if="!testcase.isLoading" class="icon">
                 <i class="mdi mdi-check has-text-success"></i>
               </span>
               <span class="has-text-weight-bold"
@@ -262,6 +262,17 @@ export default defineComponent({
     const version = props.version!;
 
     const runUpdate = () => {
+      if (props.messages.length > 0) {
+        const lastMessage = props.messages[props.messages.length - 1];
+        if (
+          lastMessage.action === 'end' ||
+          lastMessage.action === 'error' ||
+          lastMessage.action === 'compile_error'
+        ) {
+          return;
+        }
+      }
+
       const updatePolygonMessage = async () => {
         const data = await getPolygonMessage(problem.parent, version);
         if (data.length > 0) {
