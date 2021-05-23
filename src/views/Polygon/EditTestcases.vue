@@ -118,7 +118,9 @@ export default defineComponent({
       staticFiles.push(...data);
     });
 
-    const testcases = reactive(JSON.parse(problem.testcases));
+    const testcases = reactive(
+      problem.testcases.length === 0 ? [] : JSON.parse(problem.testcases)
+    );
     const testcaseSet = new TestcaseSet(
       problem.parent,
       testcases,
