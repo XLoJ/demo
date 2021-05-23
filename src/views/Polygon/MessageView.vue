@@ -230,6 +230,7 @@
 import {
   computed,
   defineComponent,
+  getCurrentInstance,
   ref,
   watchEffect
 } from '@vue/composition-api';
@@ -292,6 +293,8 @@ export default defineComponent({
     const problem = props.problem!;
     const version = props.version!;
 
+    const _vm = getCurrentInstance();
+
     const runUpdate = () => {
       if (props.messages.length > 0) {
         const lastMessage = props.messages[props.messages.length - 1];
@@ -311,7 +314,14 @@ export default defineComponent({
             props.messages.push(data[i]);
           }
           const lastAction = data[data.length - 1].action;
-          if (lastAction === 'end' || lastAction === 'error') {
+          if (
+            lastAction === 'end' ||
+            lastAction === 'error' ||
+            lastAction === 'compile_error'
+          ) {
+            const action =
+              lastAction === 'compile_error' ? 'error' : lastAction;
+            _vm!.emit('finish', { version, status: action });
             return false;
           } else {
             return true;

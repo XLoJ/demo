@@ -13,7 +13,7 @@
         class="card"
         animation="slide"
         v-for="(task, index) of buildTasks"
-        :key="index"
+        :key="task.version"
         :open="isOpen == index"
         @open="isOpen = index"
       >
@@ -51,6 +51,7 @@
               :problem="problem"
               :version="task.version"
               :messages="task.messages"
+              @finish="handleFinish"
             ></MessageView>
           </div>
         </div>
@@ -73,7 +74,7 @@ export default defineComponent({
   props: {
     problem: Object
   },
-  setup(props) {
+  setup(props: any) {
     const problem = props.problem!;
 
     const runUpdateSignal = ref(-1);
@@ -110,11 +111,21 @@ export default defineComponent({
       }
     };
 
+    const handleFinish = ({ version, status }: any) => {
+      for (const task of buildTasks) {
+        if (task.version === version) {
+          props.problem!.version = version;
+          task.status = status;
+        }
+      }
+    };
+
     return {
       runBuild,
       isOpen,
       buildTasks,
-      runUpdateSignal
+      runUpdateSignal,
+      handleFinish
     };
   }
 });
