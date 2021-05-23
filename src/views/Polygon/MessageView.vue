@@ -49,7 +49,9 @@
                 <span class="has-text-weight-bold">编译 </span>
                 <span>{{ msg.code.type }}</span>
                 <span> - </span>
-                <a>{{ msg.code.name }}.{{ msg.code.language }}</a>
+                <a @click="showCodeHistory(msg.code)"
+                  >{{ msg.code.name }}.{{ msg.code.language }}</a
+                >
                 <span>
                   : <span class="has-text-weight-bold">版本</span>
                   {{ msg.code.version }}</span
@@ -58,11 +60,11 @@
               <div class="column has-text-right is-family-monospace">
                 <span
                   ><span class="has-text-weight-bold">评测机</span>
-                  {{ messages[0].from }}</span
+                  {{ msg.from }}</span
                 >
                 <span class="ml-4"
                   ><span class="has-text-weight-bold">时间</span>
-                  {{ parseTime(messages[0].timestamp) }}</span
+                  {{ parseTime(msg.timestamp) }}</span
                 >
               </div>
             </div>
@@ -181,13 +183,13 @@
               <b-button
                 type="is-success is-light"
                 @click="downloadTestcase(testcase.index, 'in')"
-                >下载输入文件 {{ testcase.index }}.in</b-button
-              >
+                >下载输入文件 {{ testcase.index }}.in
+              </b-button>
               <b-button
                 type="is-success is-light"
                 @click="downloadTestcase(testcase.index, 'ans')"
-                >下载输出文件 {{ testcase.index }}.ans</b-button
-              >
+                >下载输出文件 {{ testcase.index }}.ans
+              </b-button>
             </div>
           </div>
         </div>
@@ -216,20 +218,32 @@
         </div>
       </el-step>
     </el-steps>
+    <CodeHistoryView
+      v-model="isCodeHistoryActive"
+      :code="codeHistory"
+      @close="isCodeHistoryActive = false"
+    ></CodeHistoryView>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, watchEffect } from '@vue/composition-api';
+import {
+  computed,
+  defineComponent,
+  ref,
+  watchEffect
+} from '@vue/composition-api';
 import ElSteps from '@/components/steps/steps.vue';
 import ElStep from '@/components/steps/step.vue';
 import dayjs from 'dayjs';
 import {
   downloadTestcaseAnsFile,
   downloadTestcaseInFile,
+  getCodeHistory,
   getPolygonMessage
 } from '@/service/polygon';
 import MessageViewHeader from './MessageViewHeader.vue';
+import CodeHistoryView from './CodeHistoryView.vue';
 
 const parseTime = (timestamp: string) => {
   return dayjs(timestamp).format('YYYY-MM-DD HH:mm:ss');
@@ -264,7 +278,8 @@ export default defineComponent({
   components: {
     ElSteps,
     ElStep,
-    MessageViewHeader
+    MessageViewHeader,
+    CodeHistoryView
   },
   props: {
     messages: Array,
@@ -414,6 +429,17 @@ export default defineComponent({
         downloadTestcaseAnsFile(props.problem.parent, props.version, index);
     };
 
+    const isCodeHistoryActive = ref(false);
+    const codeHistory = ref(null);
+    const showCodeHistory = async (code: any) => {
+      const data = await getCodeHistory(props.problem.parent, code.fullname);
+      codeHistory.value = {
+        ...code,
+        ...data
+      };
+      isCodeHistoryActive.value = true;
+    };
+
     return {
       parseTime,
       parseMessageAction,
@@ -424,7 +450,10 @@ export default defineComponent({
       testcaseMessages,
       endMessages,
       errorMessage,
-      downloadTestcase
+      downloadTestcase,
+      showCodeHistory,
+      isCodeHistoryActive,
+      codeHistory
     };
   }
 });

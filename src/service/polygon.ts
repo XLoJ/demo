@@ -171,3 +171,12 @@ export async function downloadTestcaseAnsFile(
     `/polygon/problem/${pid}/testcase/${version}/${filename}`
   );
 }
+
+export async function getCodeHistory(pid: number, fullname: string) {
+  const { data } = await api.get(`/polygon/problem/${pid}/code`, {
+    params: {
+      fullname
+    }
+  });
+  return data;
+}
