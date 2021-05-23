@@ -17,7 +17,7 @@ api.interceptors.request.use((config) => {
 export function downloadFile(
   filename: string,
   url: string,
-  query: Record<string, string>
+  query: Record<string, string> = {}
 ) {
   return api({
     url,

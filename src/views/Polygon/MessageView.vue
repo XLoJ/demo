@@ -177,6 +177,18 @@
               </MessageViewHeader>
               <pre>{{ tryParseJson(errorMessage.message) }}</pre>
             </div>
+            <div v-else-if="!testcase.isLoading" class="mt-4 buttons">
+              <b-button
+                type="is-success is-light"
+                @click="downloadTestcase(testcase.index, 'in')"
+                >下载输入文件 {{ testcase.index }}.in</b-button
+              >
+              <b-button
+                type="is-success is-light"
+                @click="downloadTestcase(testcase.index, 'ans')"
+                >下载输出文件 {{ testcase.index }}.ans</b-button
+              >
+            </div>
           </div>
         </div>
       </el-step>
@@ -212,7 +224,11 @@ import { computed, defineComponent, watchEffect } from '@vue/composition-api';
 import ElSteps from '@/components/steps/steps.vue';
 import ElStep from '@/components/steps/step.vue';
 import dayjs from 'dayjs';
-import { getPolygonMessage } from '@/service/polygon';
+import {
+  downloadTestcaseAnsFile,
+  downloadTestcaseInFile,
+  getPolygonMessage
+} from '@/service/polygon';
 import MessageViewHeader from './MessageViewHeader.vue';
 
 const parseTime = (timestamp: string) => {
@@ -391,6 +407,13 @@ export default defineComponent({
       return groupMessages.sort((lhs: any, rhs: any) => lhs.index - rhs.index);
     });
 
+    const downloadTestcase = async (index: number, type: 'in' | 'ans') => {
+      if (type === 'in')
+        downloadTestcaseInFile(props.problem.parent, props.version, index);
+      else if (type === 'ans')
+        downloadTestcaseAnsFile(props.problem.parent, props.version, index);
+    };
+
     return {
       parseTime,
       parseMessageAction,
@@ -400,7 +423,8 @@ export default defineComponent({
       compileMessages,
       testcaseMessages,
       endMessages,
-      errorMessage
+      errorMessage,
+      downloadTestcase
     };
   }
 });

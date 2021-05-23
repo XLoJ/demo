@@ -147,3 +147,27 @@ export async function getPolygonMessage(pid: number, version: number) {
   const { data } = await api.get(`/polygon/problem/${pid}/build/${version}`);
   return data;
 }
+
+export async function downloadTestcaseInFile(
+  pid: number,
+  version: number,
+  tid: number
+) {
+  const filename = `${tid}.in`;
+  return downloadFile(
+    filename,
+    `/polygon/problem/${pid}/testcase/${version}/${filename}`
+  );
+}
+
+export async function downloadTestcaseAnsFile(
+  pid: number,
+  version: number,
+  tid: number
+) {
+  const filename = `${tid}.ans`;
+  return downloadFile(
+    filename,
+    `/polygon/problem/${pid}/testcase/${version}/${filename}`
+  );
+}
