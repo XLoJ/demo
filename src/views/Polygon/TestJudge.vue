@@ -75,6 +75,9 @@
         <b-table-column v-slot="props" centered label="内存" width="8em"
           >{{ props.row.memory }} MB</b-table-column
         >
+        <b-table-column v-slot="props" centered label="评测机" width="8em">{{
+          props.row.from
+        }}</b-table-column>
       </b-table>
     </div>
   </div>
@@ -127,7 +130,7 @@ export default defineComponent({
           submission.value.body,
           submission.value.language
         );
-        snackbar.open(`评测 ${data.submissionId}. 提交成功`);
+        snackbar.open(`评测 ${data.id}. 提交成功`);
         allSubmissions.unshift(data);
         isOpen.value = false;
       } catch (err) {
