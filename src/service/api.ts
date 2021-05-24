@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { getItem } from './store';
 import { AccessTokenKey } from './constant';
+import router from '@/router';
+import { userLogout } from '@/service/user';
 
 export const api = axios.create({
   baseURL: 'http://localhost:3000'
@@ -21,9 +23,19 @@ api.interceptors.response.use(
   (err) => {
     const response = err.response;
     if (response) {
+      if (response.status === 401) {
+        userLogout();
+        router.push({ name: 'Login' });
+        return Promise.reject(err);
+      }
       const data = response.data;
-      if (data && data.message && typeof data.message === 'string') {
-        err.message = data.message;
+      if (data) {
+        if (data.status === 401) {
+          userLogout();
+          router.push({ name: 'Login' });
+        } else if (data.message && typeof data.message === 'string') {
+          err.message = data.message;
+        }
       }
     }
     return Promise.reject(err);
