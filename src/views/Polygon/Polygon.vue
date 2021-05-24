@@ -82,6 +82,11 @@ export default defineComponent({
       }
     }
   },
+  beforeRouteUpdate(to, from, next) {
+    const active = routeTable.findIndex((name) => name === to.name);
+    this.active = active !== -1 ? active : 0;
+    next();
+  },
   setup(props) {
     const loading = ref(true);
     const problem = ref({});
