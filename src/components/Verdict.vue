@@ -44,7 +44,13 @@ export default {
     },
     color() {
       const verdict = +this.verdict;
-      if (verdict === Verdict.Accepted) {
+      if (
+        verdict === Verdict.Waiting ||
+        verdict === Verdict.Compiling ||
+        verdict === Verdict.Running
+      ) {
+        return '#2185D0';
+      } else if (verdict === Verdict.Accepted) {
         return '#21BA45';
       } else if (verdict === Verdict.WrongAnswer) {
         return '#DB2828';
@@ -52,8 +58,8 @@ export default {
         return '#FBBD08';
       } else if (
         verdict === Verdict.MemoryLimitExceeded ||
-        Verdict === Verdict.TimeLimitExceeded ||
-        Verdict === Verdict.IdlenessLimitExceeded
+        verdict === Verdict.TimeLimitExceeded ||
+        verdict === Verdict.IdlenessLimitExceeded
       ) {
         return '#F2711C';
       } else {
