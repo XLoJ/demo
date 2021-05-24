@@ -16,6 +16,10 @@ export enum Verdict {
   TestCaseError
 }
 
+export function isFinishVerdict(verdict: number) {
+  return verdict >= -2;
+}
+
 export function verdictToString(verdict: number) {
   if (verdict === Verdict.Running) {
     return 'Running';

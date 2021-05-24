@@ -118,7 +118,7 @@ import {
 import { b64decode, useSnackbar } from '@/utils';
 import { useUser } from '@/service/user';
 
-import { Verdict } from '../../verdict';
+import { isFinishVerdict, Verdict } from '../../verdict';
 
 const parseTime = (timestamp: string) => {
   return dayjs(timestamp).format('YYYY-MM-DD HH:mm:ss');
@@ -155,12 +155,12 @@ export default defineComponent({
     const lastSubmission = ref();
     const runUpdate = (submission: any) => {
       if ('messages' in submission && Array.isArray(submission.messages)) {
-        if (
-          submission.messages.length > 0 &&
-          submission.messages[submission.messages.length - 1].verdict ===
-            Verdict.Finished
-        ) {
-          return;
+        if (submission.messages.length > 0) {
+          const lastVerdict =
+            submission.messages[submission.messages.length - 1].verdict;
+          if (isFinishVerdict(lastVerdict)) {
+            return;
+          }
         }
       }
       const ev = setInterval(async () => {
@@ -181,7 +181,8 @@ export default defineComponent({
         ) {
           lastSubmission!.value.messages.push(messages[i]);
         }
-        if (messages[messages.length - 1].verdict === Verdict.Finished) {
+        const lastVerdict = messages[messages.length - 1].verdict;
+        if (isFinishVerdict(lastVerdict)) {
           clearInterval(ev);
         }
       }, 500);
