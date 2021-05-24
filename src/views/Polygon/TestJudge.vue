@@ -63,9 +63,9 @@
             >{{ problem.parent }}. {{ problem.title }}
           </router-link>
         </b-table-column>
-        <b-table-column v-slot="props" centered label="语言" width="5em">{{
-          props.row.language
-        }}</b-table-column>
+        <b-table-column v-slot="props" centered label="语言" width="7em"
+          ><Language :lang="props.row.language"></Language
+        ></b-table-column>
         <b-table-column v-slot="props" centered label="评测结果" width="15em">
           <Verdict :verdict="props.row.verdict"></Verdict>
         </b-table-column>
@@ -87,6 +87,7 @@ import { defineComponent, reactive, ref } from '@vue/composition-api';
 import { useLocalStorage } from '@vueuse/core';
 import Editor from '@/components/Editor.vue';
 import Verdict from '@/components/Verdict.vue';
+import Language from '@/components/Language.vue';
 import { LangList } from '@/constants';
 import { getTestJudgeSubmissions, submitTestJudge } from '@/service/polygon';
 import { useSnackbar } from '@/utils';
@@ -100,7 +101,8 @@ export default defineComponent({
   name: 'TestJudge',
   components: {
     Editor,
-    Verdict
+    Verdict,
+    Language
   },
   props: {
     problem: Object
