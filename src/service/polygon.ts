@@ -204,3 +204,8 @@ export async function submitTestJudge(
   });
   return data;
 }
+
+export async function getTestJudgeSubmissions(pid: number) {
+  const { data } = await api.get(`/polygon/judge/${pid}/submissions`);
+  return data;
+}

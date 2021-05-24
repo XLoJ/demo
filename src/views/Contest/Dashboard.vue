@@ -65,10 +65,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style>
-.dashboard .table thead,
-.status .table thead {
-  background-color: rgb(249, 250, 251) !important;
-}
-</style>
