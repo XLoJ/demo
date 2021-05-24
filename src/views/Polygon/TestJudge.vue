@@ -60,7 +60,11 @@
     <div class="test-judge mt-6">
       <b-table :data="allSubmissions" bordered>
         <b-table-column v-slot="props" centered label="#" width="5em">
-          <span class="has-text-weight-bold">{{ props.row.id }}</span>
+          <a
+            class="has-text-weight-bold"
+            @click="showSubmission(props.row.id)"
+            >{{ props.row.id }}</a
+          >
         </b-table-column>
         <b-table-column v-slot="props" centered label="提交时间" width="12em">
           <span>{{ parseTime(props.row.createTime) }}</span>
@@ -111,7 +115,7 @@ import {
   getTestJudgeSubmissions,
   submitTestJudge
 } from '@/service/polygon';
-import { useSnackbar } from '@/utils';
+import { b64decode, useSnackbar } from '@/utils';
 import { useUser } from '@/service/user';
 
 import { Verdict } from '../../verdict';
@@ -183,6 +187,17 @@ export default defineComponent({
       }, 500);
     };
 
+    const showSubmission = async (submissionId) => {
+      const data = await getDetailTestJudgeSubmission(
+        props.problem.parent,
+        submissionId
+      );
+      submission.value.body = b64decode(data.body);
+      submission.value.language = data.language;
+      lastSubmission.value = data;
+      runUpdate(lastSubmission.value);
+    };
+
     const lastSubmissionId = useLocalStorage(
       `polygon/history/submission/${props.problem.parent}`,
       -1
@@ -230,6 +245,7 @@ export default defineComponent({
       user,
       isOpen,
       submission,
+      showSubmission,
       submit,
       allSubmissions,
       lastSubmission,
