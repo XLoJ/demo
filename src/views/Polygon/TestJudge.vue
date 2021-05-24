@@ -48,7 +48,7 @@
                 params: { id: lastSubmission.problem }
               }"
               :submission="lastSubmission"
-              :testcase-num="problem.testcaseNum"
+              :testcase-num="testcaseNum"
               :user="user"
               :problem-name="`${problem.parent}. ${problem.title}`"
             ></RealtimeSubmission>
@@ -107,6 +107,7 @@ import RealtimeSubmission from '../Problem/RealtimeSubmission.vue';
 import { LangList } from '@/constants';
 import {
   getDetailTestJudgeSubmission,
+  getProblemInfo,
   getTestJudgeSubmissions,
   submitTestJudge
 } from '@/service/polygon';
@@ -133,6 +134,12 @@ export default defineComponent({
   setup(props: any) {
     const snackbar = useSnackbar();
     const { user } = useUser();
+
+    const testcaseNum = ref(props.problem.testcaseNum);
+
+    getProblemInfo(props.problem.parent).then((data) => {
+      testcaseNum.value = data.testcaseNum;
+    });
 
     const isOpen = ref(true);
 
@@ -226,6 +233,7 @@ export default defineComponent({
       submit,
       allSubmissions,
       lastSubmission,
+      testcaseNum,
       parseTime
     };
   }

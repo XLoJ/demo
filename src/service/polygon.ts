@@ -6,6 +6,11 @@ export async function createNewProblem(name: string, type: 'classic') {
   return data;
 }
 
+export async function getProblemInfo(pid: number) {
+  const { data } = await api.get(`/polygon/problem/${pid}`);
+  return data;
+}
+
 export async function getDetailClassicProblem(pid: number) {
   const { data } = await api.get(`/polygon/problem/${pid}/classic`);
   data.tags = data.tags
