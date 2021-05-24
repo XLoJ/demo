@@ -41,6 +41,18 @@
               >提交
             </b-button>
           </div>
+          <div v-if="lastSubmission" class="mt-4">
+            <RealtimeSubmission
+              :problem-link="{
+                name: 'Polygon',
+                params: { id: lastSubmission.problem }
+              }"
+              :submission="lastSubmission"
+              :testcase-num="problem.testcaseNum"
+              :user="user"
+              :problem-name="`${problem.parent}. ${problem.title}`"
+            ></RealtimeSubmission>
+          </div>
         </div>
       </div>
     </b-collapse>
@@ -54,30 +66,30 @@
           <span>{{ parseTime(props.row.createTime) }}</span>
         </b-table-column>
         <b-table-column centered label="用户">
-          <router-link :to="{ name: 'Profile' }">{{
-            user.nickname
-          }}</router-link>
+          <router-link :to="{ name: 'Profile' }"
+            >{{ user.nickname }}
+          </router-link>
         </b-table-column>
         <b-table-column centered label="题目">
           <router-link :to="{ name: 'Polygon', params: { id: problem.parent } }"
             >{{ problem.parent }}. {{ problem.title }}
           </router-link>
         </b-table-column>
-        <b-table-column v-slot="props" centered label="语言" width="7em"
-          ><Language :lang="props.row.language"></Language
-        ></b-table-column>
+        <b-table-column v-slot="props" centered label="语言" width="7em">
+          <Language :lang="props.row.language"></Language>
+        </b-table-column>
         <b-table-column v-slot="props" centered label="评测结果" width="15em">
           <Verdict :verdict="props.row.verdict"></Verdict>
         </b-table-column>
         <b-table-column v-slot="props" centered label="用时" width="8em"
-          >{{ props.row.time }} ms</b-table-column
-        >
+          >{{ props.row.time }} ms
+        </b-table-column>
         <b-table-column v-slot="props" centered label="内存" width="8em"
-          >{{ props.row.memory }} MB</b-table-column
-        >
-        <b-table-column v-slot="props" centered label="评测机" width="8em">{{
-          props.row.from
-        }}</b-table-column>
+          >{{ props.row.memory }} MB
+        </b-table-column>
+        <b-table-column v-slot="props" centered label="评测机" width="8em"
+          >{{ props.row.from }}
+        </b-table-column>
       </b-table>
     </div>
   </div>
@@ -89,12 +101,19 @@ import dayjs from 'dayjs';
 import { defineComponent, reactive, ref } from '@vue/composition-api';
 import { useLocalStorage } from '@vueuse/core';
 import Editor from '@/components/Editor.vue';
-import Verdict from '@/components/Verdict.vue';
+import DisplayVerdict from '@/components/Verdict.vue';
 import Language from '@/components/Language.vue';
+import RealtimeSubmission from '../Problem/RealtimeSubmission.vue';
 import { LangList } from '@/constants';
-import { getTestJudgeSubmissions, submitTestJudge } from '@/service/polygon';
+import {
+  getDetailTestJudgeSubmission,
+  getTestJudgeSubmissions,
+  submitTestJudge
+} from '@/service/polygon';
 import { useSnackbar } from '@/utils';
 import { useUser } from '@/service/user';
+
+import { Verdict } from '../../verdict';
 
 const parseTime = (timestamp: string) => {
   return dayjs(timestamp).format('YYYY-MM-DD HH:mm:ss');
@@ -104,8 +123,9 @@ export default defineComponent({
   name: 'TestJudge',
   components: {
     Editor,
-    Verdict,
-    Language
+    Verdict: DisplayVerdict,
+    Language,
+    RealtimeSubmission
   },
   props: {
     problem: Object
@@ -117,9 +137,58 @@ export default defineComponent({
     const isOpen = ref(true);
 
     const submission = useLocalStorage(
-      `polygon/history/judge/${props.problem.parent}`,
+      `polygon/history/editor/${props.problem.parent}`,
       { body: '', language: 'cpp' }
     );
+
+    const lastSubmission = ref();
+    const runUpdate = (submission: any) => {
+      if ('messages' in submission && Array.isArray(submission.messages)) {
+        if (
+          submission.messages.length > 0 &&
+          submission.messages[submission.messages.length - 1].verdict ===
+            Verdict.Finished
+        ) {
+          return;
+        }
+      }
+      const ev = setInterval(async () => {
+        const data = await getDetailTestJudgeSubmission(
+          props.problem.parent,
+          submission.id
+        );
+        const messages = data.messages;
+        lastSubmission.value.time = data.time;
+        lastSubmission.value.memory = data.memory;
+        lastSubmission.value.verdict = data.verdict;
+        lastSubmission.value.pass = data.pass;
+        lastSubmission.value.from = data.from;
+        for (
+          let i = lastSubmission!.value.messages.length;
+          i < messages.length;
+          i++
+        ) {
+          lastSubmission!.value.messages.push(messages[i]);
+        }
+        if (messages[messages.length - 1].verdict === Verdict.Finished) {
+          clearInterval(ev);
+        }
+      }, 500);
+    };
+
+    const lastSubmissionId = useLocalStorage(
+      `polygon/history/submission/${props.problem.parent}`,
+      -1
+    );
+    if (lastSubmissionId.value !== -1) {
+      getDetailTestJudgeSubmission(
+        props.problem.parent,
+        lastSubmissionId.value
+      ).then((data) => {
+        lastSubmission.value = data;
+        runUpdate(lastSubmission.value);
+      });
+    }
 
     const allSubmissions = reactive([] as any);
 
@@ -130,9 +199,13 @@ export default defineComponent({
           submission.value.body,
           submission.value.language
         );
+        data.messages = [];
         snackbar.open(`评测 ${data.id}. 提交成功`);
+
+        lastSubmissionId.value = data.id;
+        lastSubmission.value = data;
         allSubmissions.unshift(data);
-        isOpen.value = false;
+        runUpdate(lastSubmission.value);
       } catch (err) {
         snackbar.open({
           message: err.message,
@@ -152,6 +225,7 @@ export default defineComponent({
       submission,
       submit,
       allSubmissions,
+      lastSubmission,
       parseTime
     };
   }

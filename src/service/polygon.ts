@@ -210,3 +210,8 @@ export async function getTestJudgeSubmissions(pid: number) {
   const { data } = await api.get(`/polygon/judge/${pid}/submissions`);
   return data;
 }
+
+export async function getDetailTestJudgeSubmission(pid: number, sid: number) {
+  const { data } = await api.get(`/polygon/judge/${pid}/submission/${sid}`);
+  return data;
+}
