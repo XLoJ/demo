@@ -128,31 +128,34 @@
             <tr>
               <td colspan="8">
                 <div class="pt-2 pb-2">
-                  <b-tooltip
-                    v-for="index in testcaseNum"
-                    :key="index"
-                    :label="getLabel(index)"
-                    position="is-top"
-                    type="is-white"
-                  >
-                    <span class="status-box">
-                      <span
-                        v-if="isAccepted(index)"
-                        class="icon has-text-success has-text-centered"
-                      >
-                        <i class="mdi mdi-check-bold"></i>
+                  <div v-if="!compileError">
+                    <b-tooltip
+                      v-for="index in testcaseNum"
+                      :key="index"
+                      :label="getLabel(index)"
+                      position="is-top"
+                      type="is-white"
+                    >
+                      <span class="status-box">
+                        <span
+                          v-if="isAccepted(index)"
+                          class="icon has-text-success has-text-centered"
+                        >
+                          <i class="mdi mdi-check-bold"></i>
+                        </span>
+                        <span
+                          v-else-if="isFail(index)"
+                          class="icon has-text-danger has-text-centered"
+                        >
+                          <i class="mdi mdi-close-thick"></i>
+                        </span>
+                        <span v-else class="icon">
+                          <i class="mdi"></i>
+                        </span>
                       </span>
-                      <span
-                        v-else-if="isFail(index)"
-                        class="icon has-text-danger has-text-centered"
-                      >
-                        <i class="mdi mdi-close-thick"></i>
-                      </span>
-                      <span v-else class="icon">
-                        <i class="mdi"></i>
-                      </span>
-                    </span>
-                  </b-tooltip>
+                    </b-tooltip>
+                  </div>
+                  <pre v-else>{{ compileError.message }}</pre>
                 </div>
               </td>
             </tr>
@@ -188,6 +191,12 @@ export default defineComponent({
     user: Object
   },
   setup(props: any) {
+    const compileError = computed(() => {
+      return props.submission.messages.find(
+        (msg: any) => msg.verdict === Verdict.CompileError
+      );
+    });
+
     const testcases = computed(() => {
       const testcases = [];
       for (const msg of props.submission.messages) {
@@ -231,6 +240,7 @@ export default defineComponent({
       getLabel,
       isAccepted,
       isFail,
+      compileError,
       testcases
     };
   }
