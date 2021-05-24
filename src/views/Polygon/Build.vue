@@ -8,7 +8,7 @@
         }}
       </p>
     </div>
-    <div class="mt-4">
+    <div ref="cards" class="mt-4">
       <b-collapse
         class="card"
         animation="slide"
@@ -61,7 +61,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from '@vue/composition-api';
+import {
+  defineComponent,
+  getCurrentInstance,
+  onMounted,
+  reactive,
+  ref
+} from '@vue/composition-api';
 import { buildProblem, getAllPolygonMessage } from '@/service/polygon';
 import MessageView from './MessageView.vue';
 import { useSnackbar } from '@/utils';
@@ -77,13 +83,22 @@ export default defineComponent({
   setup(props: any) {
     const problem = props.problem!;
 
+    const cards = ref(null);
+    const loading = getCurrentInstance()?.proxy.$buefy.loading;
+
     const runUpdateSignal = ref(-1);
 
     const buildTasks = reactive([] as any[]);
 
-    getAllPolygonMessage(problem.parent).then((data) => {
-      buildTasks.push(...data);
-      buildTasks.sort((lhs: any, rhs: any) => rhs.version - lhs.version);
+    onMounted(() => {
+      const loadingComponent = loading.open({
+        container: cards.value
+      });
+      getAllPolygonMessage(problem.parent).then((data) => {
+        buildTasks.push(...data);
+        buildTasks.sort((lhs: any, rhs: any) => rhs.version - lhs.version);
+        loadingComponent.close();
+      });
     });
 
     const snackbar = useSnackbar();
@@ -121,6 +136,7 @@ export default defineComponent({
     };
 
     return {
+      cards,
       runBuild,
       isOpen,
       buildTasks,
