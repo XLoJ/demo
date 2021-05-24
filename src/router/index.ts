@@ -233,6 +233,15 @@ const routes: Array<RouteConfig> = [
             meta: {
               title: '构建'
             }
+          },
+          {
+            path: '/polygon/:id/judge',
+            name: 'PolygonJudge',
+            props: true,
+            component: () => import('../views/Polygon/TestJudge.vue'),
+            meta: {
+              title: '评测'
+            }
           }
         ]
       }

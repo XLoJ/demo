@@ -192,3 +192,15 @@ export async function getCodeHistory(pid: number, fullname: string) {
   });
   return data;
 }
+
+export async function submitTestJudge(
+  pid: number,
+  body: string,
+  language: string
+) {
+  const { data } = await api.post(`/polygon/judge/${pid}`, {
+    body: b64encode(body),
+    language
+  });
+  return data;
+}

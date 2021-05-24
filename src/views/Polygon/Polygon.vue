@@ -16,6 +16,7 @@
         <b-tab-item label="静态文件"></b-tab-item>
         <b-tab-item label="测试数据"></b-tab-item>
         <b-tab-item label="构建"></b-tab-item>
+        <b-tab-item label="评测"></b-tab-item>
       </b-tabs>
       <router-view :problem="problem"></router-view>
     </div>
@@ -41,7 +42,8 @@ const routeTable = [
   'PolygonGenerators',
   'PolygonStaticFile',
   'PolygonTestcases',
-  'PolygonBuild'
+  'PolygonBuild',
+  'PolygonJudge'
 ];
 
 export default defineComponent({
