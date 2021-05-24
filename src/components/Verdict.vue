@@ -13,7 +13,9 @@ export default {
   computed: {
     message() {
       const verdict = +this.verdict;
-      if (verdict === Verdict.Compiling) {
+      if (verdict === Verdict.Running) {
+        return 'Running';
+      } else if (verdict === Verdict.Compiling) {
         return 'Compiling';
       } else if (verdict === Verdict.Waiting) {
         return 'Waiting';
