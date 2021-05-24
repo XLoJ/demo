@@ -91,7 +91,7 @@ export default defineComponent({
     const buildTasks = reactive([] as any[]);
 
     onMounted(() => {
-      const loadingComponent = loading.open({
+      const loadingComponent = loading!.open({
         container: cards.value
       });
       getAllPolygonMessage(problem.parent).then((data) => {

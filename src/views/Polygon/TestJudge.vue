@@ -187,7 +187,7 @@ export default defineComponent({
       }, 500);
     };
 
-    const showSubmission = async (submissionId) => {
+    const showSubmission = async (submissionId: number) => {
       const data = await getDetailTestJudgeSubmission(
         props.problem.parent,
         submissionId
