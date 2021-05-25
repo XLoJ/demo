@@ -1,13 +1,21 @@
 <template>
   <div>
     <div v-if="privateContestList.length > 0 || isAdmin">
-      <h3 class="title is-5">私有比赛</h3>
-      <contest-table :data="privateContestList"></contest-table>
+      <h3
+        class="
+          title
+          is-5 is-flex is-align-items-center is-justify-content-space-between
+        "
+      >
+        <span>私有比赛</span>
+        <b-button type="is-success">创建比赛</b-button>
+      </h3>
+      <contest-table :data="privateContestList" :creator="true"></contest-table>
     </div>
     <h3 class="title is-5">即将举行</h3>
-    <contest-table :data="comingContestList"></contest-table>
+    <contest-table :data="comingContestList" :creator="isAdmin"></contest-table>
     <h3 class="title is-5">已结束</h3>
-    <contest-table :data="endContestList"></contest-table>
+    <contest-table :data="endContestList" :creator="isAdmin"></contest-table>
   </div>
 </template>
 

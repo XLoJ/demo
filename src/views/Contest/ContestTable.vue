@@ -3,15 +3,38 @@
     <b-table-column v-slot="props" centered label="#" width="3em">
       <span class="has-text-weight-bold">{{ props.row.id }} </span>
     </b-table-column>
-    <b-table-column v-slot="props" field="name" label="名称" width="750">
+    <b-table-column v-slot="props" field="name" label="名称">
       <router-link :to="{ name: 'Contest', params: { id: props.row.id } }"
         >{{ props.row.name }}
       </router-link>
     </b-table-column>
-    <b-table-column centered v-slot="props" field="start_time" label="开始时间">
+
+    <b-table-column
+      v-if="creator"
+      centered
+      label="创建者"
+      v-slot="props"
+      width="5em"
+    >
+      <UserLink :user="props.row.creator"></UserLink>
+    </b-table-column>
+
+    <b-table-column
+      centered
+      v-slot="props"
+      field="start_time"
+      label="开始时间"
+      width="10em"
+    >
       <span>{{ formatStartTime(props.row.startTime) }}</span>
     </b-table-column>
-    <b-table-column centered v-slot="props" field="length" label="持续时间">
+    <b-table-column
+      centered
+      v-slot="props"
+      field="length"
+      label="持续时间"
+      width="6em"
+    >
       <span>{{ formatDuration(props.row.duration) }}</span>
     </b-table-column>
     <b-table-column
@@ -48,7 +71,11 @@ import UserLink from '@/components/UserLink.vue';
 export default defineComponent({
   name: 'ContestTable',
   props: {
-    data: Array
+    data: Array,
+    creator: {
+      type: Boolean,
+      default: false
+    }
   },
   components: {
     UserLink
