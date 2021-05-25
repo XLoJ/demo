@@ -36,6 +36,19 @@ if (getItem(AccessTokenKey)) {
     });
 }
 
+export async function userRegister(
+  username: string,
+  nickname: string,
+  password: string
+) {
+  const { data } = await api.post('/register', {
+    username,
+    nickname,
+    password
+  });
+  return userLogin(username, password);
+}
+
 export async function userLogin(username: string, password: string) {
   const { data } = await api.post('/login', {
     username,

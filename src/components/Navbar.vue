@@ -46,7 +46,7 @@
           <router-link :to="{ name: 'Login' }" class="button is-primary"
             >登录
           </router-link>
-          <router-link :to="{ name: 'Login' }" class="button is-light"
+          <router-link :to="{ name: 'Register' }" class="button is-light"
             >注册
           </router-link>
         </div>

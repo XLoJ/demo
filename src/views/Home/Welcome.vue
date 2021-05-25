@@ -40,6 +40,13 @@
               type="is-light"
               >登录
             </b-button>
+            <b-button
+              :to="{ name: 'Register' }"
+              outlined
+              tag="router-link"
+              type="is-light"
+              >注册
+            </b-button>
           </div>
         </div>
       </div>

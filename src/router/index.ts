@@ -34,6 +34,14 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
+    path: '/register',
+    name: 'Register',
+    component: () => import('../views/User/Register.vue'),
+    meta: {
+      title: '注册'
+    }
+  },
+  {
     path: '/contest',
     name: 'ContestMain',
     component: Contest,
