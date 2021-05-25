@@ -26,5 +26,13 @@ export const LangList = [
   {
     id: 'Python 3',
     value: 'python'
+  },
+  {
+    id: 'Go',
+    value: 'go'
+  },
+  {
+    id: 'Kotlin',
+    value: 'kotlin'
   }
 ];
