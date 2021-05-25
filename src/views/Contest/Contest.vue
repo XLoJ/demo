@@ -53,7 +53,10 @@ export default defineComponent({
   watch: {
     activeTab(active, oV) {
       if (active !== oV) {
-        if (active === this.routeTable.length) {
+        if (
+          active === this.routeTable.length &&
+          this.$route.name !== 'EditContest'
+        ) {
           if (this.canEditContest) {
             this.$router.push({
               name: 'EditContest',

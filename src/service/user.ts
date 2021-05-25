@@ -91,9 +91,11 @@ export function isUserAdmin() {
   }
 }
 
-function isAllowPolygon() {
+export function isAllowPolygon() {
   if (isLogin.flag === 1 && user !== null) {
-    return ref(user.groups.find((g: any) => g.name === 'admin') !== undefined);
+    return ref(
+      user.groups.find((g: any) => g.name === 'polygon') !== undefined
+    );
   } else {
     return ref(false);
   }
