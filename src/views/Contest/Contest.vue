@@ -3,13 +3,25 @@
     <div class="title is-5">{{ contest.name }}</div>
     <div class="columns">
       <div class="column is-three-quarters">
-        <b-tabs v-model="activeTab" :destroy-on-hide="false" class="hidden-tab">
-          <b-tab-item label="仪表盘"></b-tab-item>
-          <b-tab-item label="我的提交"></b-tab-item>
-          <b-tab-item label="全部提交"></b-tab-item>
-          <b-tab-item label="排行榜"></b-tab-item>
-          <b-tab-item v-if="canEditContest" label="编辑比赛"></b-tab-item>
-        </b-tabs>
+        <div class="tabs">
+          <ul>
+            <li :class="activeClass(0)">
+              <router-link :to="{ name: routeTable[0] }">仪表盘</router-link>
+            </li>
+            <li :class="activeClass(1)">
+              <router-link :to="{ name: routeTable[1] }">我的提交</router-link>
+            </li>
+            <li :class="activeClass(2)">
+              <router-link :to="{ name: routeTable[2] }">全部提交</router-link>
+            </li>
+            <li :class="activeClass(3)">
+              <router-link :to="{ name: routeTable[3] }">排行榜</router-link>
+            </li>
+            <li :class="activeClass(4)" v-if="canEditContest">
+              <router-link :to="{ name: routeTable[4] }">编辑比赛</router-link>
+            </li>
+          </ul>
+        </div>
         <router-view :contest="contest"></router-view>
       </div>
       <div class="column">
@@ -36,48 +48,28 @@ export default defineComponent({
     id: [Number, String]
   },
   data() {
-    const routeTable = ['Dashboard', 'Submission', 'Status', 'Standings'];
+    const routeTable = [
+      'Dashboard',
+      'Submission',
+      'Status',
+      'Standings',
+      'EditContest'
+    ];
     const routeName = this.$route.name;
     const active = routeTable.findIndex((name) => name === routeName);
     return {
-      activeTab: routeName === 'EditContest' ? 4 : active !== -1 ? active : 0,
+      activeTab: active !== -1 ? active : -1,
       routeTable
     };
   },
-  watch: {
-    activeTab(active, oV) {
-      if (active !== oV) {
-        if (
-          active === this.routeTable.length &&
-          this.$route.name !== 'EditContest'
-        ) {
-          if (this.canEditContest) {
-            this.$router.push({
-              name: 'EditContest',
-              params: { id: String(this.id) }
-            });
-          }
-        } else if (active < this.routeTable.length) {
-          this.$router.push({
-            name: this.routeTable[active],
-            params: { id: String(this.id) }
-          });
-        } else {
-          this.$router.push({
-            name: this.routeTable[0],
-            params: { id: String(this.id) }
-          });
-        }
-      }
+  methods: {
+    activeClass(index) {
+      return index === this.activeTab ? 'is-active' : '';
     }
   },
   beforeRouteUpdate(to, from, next) {
-    if (to.name === 'EditContest') {
-      (this as any).active = 4;
-    } else {
-      const active = this.routeTable.findIndex((name) => name === to.name);
-      (this as any).active = active !== -1 ? active : 0;
-    }
+    const active = this.routeTable.findIndex((name) => name === to.name);
+    (this as any).activeTab = active !== -1 ? active : -1;
     next();
   },
   setup(props: { id: number | string }) {
