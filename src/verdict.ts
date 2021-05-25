@@ -17,6 +17,7 @@ export enum Verdict {
 }
 
 export function isFinishVerdict(verdict: number) {
+  if (verdict === Verdict.Accepted) return false;
   return verdict >= -2;
 }
 
