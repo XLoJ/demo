@@ -17,7 +17,7 @@
       </header>
       <div class="card-content">
         <div class="content is-family-monospace">
-          <div v-for="problem in problems" :key="problem.index">
+          <div v-for="(problem, index) in problems" :key="index">
             <router-link :to="{ name: 'ContestList' }"
               >{{ numberToIndex(problem.index) }}. {{ problem.problem.title }}
             </router-link>
