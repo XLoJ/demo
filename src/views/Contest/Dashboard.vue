@@ -26,16 +26,16 @@
         ><span class="subtitle is-5">公告</span>
       </div>
       <div class="pl-3">
-        <p>XLoJ 测试 Round。</p>
+        <p class="mb-2">{{ contest.description }}</p>
         <p>
           <span class="has-text-weight-bold">比赛时间</span>：{{
-            contest.start_time
-          }}。
+            formatStartTime(contest.startTime)
+          }}
         </p>
         <p>
           <span class="has-text-weight-bold">持续时间</span>：{{
-            contest.length
-          }}。
+            formatDuration(contest.duration)
+          }}
         </p>
       </div>
     </div>
@@ -45,12 +45,18 @@
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
 import { useContestProblems } from '@/service/contest';
+import { formatTime } from '@/utils';
+import { formatDuration, formatStartTime } from '@/views/Contest/utils';
 
 export default defineComponent({
   name: 'Dashboard',
   props: {
     contest: Object,
     id: [Number, String]
+  },
+  methods: {
+    formatStartTime,
+    formatDuration
   },
   setup(props: { contest: any }) {
     const { problems } = useContestProblems(props.contest.id);

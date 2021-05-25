@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="contest">
     <div class="title is-5">{{ contest.name }}</div>
     <div class="columns">
       <div class="column is-three-quarters">
@@ -57,7 +57,7 @@ export default defineComponent({
     }
   },
   setup(props: { id: number | string }) {
-    const { contest } = useContestInfo(+props?.id);
+    const contest = useContestInfo(+props?.id);
 
     return {
       contest
