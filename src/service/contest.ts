@@ -85,3 +85,25 @@ export async function updateContestPublic(contestId: number, flag: boolean) {
   );
   return data;
 }
+
+export async function pushContestProblem(contestId: number, problemId: number) {
+  const { data } = await api.post(
+    `/contest/admin/${contestId}/problem`,
+    {},
+    {
+      params: {
+        problem: problemId
+      }
+    }
+  );
+  return data;
+}
+
+export async function removeContestProblem(contestId: number, cpId: number) {
+  const { data } = await api.delete(`/contest/admin/${contestId}/problem`, {
+    params: {
+      contestProblem: cpId
+    }
+  });
+  return data;
+}

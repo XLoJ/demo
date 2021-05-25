@@ -1,13 +1,13 @@
 <template>
   <div>
-    <b-collapse class="card" animation="slide">
+    <b-collapse animation="slide" class="card">
       <template #trigger="props">
         <div class="card-header" role="button">
           <p class="card-header-title">
             <span>比赛信息</span>
           </p>
           <a class="card-header-icon">
-            <b-icon :icon="props.open ? 'menu-down' : 'menu-up'"> </b-icon>
+            <b-icon :icon="props.open ? 'menu-down' : 'menu-up'"></b-icon>
           </a>
         </div>
       </template>
@@ -48,19 +48,47 @@
       </div>
     </b-collapse>
 
-    <b-collapse class="card" animation="slide">
+    <b-collapse animation="slide" class="card">
       <template #trigger="props">
         <div class="card-header" role="button">
           <p class="card-header-title">
             <span>题目信息</span>
           </p>
           <a class="card-header-icon">
-            <b-icon :icon="props.open ? 'menu-down' : 'menu-up'"> </b-icon>
+            <b-icon :icon="props.open ? 'menu-down' : 'menu-up'"></b-icon>
           </a>
         </div>
       </template>
       <div class="card-content">
-        <div class="content"></div>
+        <div class="content">
+          <b-table :data="problems">
+            <b-table-column v-slot="props" centered label="#" width="48">
+              <span class="has-text-weight-bold">{{
+                numberToIndex(props.row.index)
+              }}</span>
+            </b-table-column>
+            <b-table-column v-slot="props" label="名称">
+              <router-link :to="{ name: 'ContestList' }"
+                >{{ props.row.problem.id }}. {{ props.row.problem.title }}
+              </router-link>
+            </b-table-column>
+            <b-table-column v-slot="props" centered label="操作" width="120">
+              <b-button
+                icon-left="delete"
+                size="is-small"
+                type="is-danger"
+                @click="removeProblem(props.index)"
+              ></b-button>
+            </b-table-column>
+          </b-table>
+
+          <b-field label="题目编号" class="mt-4">
+            <b-input v-model="problemId"></b-input>
+          </b-field>
+          <b-button type="is-success" expanded @click="pushProblem"
+            >添加</b-button
+          >
+        </div>
       </div>
     </b-collapse>
   </div>
@@ -68,9 +96,15 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from '@vue/composition-api';
-import { updateContestInfo, updateContestPublic } from '@/service/contest';
+import {
+  pushContestProblem,
+  removeContestProblem,
+  updateContestInfo,
+  updateContestPublic
+} from '@/service/contest';
 import { useSnackbar } from '@/utils';
 import { toRefs } from '@vueuse/core';
+import { numberToIndex } from '@/views/Contest/utils';
 
 export default defineComponent({
   name: 'EditContest',
@@ -143,13 +177,57 @@ export default defineComponent({
       }
     };
 
+    const problems = computed(() => {
+      return contest.value.problems;
+    });
+    const problemId = ref('');
+    const pushProblem = async () => {
+      if (problemId.value && /^\d+$/.test(problemId.value.trim())) {
+        const id = +problemId.value.trim();
+        try {
+          const data = await pushContestProblem(contest.value.id, id);
+          snackbar.open(
+            `题目 ${data.problem.id}. ${data.problem.title} 添加成功`
+          );
+          contest.value.problems.push(data);
+          contest.value.problems.sort(
+            (lhs: any, rhs: any) => lhs.index - rhs.index
+          );
+        } catch (err) {
+          snackbar.open({
+            message: err.message,
+            type: 'is-danger'
+          });
+        }
+      }
+      problemId.value = '';
+    };
+    const removeProblem = async (index: number) => {
+      const id = problems.value[index].id;
+      try {
+        await removeContestProblem(contest.value.id, id);
+        snackbar.open(`题目 ${problems.value[index].problem.id}. 删除成功`);
+        problems.value.splice(index, 1);
+      } catch (err) {
+        snackbar.open({
+          message: err.message,
+          type: 'is-danger'
+        });
+      }
+    };
+
     return {
       name,
       startTime,
       duration,
       description,
       submit,
-      updatePublic
+      updatePublic,
+      problems,
+      numberToIndex,
+      problemId,
+      pushProblem,
+      removeProblem
     };
   }
 });
