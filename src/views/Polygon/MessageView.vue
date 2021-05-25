@@ -24,7 +24,7 @@
                 >
                 <span class="ml-4"
                   ><span class="has-text-weight-bold">时间</span>
-                  {{ parseTime(messages[0].timestamp) }}</span
+                  {{ formatTime(messages[0].timestamp) }}</span
                 >
               </div>
             </div>
@@ -64,7 +64,7 @@
                 >
                 <span class="ml-4"
                   ><span class="has-text-weight-bold">时间</span>
-                  {{ parseTime(msg.timestamp) }}</span
+                  {{ formatTime(msg.timestamp) }}</span
                 >
               </div>
             </div>
@@ -85,7 +85,7 @@
                   >
                   <span class="ml-4"
                     ><span class="has-text-weight-bold">时间</span>
-                    {{ parseTime(errorMessage.timestamp) }}</span
+                    {{ formatTime(errorMessage.timestamp) }}</span
                   >
                 </div>
               </div>
@@ -211,7 +211,7 @@
               >
               <span class="ml-4"
                 ><span class="has-text-weight-bold">时间</span>
-                {{ parseTime(endMessages[0].timestamp) }}</span
+                {{ formatTime(endMessages[0].timestamp) }}</span
               >
             </div>
           </div>
@@ -236,19 +236,16 @@ import {
 } from '@vue/composition-api';
 import ElSteps from '@/components/steps/steps.vue';
 import ElStep from '@/components/steps/step.vue';
-import dayjs from 'dayjs';
 import {
   downloadTestcaseAnsFile,
   downloadTestcaseInFile,
   getCodeHistory,
   getPolygonMessage
 } from '@/service/polygon';
+
 import MessageViewHeader from './MessageViewHeader.vue';
 import CodeHistoryView from './CodeHistoryView.vue';
-
-const parseTime = (timestamp: string) => {
-  return dayjs(timestamp).format('YYYY-MM-DD HH:mm:ss');
-};
+import { formatTime } from '../../utils';
 
 const upperFirstLetter = (text: string) => {
   return text.substring(0, 1).toUpperCase() + text.substring(1);
@@ -289,7 +286,6 @@ export default defineComponent({
     signal: Number
   },
   setup(props: any) {
-    const messages = props.messages!;
     const problem = props.problem!;
     const version = props.version!;
 
@@ -455,7 +451,7 @@ export default defineComponent({
     };
 
     return {
-      parseTime,
+      formatTime,
       parseMessageAction,
       tryParseJson,
       activeStep,

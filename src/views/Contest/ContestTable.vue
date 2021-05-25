@@ -5,11 +5,11 @@
         >{{ props.row.name }}
       </router-link>
     </b-table-column>
-    <b-table-column v-slot="props" field="start_time" label="开始时间">
-      <span>{{ props.row.start_time }}</span>
+    <b-table-column centered v-slot="props" field="start_time" label="开始时间">
+      <span>{{ formatTime(props.row.startTime) }}</span>
     </b-table-column>
     <b-table-column centered v-slot="props" field="length" label="持续时间">
-      <span>{{ props.row.length }}</span>
+      <span>{{ formatDuration(props.row.duration) }}</span>
     </b-table-column>
     <b-table-column v-slot="props" field="writers" label="出题人">
       <span v-for="(writer, index) in props.row.writers" :key="index">{{
@@ -26,11 +26,20 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
+import { formatTime } from '@/utils';
+import dayjs from 'dayjs';
 
 export default defineComponent({
   name: 'ContestTable',
   props: {
     data: Array
+  },
+  methods: {
+    formatTime,
+    formatDuration(duration: number) {
+      const t = dayjs().hour(0).minute(0).add(duration, 'minute');
+      return t.format('H:mm');
+    }
   }
 });
 </script>

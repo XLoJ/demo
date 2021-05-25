@@ -1,5 +1,6 @@
 import { getCurrentInstance } from '@vue/composition-api';
 import { Base64 } from 'js-base64';
+import dayjs from 'dayjs';
 
 export function useRoute() {
   const vm = getCurrentInstance();
@@ -35,4 +36,8 @@ export function b64decode(text: string) {
 
 export async function copyToClipboard(text: string) {
   await navigator.clipboard.writeText(text);
+}
+
+export function formatTime(timestamp: string) {
+  return dayjs(timestamp).format('YYYY-MM-DD HH:mm:ss');
 }

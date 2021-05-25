@@ -1,4 +1,6 @@
-import { reactive } from '@vue/composition-api';
+import { reactive, ref } from '@vue/composition-api';
+import { api } from '@/service/api';
+import dayjs from 'dayjs';
 
 const comingContestList = [
   {
@@ -50,9 +52,23 @@ export function useContestList(): {
   comingContestList: any;
   endContestList: any;
 } {
+  const comingContestList = ref([] as any[]);
+  const endContestList = ref([] as any[]);
+
+  api.get('/contest').then(({ data }) => {
+    for (const contest of data) {
+      const endTime = dayjs(contest.startTime).add(contest.duration, 'minute');
+      if (dayjs().isAfter(endTime)) {
+        endContestList.value.push(contest);
+      } else {
+        comingContestList.value.push(contest);
+      }
+    }
+  });
+
   return {
-    comingContestList: reactive(comingContestList),
-    endContestList: reactive(endContestList)
+    comingContestList,
+    endContestList
   };
 }
 
