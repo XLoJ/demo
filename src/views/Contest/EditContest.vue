@@ -60,8 +60,12 @@
         </div>
       </template>
       <div class="card-content">
-        <div class="content">
-          <b-table :data="problems">
+        <div class="content dashboard">
+          <b-table
+            bordered
+            :data="problems"
+            :row-class="(row, index) => !row.visible && 'has-background-light'"
+          >
             <b-table-column v-slot="props" centered label="#" width="48">
               <span class="has-text-weight-bold">{{
                 numberToIndex(props.row.index)
@@ -256,5 +260,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style scoped></style>
