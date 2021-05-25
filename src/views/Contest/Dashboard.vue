@@ -3,7 +3,7 @@
     <b-table :data="problems" bordered class="mb-4">
       <b-table-column v-slot="props" centered label="#" width="48">
         <span class="has-text-weight-bold">{{
-          numberToIndex(props.index)
+          numberToIndex(props.row.index)
         }}</span>
       </b-table-column>
       <b-table-column v-slot="props" label="名称">
