@@ -3,7 +3,7 @@
     <div class="title is-5">{{ contest.name }}</div>
     <div class="columns">
       <div class="column is-three-quarters">
-        <b-tabs class="hidden-tab" v-model="activeTab" :destroy-on-hide="false">
+        <b-tabs v-model="activeTab" :destroy-on-hide="false" class="hidden-tab">
           <b-tab-item label="仪表盘"></b-tab-item>
           <b-tab-item label="我的提交"></b-tab-item>
           <b-tab-item label="全部提交"></b-tab-item>
@@ -20,13 +20,7 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  getCurrentInstance,
-  onBeforeMount,
-  ref
-} from '@vue/composition-api';
+import { computed, defineComponent } from '@vue/composition-api';
 import { useContestInfo } from '../../service/contest';
 import ContestSidebar from './ContestSidebar.vue';
 import Dashboard from './Dashboard.vue';
@@ -46,7 +40,7 @@ export default defineComponent({
     const routeName = this.$route.name;
     const active = routeTable.findIndex((name) => name === routeName);
     return {
-      activeTab: active !== -1 ? active : 0,
+      activeTab: routeName === 'EditContest' ? 4 : active !== -1 ? active : 0,
       routeTable
     };
   },
@@ -78,8 +72,12 @@ export default defineComponent({
     }
   },
   beforeRouteUpdate(to, from, next) {
-    const active = this.routeTable.findIndex((name) => name === to.name);
-    (this as any).active = active !== -1 ? active : 0;
+    if (to.name === 'EditContest') {
+      (this as any).active = 4;
+    } else {
+      const active = this.routeTable.findIndex((name) => name === to.name);
+      (this as any).active = active !== -1 ? active : 0;
+    }
     next();
   },
   setup(props: { id: number | string }) {
@@ -97,20 +95,6 @@ export default defineComponent({
         );
       }
       return false;
-    });
-
-    const _vm = getCurrentInstance();
-    onBeforeMount(() => {
-      setTimeout(() => {
-        if (_vm && _vm.proxy.$route.name === 'EditContest') {
-          if (!canEditContest.value) {
-            _vm.proxy.$router.push({ name: 'ContestList' });
-            return;
-          } else {
-            _vm.proxy.activeTab = 4;
-          }
-        }
-      }, 100);
     });
 
     return {
