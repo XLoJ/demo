@@ -1,4 +1,4 @@
-import { reactive, ref } from '@vue/composition-api';
+import { ref } from '@vue/composition-api';
 import { api } from '@/service/api';
 import dayjs from 'dayjs';
 import router from '@/router';
@@ -93,6 +93,24 @@ export async function pushContestProblem(contestId: number, problemId: number) {
     {
       params: {
         problem: problemId
+      }
+    }
+  );
+  return data;
+}
+
+export async function setContestProblemVisible(
+  contestId: number,
+  cpId: number,
+  visible: boolean
+) {
+  const { data } = await api.put(
+    `/contest/admin/${contestId}/problem/visible`,
+    {},
+    {
+      params: {
+        contestProblem: cpId,
+        visible
       }
     }
   );

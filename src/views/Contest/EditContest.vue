@@ -72,13 +72,21 @@
                 >{{ props.row.problem.id }}. {{ props.row.problem.title }}
               </router-link>
             </b-table-column>
-            <b-table-column v-slot="props" centered label="操作" width="120">
-              <b-button
-                icon-left="delete"
-                size="is-small"
-                type="is-danger"
-                @click="removeProblem(props.index)"
-              ></b-button>
+            <b-table-column v-slot="props" centered label="操作" width="6em">
+              <div class="buttons">
+                <b-button
+                  size="is-small"
+                  :type="props.row.visible ? 'is-danger' : 'is-success'"
+                  :icon-left="props.row.visible ? 'eye-off' : 'eye'"
+                  @click="updateVisible(props.index)"
+                />
+                <b-button
+                  icon-left="delete"
+                  size="is-small"
+                  type="is-danger"
+                  @click="removeProblem(props.index)"
+                />
+              </div>
             </b-table-column>
           </b-table>
 
@@ -99,6 +107,7 @@ import { computed, defineComponent, ref, watch } from '@vue/composition-api';
 import {
   pushContestProblem,
   removeContestProblem,
+  setContestProblemVisible,
   updateContestInfo,
   updateContestPublic
 } from '@/service/contest';
@@ -202,6 +211,20 @@ export default defineComponent({
       }
       problemId.value = '';
     };
+    const updateVisible = async (index: number) => {
+      const id = problems.value[index].id;
+      const visible = !problems.value[index].visible;
+      try {
+        await setContestProblemVisible(contest.value.id, id, visible);
+        snackbar.open(`题目 ${problems.value[index].problem.id}. 更新成功`);
+        problems.value[index].visible = visible;
+      } catch (err) {
+        snackbar.open({
+          message: err.message,
+          type: 'is-danger'
+        });
+      }
+    };
     const removeProblem = async (index: number) => {
       const id = problems.value[index].id;
       try {
@@ -227,6 +250,7 @@ export default defineComponent({
       numberToIndex,
       problemId,
       pushProblem,
+      updateVisible,
       removeProblem
     };
   }
