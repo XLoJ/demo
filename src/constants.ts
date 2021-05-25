@@ -16,23 +16,27 @@ export const LangList = [
     value: 'cc17'
   },
   {
-    id: 'Java',
-    value: 'java'
+    id: 'Kotlin',
+    value: 'kotlin'
   },
   {
-    id: 'Python 2',
-    value: 'py2'
+    id: 'Java',
+    value: 'java'
   },
   {
     id: 'Python 3',
     value: 'python'
   },
   {
+    id: 'Python 2',
+    value: 'py2'
+  },
+  {
     id: 'Go',
     value: 'go'
   },
   {
-    id: 'Kotlin',
-    value: 'kotlin'
+    id: '文本',
+    value: 'text'
   }
 ];
