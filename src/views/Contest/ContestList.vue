@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="privateContestList.length > 0">
+    <div v-if="privateContestList.length > 0 || isAdmin">
       <h3 class="title is-5">私有比赛</h3>
       <contest-table :data="privateContestList"></contest-table>
     </div>
@@ -15,6 +15,7 @@
 import { defineComponent } from '@vue/composition-api';
 import ContestTable from './ContestTable.vue';
 import { useContestList } from '../../service/contest';
+import { isUserAdmin } from '@/service/user';
 
 export default defineComponent({
   name: 'ContestList',
@@ -24,10 +25,12 @@ export default defineComponent({
   setup() {
     const { privateContestList, comingContestList, endContestList } =
       useContestList();
+    const isAdmin = isUserAdmin();
     return {
       privateContestList,
       comingContestList,
-      endContestList
+      endContestList,
+      isAdmin
     };
   }
 });

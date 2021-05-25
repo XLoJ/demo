@@ -1,4 +1,4 @@
-import { reactive } from '@vue/composition-api';
+import { reactive, ref } from '@vue/composition-api';
 import { api } from '@/service/api';
 import { getItem, removeItem, setItem } from '@/service/store';
 import { AccessTokenKey } from '@/service/constant';
@@ -10,18 +10,20 @@ interface User {
   groups: any;
 }
 
-const user: User | Record<never, never> = {};
+let user: User | null = null;
 const isLogin = { flag: 0, polygon: false };
 
 // 0 : nothing; 1: OK; -1: Waiting;
 
 function updateUserState(data: User) {
-  (user as User).id = data.id;
-  (user as User).nickname = data.nickname;
-  (user as User).username = data.username;
-  (user as User).groups = data.groups;
+  user = {
+    id: data.id,
+    nickname: data.nickname,
+    username: data.username,
+    groups: data.groups
+  };
   isLogin.flag = 1;
-  isLogin.polygon = isAllowPolygon(user as User);
+  isLogin.polygon = isAllowPolygon().value;
 }
 
 if (getItem(AccessTokenKey)) {
@@ -41,7 +43,7 @@ export async function userRegister(
   nickname: string,
   password: string
 ) {
-  const { data } = await api.post('/register', {
+  await api.post('/register', {
     username,
     nickname,
     password
@@ -81,13 +83,20 @@ export function useUser() {
   };
 }
 
-function isAllowPolygon(user: User) {
-  for (const g of user.groups) {
-    if (g.name === 'polygon') {
-      return true;
-    }
+export function isUserAdmin() {
+  if (isLogin.flag === 1 && user !== null) {
+    return ref(user.groups.find((g: any) => g.name === 'admin') !== undefined);
+  } else {
+    return ref(false);
   }
-  return false;
+}
+
+function isAllowPolygon() {
+  if (isLogin.flag === 1 && user !== null) {
+    return ref(user.groups.find((g: any) => g.name === 'admin') !== undefined);
+  } else {
+    return ref(false);
+  }
 }
 
 export async function getPolygonList() {

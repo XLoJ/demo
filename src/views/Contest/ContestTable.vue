@@ -33,6 +33,10 @@
         >10 人
       </router-link>
     </b-table-column>
+
+    <template #empty>
+      <div class="has-text-weight-bold has-text-centered">没有比赛</div>
+    </template>
   </b-table>
 </template>
 
