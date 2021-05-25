@@ -20,6 +20,9 @@
       <b-field label="比赛时长">
         <b-numberinput v-model="duration" :min="-1"></b-numberinput>
       </b-field>
+      <b-field label="比赛描述">
+        <b-input v-model="description" type="textarea"></b-input>
+      </b-field>
       <div class="buttons">
         <b-button type="is-success" @click="submit">更新比赛</b-button>
         <b-button type="is-danger" @click="submit">公开比赛</b-button>
@@ -59,6 +62,7 @@ export default defineComponent({
       }
     });
     const duration = ref(contest.value.duration);
+    const description = ref(contest.value.description);
 
     watch(contest, (contest) => {
       name.value = contest.name;
@@ -72,7 +76,7 @@ export default defineComponent({
         try {
           const data = await updateContestInfo(contest.value.id, {
             name: name.value,
-            description: '',
+            description: description.value,
             startTime: startTime.value,
             duration: duration.value
           });
@@ -94,6 +98,7 @@ export default defineComponent({
       name,
       startTime,
       duration,
+      description,
       submit
     };
   }
