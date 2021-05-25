@@ -1,36 +1,68 @@
 <template>
   <div>
-    <section>
-      <b-field label="比赛名称">
-        <b-input v-model="name"></b-input>
-      </b-field>
-      <b-field label="开始时间">
-        <b-datetimepicker v-model="startTime">
-          <template #right>
-            <b-button
-              icon-left="close"
-              label="Clear"
-              outlined
-              type="is-danger"
-              @click="startTime = null"
-            />
-          </template>
-        </b-datetimepicker>
-      </b-field>
-      <b-field label="比赛时长">
-        <b-numberinput v-model="duration" :min="-1"></b-numberinput>
-      </b-field>
-      <b-field label="比赛描述">
-        <b-input v-model="description" type="textarea"></b-input>
-      </b-field>
-      <div class="buttons">
-        <b-button type="is-success" @click="submit">更新比赛</b-button>
-        <b-button type="is-danger" @click="updatePublic">
-          <span v-if="!contest.public">公开比赛</span>
-          <span v-else>隐藏比赛</span>
-        </b-button>
+    <b-collapse class="card" animation="slide">
+      <template #trigger="props">
+        <div class="card-header" role="button">
+          <p class="card-header-title">
+            <span>比赛信息</span>
+          </p>
+          <a class="card-header-icon">
+            <b-icon :icon="props.open ? 'menu-down' : 'menu-up'"> </b-icon>
+          </a>
+        </div>
+      </template>
+      <div class="card-content">
+        <div class="content">
+          <section>
+            <b-field label="比赛名称">
+              <b-input v-model="name"></b-input>
+            </b-field>
+            <b-field label="开始时间">
+              <b-datetimepicker v-model="startTime">
+                <template #right>
+                  <b-button
+                    icon-left="close"
+                    label="Clear"
+                    outlined
+                    type="is-danger"
+                    @click="startTime = null"
+                  />
+                </template>
+              </b-datetimepicker>
+            </b-field>
+            <b-field label="比赛时长">
+              <b-numberinput v-model="duration" :min="-1"></b-numberinput>
+            </b-field>
+            <b-field label="比赛描述">
+              <b-input v-model="description" type="textarea"></b-input>
+            </b-field>
+            <div class="buttons">
+              <b-button type="is-success" @click="submit">更新比赛</b-button>
+              <b-button type="is-danger" @click="updatePublic">
+                <span v-if="!contest.public">公开比赛</span>
+                <span v-else>隐藏比赛</span>
+              </b-button>
+            </div>
+          </section>
+        </div>
       </div>
-    </section>
+    </b-collapse>
+
+    <b-collapse class="card" animation="slide">
+      <template #trigger="props">
+        <div class="card-header" role="button">
+          <p class="card-header-title">
+            <span>题目信息</span>
+          </p>
+          <a class="card-header-icon">
+            <b-icon :icon="props.open ? 'menu-down' : 'menu-up'"> </b-icon>
+          </a>
+        </div>
+      </template>
+      <div class="card-content">
+        <div class="content"></div>
+      </div>
+    </b-collapse>
   </div>
 </template>
 
