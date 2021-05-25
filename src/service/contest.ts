@@ -2,18 +2,27 @@ import { reactive, ref } from '@vue/composition-api';
 import { api } from '@/service/api';
 import dayjs from 'dayjs';
 import router from '@/router';
+import { useLocalStorage } from '@vueuse/core';
+import { ToastProgrammatic as Toast } from 'buefy';
 
 export function useContestList(): {
+  privateContestList: any;
   comingContestList: any;
   endContestList: any;
 } {
-  const comingContestList = ref([] as any[]);
-  const endContestList = ref([] as any[]);
+  const comingContestList = useLocalStorage('contests/coming', [] as any);
+  const endContestList = useLocalStorage('contests/end', [] as any);
+  const privateContestList = useLocalStorage('contests/end', [] as any);
 
   api.get('/contest').then(({ data }) => {
+    comingContestList.value.splice(0);
+    endContestList.value.splice(0);
+    privateContestList.value.splice(0);
     for (const contest of data) {
       const endTime = dayjs(contest.startTime).add(contest.duration, 'minute');
-      if (dayjs().isAfter(endTime)) {
+      if (!contest.public) {
+        privateContestList.value.push(contest);
+      } else if (dayjs().isAfter(endTime)) {
         endContestList.value.push(contest);
       } else {
         comingContestList.value.push(contest);
@@ -22,6 +31,7 @@ export function useContestList(): {
   });
 
   return {
+    privateContestList,
     comingContestList,
     endContestList
   };
@@ -36,6 +46,10 @@ export function useContestInfo(id: number): any {
     })
     .catch((err) => {
       router.push({ name: 'Home' });
+      Toast.open({
+        message: err.message ?? '无法访问比赛 ${id}.',
+        type: 'is-danger'
+      });
     });
   return contest;
 }

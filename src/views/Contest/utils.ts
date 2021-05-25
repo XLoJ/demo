@@ -5,6 +5,7 @@ export function formatStartTime(timestamp: string) {
 }
 
 export function formatDuration(duration: number) {
+  if (duration < 0) return ' - ';
   const t = dayjs().hour(0).minute(0).add(duration, 'minute');
   return t.format('H:mm');
 }

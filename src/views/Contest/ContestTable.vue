@@ -1,5 +1,8 @@
 <template>
   <b-table :data="data" class="mb-4">
+    <b-table-column v-slot="props" centered label="#" width="3em">
+      <span class="has-text-weight-bold">{{ props.row.id }} </span>
+    </b-table-column>
     <b-table-column v-slot="props" field="name" label="名称" width="750">
       <router-link :to="{ name: 'Contest', params: { id: props.row.id } }"
         >{{ props.row.name }}
@@ -11,12 +14,21 @@
     <b-table-column centered v-slot="props" field="length" label="持续时间">
       <span>{{ formatDuration(props.row.duration) }}</span>
     </b-table-column>
-    <b-table-column v-slot="props" field="writers" label="出题人">
-      <span v-for="(writer, index) in props.row.writers" :key="index">{{
-        writer
-      }}</span>
+    <b-table-column
+      v-slot="props"
+      centered
+      field="writers"
+      label="出题人"
+      width="10em"
+    >
+      <UserLink
+        v-for="(writer, index) in props.row.writers"
+        :key="index"
+        :user="writer"
+        class="mr-1 mb-1"
+      ></UserLink>
     </b-table-column>
-    <b-table-column label="榜单" v-slot="props">
+    <b-table-column label="榜单" v-slot="props" width="5em">
       <router-link :to="{ name: 'Contest', params: { id: props.row.id } }"
         >10 人
       </router-link>
@@ -27,11 +39,15 @@
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
 import { formatDuration, formatStartTime } from '@/views/Contest/utils';
+import UserLink from '@/components/UserLink.vue';
 
 export default defineComponent({
   name: 'ContestTable',
   props: {
     data: Array
+  },
+  components: {
+    UserLink
   },
   methods: {
     formatStartTime,
