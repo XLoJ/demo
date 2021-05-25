@@ -8,15 +8,21 @@
       </b-table-column>
       <b-table-column v-slot="props" label="名称">
         <router-link :to="{ name: 'ContestList' }"
-          >{{ props.row.name }}
+          >{{ props.row.problem.title }}
         </router-link>
       </b-table-column>
-      <b-table-column centered label="通过人数" v-slot="props" width="120">
+      <b-table-column v-slot="props" centered label="通过人数" width="120">
         <span
           ><span class="icon"><i class="mdi mdi-account"></i></span
-          >{{ props.row.accept_num }}</span
+          >{{ props.row.passCount }}</span
         >
       </b-table-column>
+
+      <template #empty>
+        <div class="has-text-weight-bold has-text-centered">
+          <span>没有题目</span>
+        </div>
+      </template>
     </b-table>
 
     <div>
@@ -43,10 +49,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
-import { useContestProblems } from '@/service/contest';
-import { formatTime } from '@/utils';
-import { formatDuration, formatStartTime } from '@/views/Contest/utils';
+import { computed, defineComponent } from '@vue/composition-api';
+import {
+  formatDuration,
+  formatStartTime,
+  numberToIndex
+} from '@/views/Contest/utils';
+import { toRefs } from '@vueuse/core';
 
 export default defineComponent({
   name: 'Dashboard',
@@ -59,10 +68,11 @@ export default defineComponent({
     formatDuration
   },
   setup(props: { contest: any }) {
-    const { problems } = useContestProblems(props.contest.id);
+    const { contest } = toRefs(props);
 
-    const numberToIndex = (i: number) =>
-      String.fromCharCode('A'.charCodeAt(0) + i);
+    const problems = computed(() => {
+      return contest.value.problems;
+    });
 
     return {
       problems,

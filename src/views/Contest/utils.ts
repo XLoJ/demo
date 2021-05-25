@@ -9,3 +9,6 @@ export function formatDuration(duration: number) {
   const t = dayjs().hour(0).minute(0).add(duration, 'minute');
   return t.format('H:mm');
 }
+
+export const numberToIndex = (i: number) =>
+  String.fromCharCode('A'.charCodeAt(0) + i);

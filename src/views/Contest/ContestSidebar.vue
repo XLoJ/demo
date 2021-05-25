@@ -16,10 +16,10 @@
         <p class="has-text-centered card-header-title">题目列表</p>
       </header>
       <div class="card-content">
-        <div class="content">
-          <div v-for="(problem, index) in problems" :key="index">
+        <div class="content is-family-monospace">
+          <div v-for="problem in problems" :key="problem.index">
             <router-link :to="{ name: 'ContestList' }"
-              >{{ problem.index }}. {{ problem.name }}
+              >{{ numberToIndex(problem.index) }}. {{ problem.problem.title }}
             </router-link>
           </div>
         </div>
@@ -29,20 +29,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
-import { useContestProblems } from '@/service/contest';
+import { computed, defineComponent } from '@vue/composition-api';
+import { toRefs } from '@vueuse/core';
+import { numberToIndex } from '@/views/Contest/utils';
 
 export default defineComponent({
   name: 'ContestSidebar',
   props: {
     contest: Object
   },
-  setup(props) {
-    const contest = props.contest!;
-    const { problems } = useContestProblems(contest.id);
+  setup(props: any) {
+    const { contest } = toRefs(props);
+    const problems = computed(() => {
+      return contest.value.problems;
+    });
 
     return {
-      problems
+      problems,
+      numberToIndex
     };
   }
 });

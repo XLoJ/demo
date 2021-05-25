@@ -68,32 +68,6 @@ export function useContestInfo(id: number): any {
   return contest;
 }
 
-export function useContestProblems(cid: number): any {
-  const problems = reactive([
-    {
-      index: 'A',
-      name: 'A + B',
-      accept_num: 100
-    },
-    {
-      index: 'B',
-      name: 'A - B',
-      accept_num: 50
-    },
-    {
-      index: 'C',
-      name: 'A * B',
-      accept_num: 10
-    },
-    {
-      index: 'D',
-      name: 'A / B',
-      accept_num: 1
-    }
-  ]);
-  return { problems };
-}
-
 export async function updateContestInfo(contestId: number, payload: any) {
   const { data } = await api.post(`/contest/admin/${contestId}`, payload);
   return data;
