@@ -8,7 +8,9 @@
         "
       >
         <span>私有比赛</span>
-        <b-button type="is-success">创建比赛</b-button>
+        <b-button v-if="isAdmin" type="is-success" @click="goCreate"
+          >创建比赛</b-button
+        >
       </h3>
       <contest-table :data="privateContestList" :creator="true"></contest-table>
     </div>
@@ -24,6 +26,7 @@ import { defineComponent } from '@vue/composition-api';
 import ContestTable from './ContestTable.vue';
 import { useContestList } from '../../service/contest';
 import { isUserAdmin } from '@/service/user';
+import { useRouter } from '@/utils';
 
 export default defineComponent({
   name: 'ContestList',
@@ -34,11 +37,18 @@ export default defineComponent({
     const { privateContestList, comingContestList, endContestList } =
       useContestList();
     const isAdmin = isUserAdmin();
+
+    const router = useRouter();
+    const goCreate = () => {
+      router.push({ name: 'CreateContest' });
+    };
+
     return {
       privateContestList,
       comingContestList,
       endContestList,
-      isAdmin
+      isAdmin,
+      goCreate
     };
   }
 });

@@ -6,6 +6,11 @@ import { useLocalStorage } from '@vueuse/core';
 import { ToastProgrammatic as Toast } from 'buefy';
 import { useUser } from '@/service/user';
 
+export async function createContest(name: string) {
+  const { data } = await api.post('/contest/create', { name });
+  return data;
+}
+
 export function useContestList(): {
   privateContestList: any;
   comingContestList: any;

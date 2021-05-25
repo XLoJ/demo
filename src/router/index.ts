@@ -55,6 +55,14 @@ const routes: Array<RouteConfig> = [
         }
       },
       {
+        path: '/contest/create',
+        name: 'CreateContest',
+        component: () => import('../views/Contest/CreateContest.vue'),
+        meta: {
+          title: '创建比赛'
+        }
+      },
+      {
         path: '/contest/:id',
         component: () => import('../views/Contest/Contest.vue'),
         props: true,
