@@ -111,6 +111,15 @@ const routes: Array<RouteConfig> = [
             meta: {
               title: '排行榜'
             }
+          },
+          {
+            path: '/contest/:id/edit',
+            name: 'EditContest',
+            component: () => import('../views/Contest/EditContest.vue'),
+            props: true,
+            meta: {
+              title: '编辑比赛'
+            }
           }
         ]
       }

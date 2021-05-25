@@ -8,6 +8,7 @@
           <b-tab-item label="我的提交"></b-tab-item>
           <b-tab-item label="全部提交"></b-tab-item>
           <b-tab-item label="排行榜"></b-tab-item>
+          <b-tab-item v-if="canEditContest" label="编辑比赛"></b-tab-item>
         </b-tabs>
         <router-view :contest="contest"></router-view>
       </div>
@@ -19,10 +20,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import {
+  computed,
+  defineComponent,
+  getCurrentInstance,
+  onBeforeMount,
+  ref
+} from '@vue/composition-api';
 import { useContestInfo } from '../../service/contest';
 import ContestSidebar from './ContestSidebar.vue';
 import Dashboard from './Dashboard.vue';
+import { isUserAdmin, useUser } from '@/service/user';
 
 export default defineComponent({
   name: 'Contest',
@@ -34,33 +42,77 @@ export default defineComponent({
     id: [Number, String]
   },
   data() {
+    const routeTable = ['Dashboard', 'Submission', 'Status', 'Standings'];
+    const routeName = this.$route.name;
+    const active = routeTable.findIndex((name) => name === routeName);
     return {
-      activeTab: 0
+      activeTab: active !== -1 ? active : 0,
+      routeTable
     };
   },
   watch: {
-    activeTab(nV, oV) {
-      if (nV !== oV) {
-        const route = this.$route;
-        const router = this.$router;
-        const id = String(this.id);
-        if (nV === 0 && !route.path.endsWith('dashboard')) {
-          router.push({ name: 'Dashboard', params: { id } });
-        } else if (nV === 1 && !route.path.endsWith('submission')) {
-          router.push({ name: 'Submission', params: { id } });
-        } else if (nV === 2 && !route.path.endsWith('status')) {
-          router.push({ name: 'Status', params: { id } });
-        } else if (nV === 3 && !route.path.endsWith('standings')) {
-          router.push({ name: 'Standings', params: { id } });
+    activeTab(active, oV) {
+      if (active !== oV) {
+        if (active === this.routeTable.length) {
+          if (this.canEditContest) {
+            this.$router.push({
+              name: 'EditContest',
+              params: { id: String(this.id) }
+            });
+          }
+        } else if (active < this.routeTable.length) {
+          this.$router.push({
+            name: this.routeTable[active],
+            params: { id: String(this.id) }
+          });
+        } else {
+          this.$router.push({
+            name: this.routeTable[0],
+            params: { id: String(this.id) }
+          });
         }
       }
     }
   },
+  beforeRouteUpdate(to, from, next) {
+    const active = this.routeTable.findIndex((name) => name === to.name);
+    (this as any).active = active !== -1 ? active : 0;
+    next();
+  },
   setup(props: { id: number | string }) {
     const contest = useContestInfo(+props?.id);
+    const isAdmin = isUserAdmin();
+    const { user } = useUser();
+
+    const canEditContest = computed(() => {
+      if (isAdmin.value) return true;
+      if (contest.value && user) {
+        const myId = user.id;
+        return (
+          contest.value.writers.find((user: any) => user.id === myId) !==
+          undefined
+        );
+      }
+      return false;
+    });
+
+    const _vm = getCurrentInstance();
+    onBeforeMount(() => {
+      setTimeout(() => {
+        if (_vm && _vm.proxy.$route.name === 'EditContest') {
+          if (!canEditContest.value) {
+            _vm.proxy.$router.push({ name: 'ContestList' });
+            return;
+          } else {
+            _vm.proxy.activeTab = 4;
+          }
+        }
+      }, 100);
+    });
 
     return {
-      contest
+      contest,
+      canEditContest
     };
   }
 });
