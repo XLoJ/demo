@@ -56,6 +56,9 @@ export function useContestInfo(id: number): any {
   api
     .get(`/contest/${id}`)
     .then(({ data }) => {
+      for (const prob of data.problems) {
+        prob.problem.examples = JSON.parse(prob.problem.examples);
+      }
       contest.value = data;
     })
     .catch((err) => {

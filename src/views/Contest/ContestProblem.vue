@@ -126,7 +126,6 @@ export default defineComponent({
       const prob = contest.value.problems.find(
         (problem: any) => problem.index === +index.value
       );
-      prob.problem.examples = JSON.parse(prob.problem.examples);
       return prob.problem;
     });
     return {
