@@ -98,3 +98,16 @@ export async function updateContestInfo(contestId: number, payload: any) {
   const { data } = await api.post(`/contest/admin/${contestId}`, payload);
   return data;
 }
+
+export async function updateContestPublic(contestId: number, flag: boolean) {
+  const { data } = await api.post(
+    `/contest/admin/${contestId}/public`,
+    {},
+    {
+      params: {
+        public: flag
+      }
+    }
+  );
+  return data;
+}

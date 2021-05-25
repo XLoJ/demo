@@ -8,10 +8,10 @@
         <b-datetimepicker v-model="startTime">
           <template #right>
             <b-button
-              label="Clear"
-              type="is-danger"
               icon-left="close"
+              label="Clear"
               outlined
+              type="is-danger"
               @click="startTime = null"
             />
           </template>
@@ -25,21 +25,18 @@
       </b-field>
       <div class="buttons">
         <b-button type="is-success" @click="submit">更新比赛</b-button>
-        <b-button type="is-danger" @click="submit">公开比赛</b-button>
+        <b-button type="is-danger" @click="updatePublic">
+          <span v-if="!contest.public">公开比赛</span>
+          <span v-else>隐藏比赛</span>
+        </b-button>
       </div>
     </section>
   </div>
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  ref,
-  toRef,
-  watch
-} from '@vue/composition-api';
-import { updateContestInfo, useContestInfo } from '@/service/contest';
+import { computed, defineComponent, ref, watch } from '@vue/composition-api';
+import { updateContestInfo, updateContestPublic } from '@/service/contest';
 import { useSnackbar } from '@/utils';
 import { toRefs } from '@vueuse/core';
 
@@ -94,12 +91,33 @@ export default defineComponent({
       }
     };
 
+    const updatePublic = async () => {
+      if (contest.value) {
+        try {
+          const flag = !contest.value.public;
+          await updateContestPublic(contest.value.id, flag);
+          contest.value.public = flag;
+          if (flag) {
+            snackbar.open(`比赛 ${contest.value.id}. 成功公开`);
+          } else {
+            snackbar.open(`比赛 ${contest.value.id}. 成功隐藏`);
+          }
+        } catch (err) {
+          snackbar.open({
+            message: err.message,
+            type: 'is-danger'
+          });
+        }
+      }
+    };
+
     return {
       name,
       startTime,
       duration,
       description,
-      submit
+      submit,
+      updatePublic
     };
   }
 });
