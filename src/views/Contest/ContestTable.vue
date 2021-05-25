@@ -52,7 +52,7 @@
       ></UserLink>
     </b-table-column>
     <b-table-column label="榜单" v-slot="props" width="5em">
-      <router-link :to="{ name: 'Contest', params: { id: props.row.id } }"
+      <router-link :to="{ name: 'Standings', params: { id: props.row.id } }"
         >10 人
       </router-link>
     </b-table-column>
