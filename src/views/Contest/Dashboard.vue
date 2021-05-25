@@ -7,7 +7,11 @@
         }}</span>
       </b-table-column>
       <b-table-column v-slot="props" label="名称">
-        <router-link :to="{ name: 'ContestList' }"
+        <router-link
+          :to="{
+            name: 'ContestProblem',
+            params: { index: props.row.index, contest }
+          }"
           >{{ props.row.problem.title }}
         </router-link>
       </b-table-column>

@@ -86,6 +86,15 @@ const routes: Array<RouteConfig> = [
             }
           },
           {
+            path: '/contest/:id/problem/:index',
+            name: 'ContestProblem',
+            component: () => import('../views/Contest/ContestProblem.vue'),
+            props: true,
+            meta: {
+              title: '题目'
+            }
+          },
+          {
             path: '/contest/:id/submission',
             name: 'Submission',
             component: () => import('../views/Contest/Submission.vue'),

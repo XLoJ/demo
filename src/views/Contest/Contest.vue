@@ -17,15 +17,15 @@
             <li :class="activeClass(3)">
               <router-link :to="{ name: routeTable[3] }">排行榜</router-link>
             </li>
-            <li :class="activeClass(4)" v-if="canEditContest">
+            <li v-if="canEditContest" :class="activeClass(4)">
               <router-link :to="{ name: routeTable[4] }">编辑比赛</router-link>
             </li>
           </ul>
         </div>
-        <router-view :contest="contest"></router-view>
+        <router-view v-if="contest" :contest="contest"></router-view>
       </div>
       <div class="column">
-        <ContestSidebar :contest="contest"></ContestSidebar>
+        <ContestSidebar v-if="contest" :contest="contest"></ContestSidebar>
       </div>
     </div>
   </div>
@@ -37,6 +37,7 @@ import { useContestInfo } from '../../service/contest';
 import ContestSidebar from './ContestSidebar.vue';
 import Dashboard from './Dashboard.vue';
 import { isUserAdmin, useUser } from '@/service/user';
+import { toRefs } from '@vueuse/core';
 
 export default defineComponent({
   name: 'Contest',
@@ -63,7 +64,7 @@ export default defineComponent({
     };
   },
   methods: {
-    activeClass(index) {
+    activeClass(index: number) {
       return index === this.activeTab ? 'is-active' : '';
     }
   },
@@ -73,7 +74,8 @@ export default defineComponent({
     next();
   },
   setup(props: { id: number | string }) {
-    const contest = useContestInfo(+props?.id);
+    const { id } = toRefs(props);
+    const contest = useContestInfo(id.value);
     const isAdmin = isUserAdmin();
     const { user } = useUser();
 
