@@ -469,4 +469,9 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+pre {
+  width: 100%;
+  overflow: auto;
+}
+</style>

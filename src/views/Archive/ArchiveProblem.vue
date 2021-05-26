@@ -3,6 +3,7 @@
     <ProblemView :num-index="+index" :problem="problem.problem"></ProblemView>
 
     <Submit
+      :disable="disableSubmit"
       :contest-id="LocalContestId"
       :contest-problem-id="problem.id"
       @submission="handleSubmission"
@@ -50,6 +51,7 @@ export default defineComponent({
 
     const problem = useProblem(LocalContestId, index.value - 1);
 
+    const disableSubmit = ref(false);
     const lastSubmission = ref();
     const runUpdate = (submission: any) => {
       if ('messages' in submission && Array.isArray(submission.messages)) {
@@ -79,10 +81,12 @@ export default defineComponent({
         const lastVerdict = messages[messages.length - 1].verdict;
         if (isFinishVerdict(lastVerdict)) {
           clearInterval(ev);
+          disableSubmit.value = false;
         }
       }, 500);
     };
     const handleSubmission = (submission: any) => {
+      disableSubmit.value = true;
       submission.messages = [];
       lastSubmission.value = submission;
       runUpdate(submission);
@@ -93,7 +97,8 @@ export default defineComponent({
       problem,
       lastSubmission,
       handleSubmission,
-      user
+      user,
+      disableSubmit
     };
   }
 });

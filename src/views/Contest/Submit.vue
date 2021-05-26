@@ -29,10 +29,14 @@ export default defineComponent({
   },
   props: {
     contestId: Number,
-    contestProblemId: Number
+    contestProblemId: Number,
+    disable: {
+      type: Boolean,
+      default: false
+    }
   },
   setup(props, { emit }) {
-    const { contestId, contestProblemId } = toRefs(props);
+    const { contestId, contestProblemId, disable } = toRefs(props);
 
     const snackbar = useSnackbar();
 
@@ -43,6 +47,7 @@ export default defineComponent({
     const code = useLocalStorage(`submit/code/${contestProblemId?.value}`, '');
     const submit = async () => {
       if (
+        !disable.value &&
         contestId &&
         contestId.value &&
         contestProblemId &&

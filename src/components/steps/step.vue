@@ -170,3 +170,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.el-step__main {
+  max-width: calc(100% - 24px);
+}
+</style>
