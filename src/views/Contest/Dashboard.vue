@@ -1,6 +1,11 @@
 <template>
   <div class="dashboard">
-    <b-table :data="problems" bordered class="mb-4">
+    <b-table
+      :data="problems"
+      bordered
+      class="mb-4"
+      :row-class="(row) => !row.visible && 'has-background-light'"
+    >
       <b-table-column v-slot="props" centered label="#" width="48">
         <span class="has-text-weight-bold">{{
           numberToIndex(props.row.index)

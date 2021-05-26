@@ -64,7 +64,7 @@
           <b-table
             bordered
             :data="problems"
-            :row-class="(row, index) => !row.visible && 'has-background-light'"
+            :row-class="(row) => !row.visible && 'has-background-light'"
           >
             <b-table-column v-slot="props" centered label="#" width="48">
               <span class="has-text-weight-bold">{{
