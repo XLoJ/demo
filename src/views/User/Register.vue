@@ -37,7 +37,7 @@
 import { defineComponent, ref } from '@vue/composition-api';
 import { userLogin, userRegister } from '../../service/user';
 import Navbar from '../../components/Navbar.vue';
-import { useRouter, useSnackbar } from '@/utils';
+import { useRoute, useRouter, useSnackbar } from '@/utils';
 
 export default defineComponent({
   name: 'LoginPage',
@@ -48,6 +48,8 @@ export default defineComponent({
     const username = ref('');
     const nickname = ref('');
     const password = ref('');
+
+    const route = useRoute();
     const router = useRouter();
 
     const isShowError = ref(false);
@@ -61,9 +63,7 @@ export default defineComponent({
         }
         await userRegister(username.value, nickname.value, password.value);
         snackbar.open('注册成功');
-        router.push({
-          name: 'Home'
-        });
+        router.push(route.params.redirect ?? { name: 'Home' });
       } catch (err) {
         password.value = '';
         isShowError.value = true;

@@ -53,11 +53,11 @@ export function useContestInfo(id: number): any {
       contest.value = data;
     })
     .catch((err) => {
-      router.push({ name: 'Home' });
       Toast.open({
         message: err.message ?? '无法访问比赛 ${id}.',
         type: 'is-danger'
       });
+      router.push({ name: 'ContestList' });
     });
   return contest;
 }

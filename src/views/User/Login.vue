@@ -34,7 +34,7 @@
 import { defineComponent, ref } from '@vue/composition-api';
 import { userLogin } from '../../service/user';
 import Navbar from '../../components/Navbar.vue';
-import { useRouter, useSnackbar } from '@/utils';
+import { useRoute, useRouter, useSnackbar } from '@/utils';
 
 export default defineComponent({
   name: 'LoginPage',
@@ -44,6 +44,8 @@ export default defineComponent({
   setup() {
     const username = ref('');
     const password = ref('');
+
+    const route = useRoute();
     const router = useRouter();
 
     const isShowError = ref(false);
@@ -54,9 +56,7 @@ export default defineComponent({
       try {
         await userLogin(username.value, password.value);
         snackbar.open('登录成功');
-        router.push({
-          name: 'Home'
-        });
+        router.push(route.params.redirect ?? { name: 'Home' });
       } catch (err) {
         password.value = '';
         isShowError.value = true;

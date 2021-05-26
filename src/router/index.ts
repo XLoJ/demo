@@ -31,6 +31,16 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/User/Login.vue'),
     meta: {
       title: '登录'
+    },
+    beforeEnter(to, from, next) {
+      if (from.name === 'Welcome') {
+        to.params.redirect = '/home';
+      } else if (from.name) {
+        to.params.redirect = from.fullPath;
+      } else {
+        to.params.redirect = '/home';
+      }
+      next();
     }
   },
   {
@@ -39,6 +49,16 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/User/Register.vue'),
     meta: {
       title: '注册'
+    },
+    beforeEnter(to, from, next) {
+      if (from.name === 'Welcome') {
+        to.params.redirect = '/home';
+      } else if (from.name) {
+        to.params.redirect = from.fullPath;
+      } else {
+        to.params.redirect = '/home';
+      }
+      next();
     }
   },
   {
