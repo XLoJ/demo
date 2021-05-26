@@ -84,6 +84,13 @@ export async function submitCode(
   return data;
 }
 
+export async function getSubmission(contestId: number, submissionId: number) {
+  const { data } = await api.get(
+    `/contest/${contestId}/submission/${submissionId}`
+  );
+  return data;
+}
+
 // Contest manager
 
 export async function updateContestInfo(contestId: number, payload: any) {
