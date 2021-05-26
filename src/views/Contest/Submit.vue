@@ -39,18 +39,30 @@ export default defineComponent({
     const lang = useLocalStorage('submit/language', 'cpp');
     const code = useLocalStorage(`submit/code/${contestProblemId}`, '');
     const submit = async () => {
-      try {
-        const data = await submitCode(
-          contestId.value,
-          contestProblemId.value,
-          code.value,
-          lang.value
-        );
-        emit('submission', data);
-        snackbar.open('提交成功');
-      } catch (err) {
+      if (
+        contestId &&
+        contestId.value &&
+        contestProblemId &&
+        contestProblemId.value
+      ) {
+        try {
+          const data = await submitCode(
+            contestId.value,
+            contestProblemId.value,
+            code.value,
+            lang.value
+          );
+          emit('submission', data);
+          snackbar.open('提交成功');
+        } catch (err) {
+          snackbar.open({
+            message: err.message,
+            type: 'is-danger'
+          });
+        }
+      } else {
         snackbar.open({
-          message: err.message,
+          message: '提交失败',
           type: 'is-danger'
         });
       }
