@@ -53,7 +53,7 @@
                   ></span>
                 </div>
               </th>
-              <th class="" draggable="false" style="width: 10em">
+              <th class="" draggable="false" style="width: 8em">
                 <div class="th-wrap is-centered">
                   <span class="is-relative">
                     评测结果
@@ -99,17 +99,20 @@
                 rowspan="2"
                 style="vertical-align: middle"
               >
-                <span>{{ submission.id }}</span>
+                <span v-if="submissionLink === null">{{ submission.id }}</span>
+                <router-link v-else :to="submissionLink">{{
+                  submission.id
+                }}</router-link>
               </th>
               <td class="has-text-centered" data-label="提交时间">
                 <span>{{ parseTime(submission.createTime) }}</span>
               </td>
-              <td class="has-text-centered pl-0 pr-0" data-label="用户">
+              <td class="has-text-centered" data-label="用户">
                 <router-link :to="{ name: 'Profile' }"
                   >{{ user.nickname }}
                 </router-link>
               </td>
-              <td class="has-text-centered pl-0 pr-0" data-label="题目">
+              <td class="has-text-centered" data-label="题目">
                 <router-link :to="problemLink">{{ problemName }}</router-link>
               </td>
               <td class="has-text-centered pl-0 pr-0" data-label="语言">
@@ -196,6 +199,10 @@ export default defineComponent({
     submission: Object,
     problemName: String,
     problemLink: [String, Object],
+    submissionLink: {
+      type: [String, Object],
+      required: false
+    },
     user: Object
   },
   setup(props: any) {

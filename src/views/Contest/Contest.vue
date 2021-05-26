@@ -51,7 +51,7 @@ export default defineComponent({
   data() {
     const routeTable = [
       'Dashboard',
-      'Submission',
+      'MySubmission',
       'Status',
       'Standings',
       'EditContest'

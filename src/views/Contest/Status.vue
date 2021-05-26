@@ -2,7 +2,11 @@
   <div class="status">
     <b-table :data="submissions" bordered>
       <b-table-column label="#" centered v-slot="props">
-        <span class="has-text-weight-bold">{{ props.row.id }}</span>
+        <router-link
+          class="has-text-weight-bold"
+          :to="{ name: 'ContestSubmission', params: { sid: props.row.id } }"
+          >{{ props.row.id }}</router-link
+        >
       </b-table-column>
       <b-table-column label="题目" centered v-slot="props">
         <router-link

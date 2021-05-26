@@ -93,9 +93,14 @@ export async function getSubmission(contestId: number, submissionId: number) {
 
 export function useMySubmissions(contestId: number) {
   const result = ref([] as any);
-  api.get(`/contest/${contestId}/submissions/my`).then(({ data }) => {
-    result.value.push(...data);
-  });
+  api
+    .get(`/contest/${contestId}/submissions/my`)
+    .then(({ data }) => {
+      result.value.push(...data);
+    })
+    .catch(() => {
+      router.push({ name: 'Contest', params: { id: String(contestId) } });
+    });
   return result;
 }
 
@@ -105,6 +110,18 @@ export function useAllSubmissions(contestId: number) {
     result.value.push(...data);
   });
   return result;
+}
+
+export async function getContestProblem(contestId: number, cpId: number) {
+  const data = await api
+    .get(`/contest/${contestId}/problem/${cpId}`)
+    .then(({ data }) => {
+      return data;
+    })
+    .catch(() => {
+      router.push({ name: 'Contest', params: { id: String(contestId) } });
+    });
+  return data;
 }
 
 // Contest manager

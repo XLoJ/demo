@@ -14,6 +14,10 @@
       :submission="lastSubmission"
       :problem-name="`${problem.title}`"
       :problem-link="{ name: 'ContestProblem', params: { id, index } }"
+      :submission-link="{
+        name: 'ContestSubmission',
+        params: { id, sid: lastSubmission.id }
+      }"
       :user="user"
     ></RealtimeSubmission>
   </div>
