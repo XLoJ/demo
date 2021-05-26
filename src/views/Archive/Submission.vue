@@ -4,14 +4,12 @@
       class="mb-4"
       :testcase-num="testcaseNum"
       :submission="submission"
-      :problem-name="`${numberToIndex(problem.index)}. ${
-        problem.problem.title
-      }`"
+      :problem-name="`${problem.index + 1}. ${problem.problem.title}`"
       :problem-link="{
-        name: 'ContestProblem',
-        params: { id, index: problem.index }
+        name: 'ArchiveProblem',
+        params: { index: problem.index }
       }"
-      :submission-link="{ name: 'ContestSubmission', params: { id, sid } }"
+      :submission-link="{ name: 'ArchiveSubmission', params: { sid } }"
       :user="submission.user"
     ></RealtimeSubmission>
     <pre

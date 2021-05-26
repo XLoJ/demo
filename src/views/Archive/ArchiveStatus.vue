@@ -1,5 +1,5 @@
 <template>
-  <div class="status">
+  <div class="status" v-if="contest">
     <b-table :data="submissions" bordered>
       <b-table-column v-slot="props" centered label="#">
         <router-link
@@ -12,11 +12,11 @@
         <router-link
           :to="{
             name: 'ArchiveProblem',
-            params: { index: mapToIndex(props.row) }
+            params: { index: mapToIndex(props.row) + 1 }
           }"
         >
           <span
-            >{{ numberToIndex(mapToIndex(props.row)) }}.
+            >{{ mapToIndex(props.row) + 1 }}.
             {{ props.row.problem.title }}</span
           >
         </router-link>
@@ -77,10 +77,12 @@ export default defineComponent({
         )?.index ?? 0
       );
     };
+
     return {
       formatTime,
       mapToIndex,
       numberToIndex,
+      contest,
       submissions
     };
   }

@@ -1,6 +1,11 @@
 <template>
   <div v-if="problem">
-    <ProblemView :problem="problem.problem" :num-index="index"></ProblemView>
+    <ProblemView :problem="problem.problem" :num-index="+index"></ProblemView>
+
+    <Submit
+      :contest-id="LocalContestId"
+      :contest-problem-id="problem.id"
+    ></Submit>
   </div>
 </template>
 
@@ -8,6 +13,7 @@
 import { defineComponent } from '@vue/composition-api';
 import { toRefs } from '@vueuse/core';
 import ProblemView from '@/views/Contest/ProblemView.vue';
+import Submit from '@/views/Contest/Submit.vue';
 import { LocalContestId } from '@/constants';
 import { useProblem } from '@/service/contest';
 
@@ -17,7 +23,8 @@ export default defineComponent({
     index: [String, Number]
   },
   components: {
-    ProblemView
+    ProblemView,
+    Submit
   },
   setup(props: any) {
     const { index } = toRefs(props);
@@ -25,6 +32,7 @@ export default defineComponent({
     const problem = useProblem(LocalContestId, index.value - 1);
 
     return {
+      LocalContestId,
       problem
     };
   }

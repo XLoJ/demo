@@ -114,7 +114,7 @@ export function useAllSubmissions(contestId: number) {
 
 export async function getContestProblem(contestId: number, cpId: number) {
   const data = await api
-    .get(`/contest/${contestId}/problem/${cpId}`)
+    .get(`/contest/${contestId}/contestproblem/${cpId}`)
     .then(({ data }) => {
       return data;
     })
