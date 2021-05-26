@@ -13,7 +13,7 @@ import { useMySubmissions } from '@/service/contest';
 import { toRefs } from '@vueuse/core';
 
 export default defineComponent({
-  name: 'Submission',
+  name: 'MySubmission',
   components: {
     Status
   },

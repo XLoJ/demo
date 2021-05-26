@@ -117,7 +117,7 @@ const routes: Array<RouteConfig> = [
           {
             path: '/contest/:id/submission',
             name: 'Submission',
-            component: () => import('../views/Contest/Submission.vue'),
+            component: () => import('../views/Contest/MySubmission.vue'),
             props: true,
             meta: {
               title: '我的提交'
