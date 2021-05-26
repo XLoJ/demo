@@ -1,7 +1,8 @@
-import { reactive, ref } from '@vue/composition-api';
+import { computed, reactive, ref } from '@vue/composition-api';
 import { api } from '@/service/api';
 import { getItem, removeItem, setItem } from '@/service/store';
 import { AccessTokenKey } from '@/service/constant';
+import { useLocalStorage } from '@vueuse/core';
 
 interface User {
   id: number;
@@ -11,9 +12,8 @@ interface User {
 }
 
 let user: User | null = null;
-const isLogin = { flag: 0, polygon: false };
-
 // 0 : nothing; 1: OK; -1: Waiting;
+const isLogin = { flag: 0 };
 
 function updateUserState(data: User) {
   user = {
@@ -23,19 +23,6 @@ function updateUserState(data: User) {
     groups: data.groups
   };
   isLogin.flag = 1;
-  isLogin.polygon = isAllowPolygon().value;
-}
-
-if (getItem(AccessTokenKey)) {
-  isLogin.flag = -1;
-  api
-    .get('/profile')
-    .then(({ data }) => {
-      updateUserState(data);
-    })
-    .catch(() => {
-      userLogout();
-    });
 }
 
 export async function userRegister(
@@ -66,40 +53,79 @@ export async function userLogin(username: string, password: string) {
 
 export function userLogout() {
   isLogin.flag = 0;
-  isLogin.polygon = false;
   removeItem(AccessTokenKey);
+  removeItem('contests/coming');
+  removeItem('contests/end');
+  removeItem('contests/private');
 }
 
 export function useUser() {
-  if (user === null) {
-    return {
-      isLogin: reactive(isLogin)
-    };
+  const _user = ref(user);
+  const _login = ref(isLogin);
+  if (user == null) {
+    const accessToken = useLocalStorage(AccessTokenKey, '');
+    if (accessToken.value.length > 0) {
+      _login.value.flag = -1;
+      api
+        .get('/profile')
+        .then(({ data }) => {
+          updateUserState(data);
+          _user.value = data;
+          _login.value.flag = 1;
+        })
+        .catch(() => {
+          _login.value.flag = 0;
+          userLogout();
+        });
+    }
   }
-  const _user = reactive(user);
+  const isUserAdmin = computed(() => {
+    if (_login.value.flag === 1 && _user.value !== null) {
+      return (
+        _user.value.groups.find((g: any) => g.name === 'admin') !== undefined
+      );
+    } else {
+      return false;
+    }
+  });
+  const isAllowPolygon = computed(() => {
+    if (_login.value.flag === 1 && _user.value !== null) {
+      return (
+        _user.value.groups.find((g: any) => g.name === 'polygon') !== undefined
+      );
+    } else {
+      return false;
+    }
+  });
   return {
-    isLogin: reactive(isLogin),
-    user: _user
+    user: _user,
+    isLogin: _login,
+    isUserAdmin,
+    isAllowPolygon
   };
 }
 
-export function isUserAdmin() {
-  if (isLogin.flag === 1 && user !== null) {
-    return ref(user.groups.find((g: any) => g.name === 'admin') !== undefined);
-  } else {
-    return ref(false);
-  }
-}
-
-export function isAllowPolygon() {
-  if (isLogin.flag === 1 && user !== null) {
-    return ref(
-      user.groups.find((g: any) => g.name === 'polygon') !== undefined
-    );
-  } else {
-    return ref(false);
-  }
-}
+// export function isUserAdmin(_user: any) {
+//   const { user, isLogin } = _user ? _user : useUser();
+//   if (isLogin.value.flag === 1 && user.value !== null) {
+//     return ref(
+//       user.value.groups.find((g: any) => g.name === 'admin') !== undefined
+//     );
+//   } else {
+//     return ref(false);
+//   }
+// }
+//
+// export function isAllowPolygon(_user: any) {
+//   const { user, isLogin } = _user ? _user : useUser();
+//   if (isLogin.value.flag === 1 && user.value !== null) {
+//     return ref(
+//       user.value.groups.find((g: any) => g.name === 'polygon') !== undefined
+//     );
+//   } else {
+//     return ref(false);
+//   }
+// }
 
 export async function getPolygonList() {
   const { data } = await api.get('/polygon/problems');

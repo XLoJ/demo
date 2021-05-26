@@ -4,7 +4,6 @@ import dayjs from 'dayjs';
 import router from '@/router';
 import { useLocalStorage } from '@vueuse/core';
 import { ToastProgrammatic as Toast } from 'buefy';
-import { useUser } from '@/service/user';
 
 export async function createContest(name: string) {
   const { data } = await api.post('/contest/create', { name });
@@ -16,17 +15,9 @@ export function useContestList(): {
   comingContestList: any;
   endContestList: any;
 } {
-  const { user } = useUser();
-  const uid = user ? user.id : -1;
-  const comingContestList = useLocalStorage(
-    `contests/coming/${uid}`,
-    [] as any
-  );
-  const endContestList = useLocalStorage(`contests/end/${uid}`, [] as any);
-  const privateContestList = useLocalStorage(
-    `contests/private/${uid}`,
-    [] as any
-  );
+  const comingContestList = useLocalStorage(`contests/coming`, [] as any);
+  const endContestList = useLocalStorage(`contests/end`, [] as any);
+  const privateContestList = useLocalStorage(`contests/private`, [] as any);
 
   api.get('/contest').then(({ data }) => {
     comingContestList.value.splice(0);

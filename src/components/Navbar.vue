@@ -57,13 +57,13 @@
 
 <script lang="ts">
 import { defineComponent, getCurrentInstance } from '@vue/composition-api';
-import { isAllowPolygon, userLogout, useUser } from '@/service/user';
+import { userLogout, useUser } from '@/service/user';
 import { useRouter } from '@/utils';
 
 export default defineComponent({
   name: 'Navbar',
   setup() {
-    const _user = useUser();
+    const { user, isLogin, isAllowPolygon: isPolygon } = useUser();
     const router = useRouter();
     const vm = getCurrentInstance();
 
@@ -78,11 +78,9 @@ export default defineComponent({
       }
     };
 
-    const isPolygon = isAllowPolygon();
-
     return {
-      isLogin: _user.isLogin,
-      user: _user.user,
+      isLogin,
+      user,
       logout,
       goProfile,
       isPolygon

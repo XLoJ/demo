@@ -19,15 +19,15 @@ export default defineComponent({
   name: 'Profile',
   components: { Navbar },
   setup() {
-    const user = useUser();
+    const { user, isLogin } = useUser();
     const router = useRouter();
-    if (user.isLogin.flag !== 1) {
+    if (isLogin.value.flag !== 1) {
       router.push({ name: 'Login' });
       return {};
     }
 
     return {
-      user: user.user
+      user
     };
   }
 });

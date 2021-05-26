@@ -36,7 +36,7 @@ import { computed, defineComponent } from '@vue/composition-api';
 import { useContestInfo } from '@/service/contest';
 import ContestSidebar from './ContestSidebar.vue';
 import Dashboard from './Dashboard.vue';
-import { isUserAdmin, useUser } from '@/service/user';
+import { useUser } from '@/service/user';
 import { toRefs } from '@vueuse/core';
 
 export default defineComponent({
@@ -76,13 +76,12 @@ export default defineComponent({
   setup(props: { id: number | string }) {
     const { id } = toRefs(props);
     const contest = useContestInfo(+id.value);
-    const isAdmin = isUserAdmin();
-    const { user } = useUser();
+    const { user, isUserAdmin } = useUser();
 
     const canEditContest = computed(() => {
-      if (isAdmin.value) return true;
-      if (contest.value && user) {
-        const myId = user.id;
+      if (isUserAdmin.value) return true;
+      if (contest.value && user.value) {
+        const myId = user.value.id;
         return (
           contest.value.writers.find((user: any) => user.id === myId) !==
           undefined

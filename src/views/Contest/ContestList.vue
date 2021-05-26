@@ -25,7 +25,7 @@
 import { defineComponent } from '@vue/composition-api';
 import ContestTable from './ContestTable.vue';
 import { useContestList } from '../../service/contest';
-import { isUserAdmin } from '@/service/user';
+import { useUser } from '@/service/user';
 import { useRouter } from '@/utils';
 
 export default defineComponent({
@@ -36,7 +36,7 @@ export default defineComponent({
   setup() {
     const { privateContestList, comingContestList, endContestList } =
       useContestList();
-    const isAdmin = isUserAdmin();
+    const { isUserAdmin: isAdmin } = useUser();
 
     const router = useRouter();
     const goCreate = () => {
