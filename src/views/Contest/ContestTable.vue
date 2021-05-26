@@ -51,11 +51,11 @@
         class="mr-1 mb-1"
       ></UserLink>
     </b-table-column>
-    <b-table-column label="榜单" v-slot="props" width="5em">
-      <router-link :to="{ name: 'Standings', params: { id: props.row.id } }"
-        >10 人
-      </router-link>
-    </b-table-column>
+    <!--    <b-table-column label="榜单" v-slot="props" width="5em">-->
+    <!--      <router-link :to="{ name: 'Standings', params: { id: props.row.id } }"-->
+    <!--        >10 人-->
+    <!--      </router-link>-->
+    <!--    </b-table-column>-->
 
     <template #empty>
       <div class="has-text-weight-bold has-text-centered">没有比赛</div>

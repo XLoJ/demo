@@ -20,12 +20,12 @@
           >{{ props.row.problem.title }}
         </router-link>
       </b-table-column>
-      <b-table-column v-slot="props" centered label="通过人数" width="120">
-        <span
-          ><span class="icon"><i class="mdi mdi-account"></i></span
-          >{{ props.row.passCount }}</span
-        >
-      </b-table-column>
+      <!--      <b-table-column v-slot="props" centered label="通过人数" width="120">-->
+      <!--        <span-->
+      <!--          ><span class="icon"><i class="mdi mdi-account"></i></span-->
+      <!--          >{{ props.row.passCount }}</span-->
+      <!--        >-->
+      <!--      </b-table-column>-->
 
       <template #empty>
         <div class="has-text-weight-bold has-text-centered">

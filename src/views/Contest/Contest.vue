@@ -14,9 +14,9 @@
             <li :class="activeClass(2)">
               <router-link :to="{ name: routeTable[2] }">全部提交</router-link>
             </li>
-            <li :class="activeClass(3)">
-              <router-link :to="{ name: routeTable[3] }">排行榜</router-link>
-            </li>
+            <!--            <li :class="activeClass(3)">-->
+            <!--              <router-link :to="{ name: routeTable[3] }">排行榜</router-link>-->
+            <!--            </li>-->
             <li v-if="canEditContest" :class="activeClass(4)">
               <router-link :to="{ name: routeTable[4] }">编辑比赛</router-link>
             </li>
