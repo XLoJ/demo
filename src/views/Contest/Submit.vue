@@ -37,10 +37,10 @@ export default defineComponent({
     const snackbar = useSnackbar();
 
     const lang = useLocalStorage(
-      `submit/language/${contestProblemId.value}`,
+      `submit/language/${contestProblemId?.value}`,
       'cpp'
     );
-    const code = useLocalStorage(`submit/code/${contestProblemId.value}`, '');
+    const code = useLocalStorage(`submit/code/${contestProblemId?.value}`, '');
     const submit = async () => {
       if (
         contestId &&

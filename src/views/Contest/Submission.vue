@@ -17,9 +17,9 @@ export default defineComponent({
     contest: Object,
     id: [Number, String]
   },
-  setup(props) {
+  setup(props: any) {
     const { id } = toRefs(props);
-    const submissions = useMySubmissions(id.value);
+    const submissions = useMySubmissions(+id?.value);
     return {
       submissions
     };
