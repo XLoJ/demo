@@ -41,7 +41,7 @@
                   ></span>
                 </div>
               </th>
-              <th class="" draggable="false" style="width: 7em">
+              <th class="" draggable="false" style="width: 6em">
                 <div class="th-wrap is-centered">
                   <span class="is-relative">
                     语言
@@ -50,7 +50,7 @@
                   ></span>
                 </div>
               </th>
-              <th class="" draggable="false" style="width: 15em">
+              <th class="" draggable="false" style="width: 10em">
                 <div class="th-wrap is-centered">
                   <span class="is-relative">
                     评测结果
@@ -59,7 +59,7 @@
                   ></span>
                 </div>
               </th>
-              <th class="" draggable="false" style="width: 8em">
+              <th class="" draggable="false" style="width: 5em">
                 <div class="th-wrap is-centered">
                   <span class="is-relative">
                     用时
@@ -68,7 +68,7 @@
                   ></span>
                 </div>
               </th>
-              <th class="" draggable="false" style="width: 8em">
+              <th class="" draggable="false" style="width: 5em">
                 <div class="th-wrap is-centered">
                   <span class="is-relative">
                     内存
@@ -77,7 +77,7 @@
                   ></span>
                 </div>
               </th>
-              <th class="" draggable="false" style="width: 8em">
+              <th class="" draggable="false" style="width: 5em">
                 <div class="th-wrap is-centered">
                   <span class="is-relative">
                     评测机
@@ -101,28 +101,31 @@
               <td class="has-text-centered" data-label="提交时间">
                 <span>{{ parseTime(submission.createTime) }}</span>
               </td>
-              <td class="has-text-centered" data-label="用户">
+              <td class="has-text-centered pl-0 pr-0" data-label="用户">
                 <router-link :to="{ name: 'Profile' }"
                   >{{ user.nickname }}
                 </router-link>
               </td>
-              <td class="has-text-centered" data-label="题目">
+              <td class="has-text-centered pl-0 pr-0" data-label="题目">
                 <router-link :to="problemLink">{{ problemName }}</router-link>
               </td>
-              <td class="has-text-centered" data-label="语言">
-                <Language :lang="submission.language"></Language>
+              <td class="has-text-centered pl-0 pr-0" data-label="语言">
+                <Language
+                  style="font-size: 14px"
+                  :lang="submission.language"
+                ></Language>
               </td>
-              <td class="has-text-centered" data-label="评测结果">
+              <td class="has-text-centered pl-0 pr-0" data-label="评测结果">
                 <Verdict :verdict="submission.verdict"></Verdict>
               </td>
-              <td class="has-text-centered" data-label="用时">
-                {{ submission.time }} ms
+              <td class="has-text-centered pl-0 pr-0" data-label="用时">
+                <span style="font-size: 14px">{{ submission.time }} ms</span>
               </td>
-              <td class="has-text-centered" data-label="内存">
-                {{ submission.memory }} MB
+              <td class="has-text-centered pl-0 pr-0" data-label="内存">
+                <span style="font-size: 14px">{{ submission.memory }} MB</span>
               </td>
               <td class="has-text-centered" data-label="评测机">
-                {{ submission.from }}
+                <span style="font-size: 14px">{{ submission.from }}</span>
               </td>
             </tr>
             <tr>

@@ -2,7 +2,7 @@
   <div class="box" @keypress.ctrl.enter="submit">
     <div class="is-flex is-align-items-center">
       <SelectLanguage v-model="lang"></SelectLanguage>
-      <b-button type="is-success" class="ml-4" @click="submit">提交</b-button>
+      <b-button class="ml-4" type="is-success" @click="submit">提交</b-button>
     </div>
     <div class="mt-4" style="height: 500px">
       <Editor v-model="code"></Editor>
@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 import Editor from '@/components/Editor.vue';
 import SelectLanguage from '@/components/SelectLanguage.vue';
 import { toRefs, useLocalStorage } from '@vueuse/core';
@@ -31,14 +31,13 @@ export default defineComponent({
     contestId: Number,
     contestProblemId: Number
   },
-  setup(props) {
+  setup(props, { emit }) {
     const { contestId, contestProblemId } = toRefs(props);
 
     const snackbar = useSnackbar();
 
     const lang = useLocalStorage('submit/language', 'cpp');
     const code = useLocalStorage(`submit/code/${contestProblemId}`, '');
-
     const submit = async () => {
       try {
         const data = await submitCode(
@@ -47,6 +46,7 @@ export default defineComponent({
           code.value,
           lang.value
         );
+        emit('submission', data);
         snackbar.open('提交成功');
       } catch (err) {
         snackbar.open({

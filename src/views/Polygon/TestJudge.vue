@@ -196,7 +196,6 @@ export default defineComponent({
       submission.value.body = b64decode(data.body);
       submission.value.language = data.language;
       lastSubmission.value = data;
-      runUpdate(lastSubmission.value);
     };
 
     const lastSubmissionId = useLocalStorage(

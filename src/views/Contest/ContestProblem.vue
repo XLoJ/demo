@@ -1,116 +1,33 @@
 <template>
   <div>
-    <section v-if="problem">
-      <h6 class="title is-3 mb-4">
-        {{ numberToIndex(+index) }}. {{ problem.title }}
-      </h6>
-      <p class="is-family-monospace">
-        <span class="has-text-weight-bold">时间限制</span>：{{
-          problem.timeLimit
-        }}
-        ms
-      </p>
-      <p class="mb-4 is-family-monospace">
-        <span class="has-text-weight-bold">空间限制</span>：{{
-          problem.memoryLimit
-        }}
-        MB
-      </p>
+    <ProblemView :problem="problem" :index="+index"></ProblemView>
 
-      <markdown-view class="mb-4" :source="problem.legend"></markdown-view>
+    <Submit
+      :contest-id="+id"
+      :contest-problem-id="+contestProblem.id"
+      @submission="handleSubmission"
+    ></Submit>
 
-      <h6 class="title is-5">输入描述</h6>
-      <markdown-view class="mb-4" :source="problem.inputFormat"></markdown-view>
-
-      <h6 class="title is-5">输出描述</h6>
-      <markdown-view
-        class="mb-4"
-        :source="problem.outputFormat"
-      ></markdown-view>
-
-      <div v-if="problem.examples.length > 0" class="pb-3">
-        <h6 class="title is-5">
-          <span>样例</span>
-        </h6>
-        <div
-          v-for="(example, index) in problem.examples"
-          :key="index"
-          class="mb-4"
-        >
-          <div
-            class="
-              subtitle
-              is-6
-              pl-2
-              pr-2
-              pt-1
-              pb-1
-              mb-0
-              border
-              is-flex is-align-items-center is-justify-content-space-between
-            "
-          >
-            <span class="has-text-weight-bold">输入</span>
-            <b-button size="is-small" @click="copyToClipboard(example.in)"
-              >复制</b-button
-            >
-          </div>
-          <div>
-            <pre class="has-background-example p-2 border-left border-right">{{
-              example.in
-            }}</pre>
-          </div>
-          <div
-            class="
-              subtitle
-              is-6
-              pl-2
-              pr-2
-              pt-1
-              pb-1
-              mb-0
-              border
-              is-flex is-align-items-center is-justify-content-space-between
-            "
-          >
-            <span class="has-text-weight-bold">输出</span>
-            <b-button size="is-small" @click="copyToClipboard(example.answer)"
-              >复制</b-button
-            >
-          </div>
-          <div>
-            <pre
-              class="
-                has-background-example
-                p-2
-                border-left border-right border-bottom
-              "
-              >{{ example.answer }}</pre
-            >
-          </div>
-        </div>
-      </div>
-
-      <div v-if="problem.notes.length > 0">
-        <h6 class="title is-5">提示</h6>
-        <markdown-view class="mb-4" :source="problem.notes"></markdown-view>
-      </div>
-    </section>
-
-    <div>
-      <Submit :contest-id="id" :contest-problem-id="contestProblem.id"></Submit>
-    </div>
+    <RealtimeSubmission
+      v-if="lastSubmission"
+      :testcase-num="problem.testcaseNum"
+      :submission="lastSubmission"
+      :problem-name="`${problem.title}`"
+      :problem-link="{ name: 'ContestProblem', params: { id, index } }"
+      :user="user"
+    ></RealtimeSubmission>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from '@vue/composition-api';
+import { computed, defineComponent, ref } from '@vue/composition-api';
 import { toRefs } from '@vueuse/core';
 
-import MarkdownView from '@/components/MarkdownView.vue';
 import { copyToClipboard } from '@/utils';
-import { numberToIndex } from '@/views/Contest/utils';
 import Submit from './Submit.vue';
+import ProblemView from './ProblemView.vue';
+import RealtimeSubmission from '@/views/Problem/RealtimeSubmission.vue';
+import { useUser } from '@/service/user';
 
 export default defineComponent({
   name: 'ContestProblem',
@@ -120,13 +37,15 @@ export default defineComponent({
     contest: Object
   },
   components: {
-    MarkdownView,
-    Submit
+    ProblemView,
+    Submit,
+    RealtimeSubmission
   },
   methods: {
     copyToClipboard
   },
   setup(props: any) {
+    const { user } = useUser();
     const { id, index, contest } = toRefs(props);
     const contestProblem = computed(() => {
       const prob = contest.value.problems.find(
@@ -138,33 +57,19 @@ export default defineComponent({
       return contestProblem.value.problem;
     });
 
+    const lastSubmission = ref();
+    const handleSubmission = (submission: any) => {
+      submission.messages = [];
+      lastSubmission.value = submission;
+    };
+
     return {
+      user,
       contestProblem,
       problem,
-      numberToIndex
+      handleSubmission,
+      lastSubmission
     };
   }
 });
 </script>
-
-<style scoped>
-.has-background-example {
-  background-color: #efefef !important;
-}
-
-.border {
-  border: 1px solid black;
-}
-
-.border-left {
-  border-left: 1px solid black;
-}
-
-.border-right {
-  border-right: 1px solid black;
-}
-
-.border-bottom {
-  border-bottom: 1px solid black;
-}
-</style>
