@@ -144,6 +144,14 @@ export async function updateContestPublic(contestId: number, flag: boolean) {
   return data;
 }
 
+export function useContestProblems(contestId: number) {
+  const problems: any[] = [];
+  api.get(`/contest/${contestId}/problems`).then(({ data }) => {
+    problems.push(...data);
+  });
+  return ref(problems);
+}
+
 export async function pushContestProblem(contestId: number, problemId: number) {
   const { data } = await api.post(
     `/contest/admin/${contestId}/problem`,

@@ -175,6 +175,38 @@ const routes: Array<RouteConfig> = [
         meta: {
           title: '题库'
         }
+      },
+      {
+        path: '/status',
+        name: 'ArchiveStatus',
+        component: () => import('../views/Archive/ArchiveStatus.vue'),
+        meta: {
+          title: '评测队列'
+        }
+      },
+      {
+        path: '/archive/edit',
+        name: 'EditArchive',
+        component: () => import('../views/Archive/EditArchive.vue'),
+        meta: {
+          title: '编辑题库'
+        }
+      },
+      {
+        path: '/archive/problem/:index',
+        name: 'ArchiveProblem',
+        component: () => import('../views/Archive/ArchiveProblem.vue'),
+        meta: {
+          title: '题目'
+        }
+      },
+      {
+        path: '/archive/submission/:sid',
+        name: 'ArchiveSubmission',
+        component: () => import('../views/Archive/Submission.vue'),
+        meta: {
+          title: '提交记录'
+        }
       }
     ]
   },

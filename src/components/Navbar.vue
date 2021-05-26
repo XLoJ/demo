@@ -23,7 +23,7 @@
 
     <template #end>
       <b-navbar-item tag="div">
-        <div v-if="isLogin.flag === 1">
+        <div v-if="user && isLogin.flag === 1">
           <b-dropdown
             append-to-body
             aria-role="menu"

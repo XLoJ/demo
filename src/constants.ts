@@ -40,3 +40,5 @@ export const LangList = [
     value: 'text'
   }
 ];
+
+export const LocalContestId = 2;

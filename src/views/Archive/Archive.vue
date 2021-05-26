@@ -1,43 +1,40 @@
 <template>
   <div>
     <b-table :data="problems">
-      <b-table-column v-slot="props" centered label="#" width="64">
-        <router-link :to="{ name: 'Contest' }"
-          >{{ props.row.pid }}
-        </router-link>
+      <b-table-column v-slot="props" centered label="#" width="5em">
+        <span class="has-text-weight-bold">{{ props.row.index + 1 }} </span>
       </b-table-column>
       <b-table-column v-slot="props" label="标题">
-        <router-link :to="{ name: 'Contest' }"
-          >{{ props.row.name }}
+        <router-link
+          :to="{ name: 'ArchiveProblem', params: { index: props.row.index } }"
+          >{{ props.row.problem.title }}
         </router-link>
       </b-table-column>
-      <b-table-column centered label="解出人数" width="100">
-        <span>10</span>
-      </b-table-column>
+      <!--      <b-table-column centered label="解出人数" width="100">-->
+      <!--        <span>10</span>-->
+      <!--      </b-table-column>-->
     </b-table>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from '@vue/composition-api';
+import { computed, defineComponent } from '@vue/composition-api';
+import { useContestInfo } from '@/service/contest';
+import { LocalContestId } from '@/constants';
 
 export default defineComponent({
   name: 'Archive',
   setup() {
-    const activeTab = ref(0);
-    const problems = reactive([
-      {
-        pid: 1,
-        name: 'A + B'
-      },
-      {
-        pid: 2,
-        name: 'A - B'
+    const contest = useContestInfo(LocalContestId);
+    const problems = computed(() => {
+      if (contest.value) {
+        return contest.value.problems;
+      } else {
+        return [];
       }
-    ]);
+    });
 
     return {
-      activeTab,
       problems
     };
   }
