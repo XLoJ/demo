@@ -56,6 +56,8 @@ export default defineComponent({
           memoryLimit: memoryLimit.value,
           tags: tags.value
         });
+        props.problem!.timeLimit = timeLimit.value;
+        props.problem!.memoryLimit = memoryLimit.value;
         snackbar.open(`题目 ${problem.parent} 更新成功`);
       } catch (err) {
         snackbar.open({
