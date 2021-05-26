@@ -41,6 +41,9 @@
       <b-table-column v-slot="props" centered label="内存">
         <span>{{ props.row.memory }} MB</span>
       </b-table-column>
+      <b-table-column v-slot="props" centered label="评测机">
+        <span>{{ props.row.from }}</span>
+      </b-table-column>
 
       <template #empty>
         <div class="has-text-weight-bold has-text-centered">
