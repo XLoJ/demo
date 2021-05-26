@@ -99,7 +99,7 @@
                 rowspan="2"
                 style="vertical-align: middle"
               >
-                <span v-if="submissionLink === null">{{ submission.id }}</span>
+                <span v-if="!submissionLink">{{ submission.id }}</span>
                 <router-link v-else :to="submissionLink">{{
                   submission.id
                 }}</router-link>

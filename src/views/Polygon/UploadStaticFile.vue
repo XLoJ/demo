@@ -38,7 +38,7 @@
         <div class="has-text-centered" style="height: 6em">没有静态文件</div>
       </template>
 
-      <b-table-column v-slot="props" label="#" width="24"
+      <b-table-column v-slot="props" label="#" centered width="2em"
         ><span class="pt-2 pb-2 is-inline-block has-text-weight-bold">{{
           props.index + 1
         }}</span></b-table-column
@@ -179,4 +179,9 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style>
+.table {
+  table-layout: fixed;
+  width: 100%;
+}
+</style>
