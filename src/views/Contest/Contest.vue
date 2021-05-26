@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from '@vue/composition-api';
-import { useContestInfo } from '../../service/contest';
+import { useContestInfo } from '@/service/contest';
 import ContestSidebar from './ContestSidebar.vue';
 import Dashboard from './Dashboard.vue';
 import { isUserAdmin, useUser } from '@/service/user';
@@ -75,7 +75,7 @@ export default defineComponent({
   },
   setup(props: { id: number | string }) {
     const { id } = toRefs(props);
-    const contest = useContestInfo(id.value);
+    const contest = useContestInfo(+id.value);
     const isAdmin = isUserAdmin();
     const { user } = useUser();
 
