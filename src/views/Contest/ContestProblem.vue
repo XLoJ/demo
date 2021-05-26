@@ -96,6 +96,10 @@
         <markdown-view class="mb-4" :source="problem.notes"></markdown-view>
       </div>
     </section>
+
+    <div>
+      <Submit :contest-id="id" :contest-problem-id="contestProblem.id"></Submit>
+    </div>
   </div>
 </template>
 
@@ -106,6 +110,7 @@ import { toRefs } from '@vueuse/core';
 import MarkdownView from '@/components/MarkdownView.vue';
 import { copyToClipboard } from '@/utils';
 import { numberToIndex } from '@/views/Contest/utils';
+import Submit from './Submit.vue';
 
 export default defineComponent({
   name: 'ContestProblem',
@@ -115,20 +120,26 @@ export default defineComponent({
     contest: Object
   },
   components: {
-    MarkdownView
+    MarkdownView,
+    Submit
   },
   methods: {
     copyToClipboard
   },
   setup(props: any) {
     const { id, index, contest } = toRefs(props);
-    const problem = computed(() => {
+    const contestProblem = computed(() => {
       const prob = contest.value.problems.find(
         (problem: any) => problem.index === +index.value
       );
-      return prob.problem;
+      return prob;
     });
+    const problem = computed(() => {
+      return contestProblem.value.problem;
+    });
+
     return {
+      contestProblem,
       problem,
       numberToIndex
     };

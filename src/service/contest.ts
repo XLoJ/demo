@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import router from '@/router';
 import { useLocalStorage } from '@vueuse/core';
 import { ToastProgrammatic as Toast } from 'buefy';
+import { b64encode } from '@/utils';
 
 export async function createContest(name: string) {
   const { data } = await api.post('/contest/create', { name });
@@ -61,6 +62,29 @@ export function useContestInfo(id: number): any {
     });
   return contest;
 }
+
+export async function submitCode(
+  contestId: number,
+  cpId: number,
+  body: string,
+  language: string
+) {
+  const { data } = await api.post(
+    `/contest/${contestId}/submit`,
+    {
+      body: b64encode(body),
+      language
+    },
+    {
+      params: {
+        problem: cpId
+      }
+    }
+  );
+  return data;
+}
+
+// Contest manager
 
 export async function updateContestInfo(contestId: number, payload: any) {
   const { data } = await api.post(`/contest/admin/${contestId}`, payload);
