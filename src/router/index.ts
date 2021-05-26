@@ -126,7 +126,7 @@ const routes: Array<RouteConfig> = [
           {
             path: '/contest/:id/status',
             name: 'Status',
-            component: () => import('../views/Contest/Status.vue'),
+            component: () => import('../views/Contest/AllSubmission.vue'),
             props: true,
             meta: {
               title: '所有提交'

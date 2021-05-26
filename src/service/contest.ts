@@ -99,6 +99,14 @@ export function useMySubmissions(contestId: number) {
   return result;
 }
 
+export function useAllSubmissions(contestId: number) {
+  const result = ref([] as any);
+  api.get(`/contest/${contestId}/submissions`).then(({ data }) => {
+    result.value.push(...data);
+  });
+  return result;
+}
+
 // Contest manager
 
 export async function updateContestInfo(contestId: number, payload: any) {
