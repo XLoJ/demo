@@ -181,9 +181,12 @@ export default defineComponent({
         ) {
           lastSubmission!.value.messages.push(messages[i]);
         }
-        const lastVerdict = messages[messages.length - 1].verdict;
-        if (isFinishVerdict(lastVerdict)) {
-          clearInterval(ev);
+        console.log(messages);
+        if (messages.length > 0) {
+          const lastVerdict = messages[messages.length - 1].verdict;
+          if (isFinishVerdict(lastVerdict)) {
+            clearInterval(ev);
+          }
         }
       }, 500);
     };

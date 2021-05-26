@@ -2,7 +2,10 @@
   <div class="real-time-submission">
     <div class="b-table">
       <div class="table-wrapper has-mobile-cards">
-        <table class="table is-bordered">
+        <table
+          class="table is-bordered"
+          style="table-layout: fixed; width: 100%"
+        >
           <thead>
             <tr>
               <th class="" draggable="false" style="width: 5em">
@@ -130,7 +133,7 @@
             </tr>
             <tr>
               <td colspan="8">
-                <div class="pt-2 pb-2">
+                <div class="pt-2 pb-2" style="width: 100%">
                   <div v-if="!compileError">
                     <b-tooltip
                       v-for="index in testcaseNum"
@@ -158,7 +161,9 @@
                       </span>
                     </b-tooltip>
                   </div>
-                  <pre v-else>{{ compileError.message }}</pre>
+                  <pre v-else style="overflow: auto; max-width: 100%">{{
+                    compileError.message
+                  }}</pre>
                 </div>
               </td>
             </tr>
