@@ -1,5 +1,9 @@
 <template>
-  <Status :submissions="submissions" :contest="contest"></Status>
+  <Status
+    v-if="submissions"
+    :submissions="submissions"
+    :contest="contest"
+  ></Status>
 </template>
 
 <script lang="ts">
