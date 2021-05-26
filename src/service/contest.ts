@@ -91,6 +91,14 @@ export async function getSubmission(contestId: number, submissionId: number) {
   return data;
 }
 
+export function useMySubmissions(contestId: number) {
+  const result = ref([] as any);
+  api.get(`/contest/${contestId}/submissions/my`).then(({ data }) => {
+    result.value.push(...data);
+  });
+  return result;
+}
+
 // Contest manager
 
 export async function updateContestInfo(contestId: number, payload: any) {
