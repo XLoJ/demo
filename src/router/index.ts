@@ -196,6 +196,7 @@ const routes: Array<RouteConfig> = [
         path: '/archive/problem/:index',
         name: 'ArchiveProblem',
         component: () => import('../views/Archive/ArchiveProblem.vue'),
+        props: true,
         meta: {
           title: '题目'
         }
@@ -204,6 +205,7 @@ const routes: Array<RouteConfig> = [
         path: '/archive/submission/:sid',
         name: 'ArchiveSubmission',
         component: () => import('../views/Archive/Submission.vue'),
+        props: true,
         meta: {
           title: '提交记录'
         }

@@ -152,6 +152,15 @@ export function useContestProblems(contestId: number) {
   return ref(problems);
 }
 
+export function useProblem(contestId: number, problemId: number) {
+  const problems = ref();
+  api.get(`/contest/${contestId}/problem/${problemId}`).then(({ data }) => {
+    data.problem.examples = JSON.parse(data.problem.examples);
+    problems.value = data;
+  });
+  return problems;
+}
+
 export async function pushContestProblem(contestId: number, problemId: number) {
   const { data } = await api.post(
     `/contest/admin/${contestId}/problem`,

@@ -6,7 +6,10 @@
       </b-table-column>
       <b-table-column v-slot="props" label="标题">
         <router-link
-          :to="{ name: 'ArchiveProblem', params: { index: props.row.index } }"
+          :to="{
+            name: 'ArchiveProblem',
+            params: { index: +props.row.index + 1 }
+          }"
           >{{ props.row.problem.title }}
         </router-link>
       </b-table-column>

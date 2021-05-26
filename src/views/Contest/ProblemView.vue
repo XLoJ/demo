@@ -2,6 +2,7 @@
   <section v-if="problem">
     <h6 class="title is-3 mb-4">
       <span v-if="index !== null">{{ numberToIndex(+index) }}. </span>
+      <span v-else-if="numIndex !== null">{{ numIndex }}. </span>
       <span>{{ problem.title }}</span>
     </h6>
     <p class="is-family-monospace">
@@ -105,6 +106,10 @@ export default defineComponent({
   props: {
     problem: Object,
     index: {
+      type: Number,
+      default: null
+    },
+    numIndex: {
       type: Number,
       default: null
     }
